@@ -1,4 +1,4 @@
-const CACHE_NAME = 'controle-horas-v1';
+const CACHE_NAME = 'controle-horas-v2';
 
 self.addEventListener('install', (event) => {
   self.skipWaiting();
