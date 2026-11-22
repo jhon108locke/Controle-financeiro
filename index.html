@@ -379,18 +379,65 @@
       text-align: center;
     }
 
-    .cycle-summary-bar {
+    .filter-toggle-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--bg);
+      color: var(--muted);
+      border: 1px solid var(--border);
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      margin-bottom: 10px;
+      transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+    }
+
+    .filter-toggle-btn:hover,
+    .filter-toggle-btn.open {
+      background: rgba(168, 213, 255, 0.28);
+      border-color: #7ab8f5;
+      color: var(--text);
+    }
+
+    .summary-rect-box {
       background: var(--bg);
       border: 1px solid var(--border);
       border-radius: 12px;
-      padding: 10px 12px;
+      padding: 12px 14px;
       margin-bottom: 12px;
       display: flex;
-      justify-content: space-between;
+      flex-direction: column;
+      gap: 4px;
+      font-size: 0.86rem;
+    }
+
+    .summary-rect-label {
+      color: var(--muted);
+      font-weight: 600;
+      font-size: 0.8rem;
+    }
+
+    .summary-rect-values {
+      display: flex;
       align-items: center;
       gap: 8px;
       flex-wrap: wrap;
-      font-size: 0.85rem;
+      font-size: 0.98rem;
+      font-weight: 800;
+    }
+
+    .pipe-sep {
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .section-divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 18px 0;
     }
 
     .item-row {
@@ -404,6 +451,65 @@
 
     .item-row:last-child {
       border-bottom: none;
+    }
+
+    .draggable-fixed-row {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 11px 12px;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
+    }
+
+    .draggable-fixed-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .draggable-fixed-row.dragging {
+      opacity: 0.65;
+      border-color: #60a5fa;
+      box-shadow: 0 6px 18px rgba(15, 23, 42, 0.12);
+    }
+
+    .draggable-fixed-row.drag-over {
+      border-color: #2563eb;
+      box-shadow: inset 0 2px 0 #2563eb;
+    }
+
+    .fixed-left-group {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      min-width: 0;
+      flex: 1;
+    }
+
+    .drag-handle-btn {
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      border-radius: 8px;
+      width: 30px;
+      height: 34px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: grab;
+      flex-shrink: 0;
+      touch-action: none;
+      font-size: 0.95rem;
+      font-weight: 800;
+    }
+
+    .drag-handle-btn:active {
+      cursor: grabbing;
+      background: var(--accent);
+      color: var(--text);
     }
 
     .item-title {
@@ -425,9 +531,29 @@
     }
 
     .item-sub {
-      font-size: 0.78rem;
+      font-size: 0.79rem;
       color: var(--muted);
       margin-top: 3px;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+
+    .detail-lines {
+      margin-top: 5px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .detail-line {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 5px;
     }
 
     .color-dot {
@@ -451,6 +577,16 @@
       color: var(--text);
     }
 
+    .filled-tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 2px 9px;
+      border-radius: 999px;
+      font-size: 0.74rem;
+      font-weight: 700;
+      border: 1px solid transparent;
+    }
+
     .item-right {
       text-align: right;
       flex-shrink: 0;
@@ -464,12 +600,14 @@
 
     .hours-tag {
       font-size: 0.8rem;
-      color: #0369a1;
+      color: var(--success);
       font-weight: 700;
     }
 
     .hours-green { color: var(--success); }
     .hours-warn { color: var(--warning); }
+    .text-green { color: var(--success); font-weight: 700; }
+    .text-red { color: var(--danger); font-weight: 700; }
 
     .statement-panel {
       margin-top: 10px;
@@ -531,22 +669,38 @@
       margin-top: 4px;
     }
 
+    .progress-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
     .progress-track {
+      flex: 1;
       height: 10px;
       background: var(--card-2);
       border-radius: 999px;
       overflow: hidden;
-      margin-top: 8px;
       border: 1px solid var(--border);
     }
 
     .progress-fill {
       height: 100%;
       background: #60a5fa;
+      transition: width 0.2s ease;
     }
 
     .progress-fill.over { background: var(--danger); }
     .progress-fill.good { background: var(--success); }
+
+    .progress-pct {
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: var(--text);
+      min-width: 44px;
+      text-align: right;
+    }
 
     .config-item-list {
       display: flex;
@@ -774,12 +928,25 @@
               <span id="expCount">0 itens</span>
             </div>
 
-            <label for="expCycleFilter">Ciclo</label>
-            <select id="expCycleFilter" style="margin-bottom:10px;"></select>
+            <button type="button" class="filter-toggle-btn" id="expFilterToggleBtn" aria-expanded="false" aria-controls="expCycleFilterWrap">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+              </svg>
+              <span>Filtrar</span>
+            </button>
 
-            <div class="cycle-summary-bar" id="expCycleSummary">
-              <span>Total do ciclo selecionado: <strong>R$ 0,00</strong></span>
-              <span class="hours-tag">0h 00min</span>
+            <div id="expCycleFilterWrap" class="hidden">
+              <label for="expCycleFilter">Selecionar ciclo</label>
+              <select id="expCycleFilter" style="margin-bottom:10px;"></select>
+            </div>
+
+            <div class="summary-rect-box" id="expCycleSummary">
+              <div class="summary-rect-label">Total do ciclo (--):</div>
+              <div class="summary-rect-values">
+                <span>R$ 0,00</span>
+                <span class="pipe-sep">|</span>
+                <span class="hours-tag">0h 00min</span>
+              </div>
             </div>
 
             <div id="expensesList"></div>
@@ -819,8 +986,18 @@
           <div class="card">
             <div class="card-title">
               <span>Gastos Fixos Ativos</span>
-              <span id="fixedTotalLabel">R$ 0,00 (0h 00min)</span>
             </div>
+
+            <div class="summary-rect-box" id="fixedSummaryBox">
+              <div class="summary-rect-label">Total de gastos fixos mensais:</div>
+              <div class="summary-rect-values" id="fixedTotalValues">
+                <span>R$ 0,00</span>
+                <span class="pipe-sep">|</span>
+                <span class="hours-tag">0h 00min</span>
+              </div>
+            </div>
+
+            <div class="item-sub" style="margin-bottom:10px;">Arraste pela alça ⋮⋮ para reordenar conforme preferir.</div>
             <div id="fixedList"></div>
           </div>
         </section>
@@ -833,13 +1010,21 @@
               <span id="chartPeriodBadge">--</span>
             </div>
 
-            <label for="chartCycleFilter">Selecionar ciclo</label>
-            <select id="chartCycleFilter"></select>
+            <button type="button" class="filter-toggle-btn" id="chartFilterToggleBtn" aria-expanded="false" aria-controls="chartCycleFilterWrap">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+              </svg>
+              <span>Filtrar</span>
+            </button>
+
+            <div id="chartCycleFilterWrap" class="hidden">
+              <label for="chartCycleFilter">Selecionar ciclo</label>
+              <select id="chartCycleFilter"></select>
+            </div>
 
             <div class="hero-box">
               <div class="hero-val" id="cycleSpentVal">R$ 0,00</div>
               <div class="hero-hours" id="cycleSpentHours">0h 00min gastos no ciclo</div>
-              <div class="item-sub" id="cycleRemainingSummary" style="margin-top: 8px;">Saldo restante de tetos: --</div>
             </div>
 
             <canvas id="categoryCanvas" style="height: 290px;"></canvas>
@@ -867,15 +1052,21 @@
           <div class="card">
             <div class="card-title">Fatura — Cartão C6</div>
 
-            <label for="c6CycleFilter">Selecionar ciclo da fatura</label>
-            <select id="c6CycleFilter"></select>
+            <button type="button" class="filter-toggle-btn" id="c6FilterToggleBtn" aria-expanded="false" aria-controls="c6CycleFilterWrap">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+              </svg>
+              <span>Filtrar</span>
+            </button>
+
+            <div id="c6CycleFilterWrap" class="hidden">
+              <label for="c6CycleFilter">Selecionar ciclo da fatura</label>
+              <select id="c6CycleFilter"></select>
+            </div>
 
             <div class="hero-box">
               <div class="hero-val" id="c6InvoiceTotal">R$ 0,00</div>
               <div class="hero-hours" id="c6InvoiceHours">0h 00min de trabalho</div>
-              <div class="item-sub" style="margin-top: 6px;">
-                Compras até dia 18 entram no ciclo atual; após dia 18, no próximo.
-              </div>
             </div>
             <div id="c6Breakdown"></div>
           </div>
@@ -886,20 +1077,23 @@
           <div class="card">
             <div class="card-title" id="debtFormTitle">Nova Dívida</div>
 
+            <label for="debtDesc">Descrição</label>
+            <input type="text" id="debtDesc" placeholder="Ex: Empréstimo, Acordo..." />
+
             <div class="grid-2">
-              <div>
-                <label for="debtDesc">Descrição</label>
-                <input type="text" id="debtDesc" placeholder="Ex: Empréstimo, Acordo..." />
-              </div>
               <div>
                 <label for="debtStartDate">Data inicial</label>
                 <input type="date" id="debtStartDate" />
+              </div>
+              <div>
+                <label for="debtEndDate">Data final</label>
+                <input type="date" id="debtEndDate" />
               </div>
             </div>
 
             <div class="grid-3">
               <div>
-                <label for="debtTotal">Valor total (R$)</label>
+                <label for="debtTotal">Valor inicial (R$)</label>
                 <input type="number" id="debtTotal" inputmode="decimal" step="0.01" placeholder="0,00" />
               </div>
               <div>
@@ -909,6 +1103,17 @@
               <div>
                 <label for="debtPaid">Quanto já foi pago (R$)</label>
                 <input type="number" id="debtPaid" inputmode="decimal" step="0.01" placeholder="0,00" value="0" />
+              </div>
+            </div>
+
+            <div class="grid-2">
+              <div>
+                <label for="debtMonthlyPlanAuto">Parcela mensal estimada</label>
+                <input type="text" id="debtMonthlyPlanAuto" readonly value="R$ 0,00" />
+              </div>
+              <div>
+                <label for="debtRemainingMonthAuto">Restante a pagar nesse mês</label>
+                <input type="text" id="debtRemainingMonthAuto" readonly value="R$ 0,00" />
               </div>
             </div>
 
@@ -953,11 +1158,33 @@
               <span>DÍVIDAS</span>
               <span class="item-sub" style="margin:0; text-transform:none; letter-spacing:0;">Toque no item para ver o extrato</span>
             </div>
-            <div id="debtsList"></div>
-          </div>
 
-          <div class="card">
-            <div class="card-title">COMPRAS PARCELADAS NO CARTÃO</div>
+            <div class="summary-rect-box" id="debtsTotalBox">
+              <div class="summary-rect-label">Total restante de todas as dívidas:</div>
+              <div class="summary-rect-values" id="debtsTotalValues">
+                <span>R$ 0,00</span>
+                <span class="pipe-sep">|</span>
+                <span class="hours-tag">0h 00min</span>
+              </div>
+            </div>
+
+            <div id="debtsList"></div>
+
+            <hr class="section-divider" />
+
+            <div class="card-title">
+              <span>COMPRAS PARCELADAS NO CARTÃO</span>
+            </div>
+
+            <div class="summary-rect-box" id="installmentsTotalBox">
+              <div class="summary-rect-label">Total restante das compras parceladas no cartão:</div>
+              <div class="summary-rect-values" id="installmentsTotalValues">
+                <span>R$ 0,00</span>
+                <span class="pipe-sep">|</span>
+                <span class="hours-tag">0h 00min</span>
+              </div>
+            </div>
+
             <div id="installmentsList"></div>
           </div>
         </section>
@@ -982,7 +1209,7 @@
 
             <div class="grid-2">
               <div>
-                <label for="goalMonthlyAuto">Meta mensal (automática)</label>
+                <label for="goalMonthlyAuto">Meta mensal</label>
                 <input type="text" id="goalMonthlyAuto" readonly value="R$ 0,00" />
               </div>
               <div>
@@ -1024,8 +1251,16 @@
         <section class="tab-panel" data-tab="comprar">
           <div class="card">
             <div class="card-title" id="wishFormTitle">Simular Compra e Lista de Desejos</div>
-            <label for="wishName">O que você quer comprar?</label>
-            <input type="text" id="wishName" placeholder="Ex: Jaqueta, Capacete..." />
+            <div class="grid-2">
+              <div>
+                <label for="wishName">O que você quer comprar?</label>
+                <input type="text" id="wishName" placeholder="Ex: Jaqueta, Capacete..." />
+              </div>
+              <div>
+                <label for="wishDate">Quando:</label>
+                <input type="date" id="wishDate" />
+              </div>
+            </div>
 
             <div class="grid-3">
               <div>
@@ -1236,6 +1471,16 @@
       return fallback.toUpperCase();
     }
 
+    function getContrastInk(hexColor) {
+      const normalized = normalizeHex(hexColor, '#2563EB');
+      const r = parseInt(normalized.slice(1, 3), 16) / 255;
+      const g = parseInt(normalized.slice(3, 5), 16) / 255;
+      const b = parseInt(normalized.slice(5, 7), 16) / 255;
+      const toLinear = (c) => (c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4));
+      const luminance = 0.2126 * toLinear(r) + 0.7152 * toLinear(g) + 0.0722 * toLinear(b);
+      return luminance > 0.42 ? '#0f172a' : '#ffffff';
+    }
+
     function loadState() {
       try {
         const raw = localStorage.getItem(STORAGE_KEY);
@@ -1274,6 +1519,10 @@
     let selectedExpCycle = null;
     let selectedChartCycle = null;
     let selectedC6Cycle = null;
+
+    let expFilterOpen = false;
+    let chartFilterOpen = false;
+    let c6FilterOpen = false;
 
     function saveState() {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
@@ -1323,6 +1572,16 @@
       return `${yyyy}-${mm}-${dd}`;
     }
 
+    function getMonthKeyISO(dateStr) {
+      const d = parseLocalDate(dateStr);
+      return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+    }
+
+    function getCurrentMonthKey() {
+      const now = new Date();
+      return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+    }
+
     function toInputDateISO(dateStr) {
       if (!dateStr) return getTodayISO();
       const parsed = parseLocalDate(dateStr);
@@ -1361,6 +1620,31 @@
     function compareDateAsc(aStr, bStr) {
       return parseLocalDate(aStr).getTime() - parseLocalDate(bStr).getTime();
     }
+
+    // Limpa valor zero/padrão automaticamente ao focar ou iniciar digitação
+    document.querySelectorAll('input[type="number"]').forEach((inp) => {
+      inp.addEventListener('focus', () => {
+        const trimmed = String(inp.value).trim();
+        if (trimmed === '0' || trimmed === '0.00' || trimmed === '0,00') {
+          inp.dataset.prevZero = trimmed;
+          inp.value = '';
+        } else {
+          inp.select();
+        }
+      });
+      inp.addEventListener('blur', () => {
+        if (inp.value === '' && inp.dataset.prevZero !== undefined) {
+          inp.value = inp.dataset.prevZero;
+          delete inp.dataset.prevZero;
+          inp.dispatchEvent(new Event('input', { bubbles: true }));
+        } else {
+          delete inp.dataset.prevZero;
+        }
+      });
+      inp.addEventListener('input', () => {
+        delete inp.dataset.prevZero;
+      });
+    });
 
     function getCardCycleKey(dateObj) {
       const day = dateObj.getDate();
@@ -1631,6 +1915,22 @@
       return rows;
     }
 
+    function bindFilterToggle(btnId, wrapId, getStateFn, setStateFn) {
+      const btn = document.getElementById(btnId);
+      const wrap = document.getElementById(wrapId);
+      btn.addEventListener('click', () => {
+        const next = !getStateFn();
+        setStateFn(next);
+        wrap.classList.toggle('hidden', !next);
+        btn.classList.toggle('open', next);
+        btn.setAttribute('aria-expanded', String(next));
+      });
+    }
+
+    bindFilterToggle('expFilterToggleBtn', 'expCycleFilterWrap', () => expFilterOpen, (v) => { expFilterOpen = v; });
+    bindFilterToggle('chartFilterToggleBtn', 'chartCycleFilterWrap', () => chartFilterOpen, (v) => { chartFilterOpen = v; });
+    bindFilterToggle('c6FilterToggleBtn', 'c6CycleFilterWrap', () => c6FilterOpen, (v) => { c6FilterOpen = v; });
+
     const expCycleFilterEl = document.getElementById('expCycleFilter');
     expCycleFilterEl.addEventListener('change', () => {
       selectedExpCycle = expCycleFilterEl.value;
@@ -1646,8 +1946,12 @@
 
       const cycleSum = cycleRows.reduce((acc, r) => acc + r.displayAmount, 0);
       document.getElementById('expCycleSummary').innerHTML = `
-        <span>Total do ciclo (${escapeHtml(formatCycleLabel(selectedExpCycle))}): <strong>${fmtBRL(cycleSum)}</strong></span>
-        <span class="hours-tag">${fmtHours(hoursFromAmount(cycleSum))}</span>
+        <div class="summary-rect-label">Total do ciclo (${escapeHtml(formatCycleLabel(selectedExpCycle))}):</div>
+        <div class="summary-rect-values">
+          <span>${fmtBRL(cycleSum)}</span>
+          <span class="pipe-sep">|</span>
+          <span class="hours-tag">${fmtHours(hoursFromAmount(cycleSum))}</span>
+        </div>
       `;
 
       if (!cycleRows.length) {
@@ -1657,6 +1961,7 @@
 
       container.innerHTML = cycleRows.map(({ expense: e, displayAmount, installmentLabel, endCycle }) => {
         const catColor = getCategoryColor(e.category, state.categories.indexOf(e.category));
+        const catInk = getContrastInk(catColor);
         const payColor = getPaymentColor(e.payment, state.payments.indexOf(e.payment));
         const extraParcel = e.condition === 'parcelado'
           ? ` • Compra total: ${fmtBRL(e.value)} (fim ${formatMonthYear(endCycle)})`
@@ -1665,13 +1970,15 @@
           <div class="item-row">
             <div>
               <div class="item-title">
-                <span class="color-dot" style="background:${escapeHtml(catColor)};"></span>
                 <span>${escapeHtml(e.desc)}</span>
                 <span class="meta-tag">${escapeHtml(installmentLabel)}</span>
               </div>
               <div class="item-sub">
-                ${escapeHtml(fmtDateBR(e.date))} • ${escapeHtml(e.category)} •
-                <span class="meta-tag"><span class="color-dot" style="background:${escapeHtml(payColor)};"></span>${escapeHtml(e.payment)}</span>${extraParcel}
+                <span>${escapeHtml(fmtDateBR(e.date))}</span>
+                <span>•</span>
+                <span class="filled-tag" style="background:${escapeHtml(catColor)}; color:${escapeHtml(catInk)};">${escapeHtml(e.category)}</span>
+                <span>•</span>
+                <span class="meta-tag"><span class="color-dot" style="background:${escapeHtml(payColor)};"></span>${escapeHtml(e.payment)}</span>${extraParcel ? `<span>${escapeHtml(extraParcel)}</span>` : ''}
               </div>
             </div>
             <div class="item-right">
@@ -1679,7 +1986,7 @@
               <div class="hours-tag">${fmtHours(hoursFromAmount(displayAmount))}</div>
               <div class="row-actions">
                 <button type="button" class="edit-btn" onclick="startEditExpense('${e.id}')">Editar</button>
-                <button type="button" class="danger-btn" onclick="deleteItem('expenses', '${e.id}')">Excluir</button>
+                <button type="button" class="danger-btn" onclick="deleteItem('expenses', '${e.id}')">Remover</button>
               </div>
             </div>
           </div>
@@ -1687,6 +1994,7 @@
       }).join('');
     }
 
+    // --- GASTOS FIXOS COM ARRASTAR E SOLTAR ---
     document.getElementById('addFixedBtn').addEventListener('click', () => {
       const day = Math.min(31, Math.max(1, parseInt(document.getElementById('fixedDay').value, 10) || 1));
       const value = parseFloat(document.getElementById('fixedValue').value);
@@ -1708,40 +2016,144 @@
       updatePreviews();
     });
 
+    function moveFixedItem(fromIndex, toIndex) {
+      if (fromIndex === toIndex) return;
+      if (fromIndex < 0 || toIndex < 0 || fromIndex >= state.fixedExpenses.length || toIndex >= state.fixedExpenses.length) return;
+      const list = state.fixedExpenses.slice();
+      const [moved] = list.splice(fromIndex, 1);
+      list.splice(toIndex, 0, moved);
+      state.fixedExpenses = list;
+      saveState();
+    }
+
+    let draggedFixedIdx = null;
+
+    function attachFixedDragListeners() {
+      const container = document.getElementById('fixedList');
+      const rows = Array.from(container.querySelectorAll('.draggable-fixed-row'));
+
+      rows.forEach((row) => {
+        const idx = Number(row.dataset.index);
+
+        row.addEventListener('dragstart', (e) => {
+          draggedFixedIdx = idx;
+          row.classList.add('dragging');
+          if (e.dataTransfer) {
+            e.dataTransfer.effectAllowed = 'move';
+            e.dataTransfer.setData('text/plain', String(idx));
+          }
+        });
+
+        row.addEventListener('dragend', () => {
+          row.classList.remove('dragging');
+          rows.forEach((r) => r.classList.remove('drag-over'));
+          draggedFixedIdx = null;
+        });
+
+        row.addEventListener('dragover', (e) => {
+          e.preventDefault();
+          if (draggedFixedIdx !== null && draggedFixedIdx !== idx) {
+            row.classList.add('drag-over');
+          }
+        });
+
+        row.addEventListener('dragleave', () => {
+          row.classList.remove('drag-over');
+        });
+
+        row.addEventListener('drop', (e) => {
+          e.preventDefault();
+          row.classList.remove('drag-over');
+          const fromIdx = draggedFixedIdx !== null ? draggedFixedIdx : Number(e.dataTransfer?.getData('text/plain'));
+          if (!Number.isNaN(fromIdx) && fromIdx !== idx) {
+            moveFixedItem(fromIdx, idx);
+          }
+          draggedFixedIdx = null;
+        });
+
+        // Suporte a arrastar por toque no celular usando a alça
+        const handle = row.querySelector('.drag-handle-btn');
+        if (handle) {
+          handle.addEventListener('touchstart', () => {
+            draggedFixedIdx = idx;
+            row.classList.add('dragging');
+          }, { passive: true });
+
+          handle.addEventListener('touchmove', (e) => {
+            if (draggedFixedIdx === null) return;
+            e.preventDefault();
+            const touch = e.touches[0];
+            const targetEl = document.elementFromPoint(touch.clientX, touch.clientY);
+            const targetRow = targetEl ? targetEl.closest('.draggable-fixed-row') : null;
+            rows.forEach((r) => r.classList.remove('drag-over'));
+            if (targetRow && targetRow !== row) {
+              targetRow.classList.add('drag-over');
+            }
+          }, { passive: false });
+
+          handle.addEventListener('touchend', (e) => {
+            row.classList.remove('dragging');
+            const touch = e.changedTouches[0];
+            const targetEl = document.elementFromPoint(touch.clientX, touch.clientY);
+            const targetRow = targetEl ? targetEl.closest('.draggable-fixed-row') : null;
+            rows.forEach((r) => r.classList.remove('drag-over'));
+            if (targetRow && draggedFixedIdx !== null) {
+              const dropIdx = Number(targetRow.dataset.index);
+              if (!Number.isNaN(dropIdx) && dropIdx !== draggedFixedIdx) {
+                moveFixedItem(draggedFixedIdx, dropIdx);
+              }
+            }
+            draggedFixedIdx = null;
+          });
+        }
+      });
+    }
+
     function renderFixed() {
       const container = document.getElementById('fixedList');
       const total = state.fixedExpenses.reduce((acc, f) => acc + Number(f.value || 0), 0);
-      document.getElementById('fixedTotalLabel').textContent = `${fmtBRL(total)} (${fmtHours(hoursFromAmount(total))})`;
+      document.getElementById('fixedTotalValues').innerHTML = `
+        <span>${fmtBRL(total)}</span>
+        <span class="pipe-sep">|</span>
+        <span class="hours-tag">${fmtHours(hoursFromAmount(total))}</span>
+      `;
 
       if (!state.fixedExpenses.length) {
         container.innerHTML = '<div class="empty">Nenhum gasto fixo cadastrado.</div>';
         return;
       }
 
-      container.innerHTML = state.fixedExpenses
-        .slice()
-        .sort((a, b) => a.day - b.day)
-        .map((f) => {
-          const catColor = getCategoryColor(f.category, state.categories.indexOf(f.category));
-          return `
-            <div class="item-row">
+      container.innerHTML = state.fixedExpenses.map((f, idx) => {
+        const catColor = getCategoryColor(f.category, state.categories.indexOf(f.category));
+        const catInk = getContrastInk(catColor);
+        return `
+          <div class="draggable-fixed-row" data-index="${idx}" draggable="true">
+            <div class="fixed-left-group">
+              <button type="button" class="drag-handle-btn" title="Segure e arraste para reordenar" aria-label="Segure e arraste para reordenar">⋮⋮</button>
               <div>
                 <div class="item-title">
-                  <span class="color-dot" style="background:${escapeHtml(catColor)};"></span>
                   <span>${escapeHtml(f.desc)}</span>
                 </div>
-                <div class="item-sub">Todo dia ${f.day} • ${escapeHtml(f.category)}</div>
-              </div>
-              <div class="item-right">
-                <div class="val-main">${fmtBRL(f.value)}</div>
-                <div class="hours-tag">${fmtHours(hoursFromAmount(f.value))}</div>
-                <button type="button" class="danger-btn" style="margin-top:4px;" onclick="deleteItem('fixedExpenses', '${f.id}')">Excluir</button>
+                <div class="item-sub">
+                  <span>Todo dia ${f.day}</span>
+                  <span>•</span>
+                  <span class="filled-tag" style="background:${escapeHtml(catColor)}; color:${escapeHtml(catInk)};">${escapeHtml(f.category)}</span>
+                </div>
               </div>
             </div>
-          `;
-        }).join('');
+            <div class="item-right">
+              <div class="val-main">${fmtBRL(f.value)}</div>
+              <div class="hours-tag">${fmtHours(hoursFromAmount(f.value))}</div>
+              <button type="button" class="danger-btn" style="margin-top:4px;" onclick="deleteItem('fixedExpenses', '${f.id}')">Remover</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      attachFixedDragListeners();
     }
 
+    // --- GRÁFICO ---
     function getCycleCategoryTotals(cycleKey) {
       const map = {};
       state.categories.forEach((c) => { map[c] = 0; });
@@ -1797,52 +2209,61 @@
       document.getElementById('cycleSpentVal').textContent = fmtBRL(spentTotal);
       document.getElementById('cycleSpentHours').textContent = `${fmtHours(hoursFromAmount(spentTotal))} gastos no ciclo`;
 
-      let totalCap = 0;
-      let totalRemaining = 0;
-      let hasAnyCap = false;
-
       document.getElementById('categoryBreakdown').innerHTML = state.categories.map((cat, idx) => {
         const spent = totals[cat] || 0;
         const cap = Number(state.categoryCaps[cat] || 0);
-        let extraHtml = '';
+        const color = getCategoryColor(cat, idx);
+        const catInk = getContrastInk(color);
+
+        let progressHtml = '';
         if (cap > 0) {
-          hasAnyCap = true;
-          totalCap += cap;
+          const rawPct = (spent / cap) * 100;
+          const barPct = Math.min(100, Math.max(0, rawPct));
+          const pctLabel = `${rawPct.toFixed(0)}%`;
           const rem = cap - spent;
-          totalRemaining += rem;
-          const pct = Math.min(100, (spent / cap) * 100);
-          const over = rem < 0;
-          extraHtml = `
-            <div class="progress-track">
-              <div class="progress-fill ${over ? 'over' : 'good'}" style="width:${pct}%"></div>
+          const statusNote = rem < 0
+            ? `Teto: ${fmtBRL(cap)} • Excedido em ${fmtBRL(Math.abs(rem))}`
+            : `Teto: ${fmtBRL(cap)} • Restam ${fmtBRL(rem)}`;
+
+          progressHtml = `
+            <div class="progress-row">
+              <div class="progress-track">
+                <div class="progress-fill" style="width:${barPct}%; background:${escapeHtml(color)};"></div>
+              </div>
+              <span class="progress-pct">${pctLabel}</span>
             </div>
-            <div class="item-sub" style="margin-top:4px; color:${over ? 'var(--danger)' : 'var(--muted)'}">
-              Teto: ${fmtBRL(cap)} (${fmtHours(hoursFromAmount(cap))}) •
-              ${over ? `Excedido em ${fmtBRL(Math.abs(rem))} (${fmtHours(hoursFromAmount(Math.abs(rem)))})` : `Restam ${fmtBRL(rem)} (${fmtHours(hoursFromAmount(rem))})`}
+            <div class="item-sub" style="margin-top:4px; color:${rem < 0 ? 'var(--danger)' : 'var(--muted)'}">
+              ${escapeHtml(statusNote)}
+            </div>
+          `;
+        } else {
+          const sharePct = spentTotal > 0 ? ((spent / spentTotal) * 100) : 0;
+          const barPct = Math.min(100, Math.max(0, sharePct));
+          progressHtml = `
+            <div class="progress-row">
+              <div class="progress-track">
+                <div class="progress-fill" style="width:${barPct}%; background:${escapeHtml(color)};"></div>
+              </div>
+              <span class="progress-pct">${sharePct.toFixed(0)}%</span>
             </div>
           `;
         }
-        const color = getCategoryColor(cat, idx);
+
         return `
           <div class="item-row" style="display:block;">
-            <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div style="display:flex; justify-content:space-between; align-items:center; gap:8px;">
               <div class="item-title">
-                <span class="color-dot" style="background:${escapeHtml(color)}; width:10px; height:10px;"></span>
-                <span>${escapeHtml(cat)}</span>
+                <span class="filled-tag" style="background:${escapeHtml(color)}; color:${escapeHtml(catInk)};">${escapeHtml(cat)}</span>
               </div>
               <div class="item-right">
                 <span class="val-main">${fmtBRL(spent)}</span>
                 <span class="hours-tag" style="margin-left:6px;">${fmtHours(hoursFromAmount(spent))}</span>
               </div>
             </div>
-            ${extraHtml}
+            ${progressHtml}
           </div>
         `;
       }).join('');
-
-      document.getElementById('cycleRemainingSummary').textContent = !hasAnyCap
-        ? 'Defina tetos por categoria abaixo para acompanhar saldo restante.'
-        : `Tetos somados: ${fmtBRL(totalCap)} (${fmtHours(hoursFromAmount(totalCap))}) • Saldo restante: ${fmtBRL(totalRemaining)} (${fmtHours(hoursFromAmount(totalRemaining))})`;
 
       drawChart();
     }
@@ -1913,20 +2334,17 @@
         startAngle = endAngle;
       });
 
+      // Dentro da rosca: valor em reais em cima e horas embaixo
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
 
-      ctx.fillStyle = '#64748b';
-      ctx.font = '700 10px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
-      ctx.fillText('TOTAL NO CICLO', cx, cy - 15);
-
       ctx.fillStyle = '#0f172a';
-      ctx.font = '800 15px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
-      ctx.fillText(fmtHours(hoursFromAmount(grandTotal)), cx, cy + 2);
+      ctx.font = '800 14.5px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+      ctx.fillText(fmtBRL(grandTotal), cx, cy - 8);
 
-      ctx.fillStyle = '#0369a1';
-      ctx.font = '700 11px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
-      ctx.fillText(fmtBRL(grandTotal), cx, cy + 18);
+      ctx.fillStyle = '#059669';
+      ctx.font = '700 12px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+      ctx.fillText(fmtHours(hoursFromAmount(grandTotal)), cx, cy + 10);
 
       const legendX = isCompact ? 16 : cx + outerRadius + 28;
       let legendY = isCompact ? cy + outerRadius + 24 : 24;
@@ -1950,7 +2368,7 @@
           ctx.fillText(`${e.cat} · ${pct}%`, legendX + 18, legendY + 4);
 
           ctx.textAlign = 'right';
-          ctx.fillStyle = '#0369a1';
+          ctx.fillStyle = '#059669';
           ctx.font = '700 11px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
           ctx.fillText(`${fmtBRL(e.val)} (${fmtHours(hoursFromAmount(e.val))})`, cssWidth - 14, legendY + 4);
         } else {
@@ -1976,6 +2394,7 @@
       }
     });
 
+    // --- FATURA CARTÃO ---
     const c6CycleFilterEl = document.getElementById('c6CycleFilter');
     c6CycleFilterEl.addEventListener('change', () => {
       selectedC6Cycle = c6CycleFilterEl.value;
@@ -1995,6 +2414,7 @@
         if (!/c6/i.test(e.payment)) return;
         const base = e.baseCycle || getCardCycleKey(parseLocalDate(e.date));
         const catColor = getCategoryColor(e.category, state.categories.indexOf(e.category));
+        const catInk = getContrastInk(catColor);
         if (e.condition === 'parcelado') {
           const per = Number(e.value) / e.installments;
           for (let i = 0; i < e.installments; i++) {
@@ -2005,7 +2425,8 @@
                 meta: `Compra em ${fmtDateBR(e.date)}`,
                 category: e.category,
                 val: per,
-                color: catColor
+                color: catColor,
+                ink: catInk
               });
             }
           }
@@ -2016,7 +2437,8 @@
             meta: `Compra em ${fmtDateBR(e.date)}`,
             category: e.category,
             val: Number(e.value),
-            color: catColor
+            color: catColor,
+            ink: catInk
           });
         }
       });
@@ -2034,12 +2456,12 @@
         <div class="item-row">
           <div>
             <div class="item-title">
-              <span class="color-dot" style="background:${escapeHtml(l.color)};"></span>
               <span>${escapeHtml(l.desc)}</span>
             </div>
             <div class="item-sub">
-              ${escapeHtml(l.meta)} •
-              <span class="meta-tag"><span class="color-dot" style="background:${escapeHtml(l.color)};"></span>${escapeHtml(l.category)}</span>
+              <span>${escapeHtml(l.meta)}</span>
+              <span>•</span>
+              <span class="filled-tag" style="background:${escapeHtml(l.color)}; color:${escapeHtml(l.ink)};">${escapeHtml(l.category)}</span>
             </div>
           </div>
           <div class="item-right">
@@ -2051,7 +2473,91 @@
     }
 
     // --- DÍVIDAS & EXTRATO ---
+    function getDefaultEndDateISO(startDateStr) {
+      const base = startDateStr ? parseLocalDate(startDateStr) : new Date();
+      const end = new Date(base.getFullYear(), base.getMonth() + 6, base.getDate());
+      return `${end.getFullYear()}-${String(end.getMonth() + 1).padStart(2, '0')}-${String(end.getDate()).padStart(2, '0')}`;
+    }
+
+    function countMonthsBetween(startStr, endStr) {
+      if (!startStr || !endStr) return 1;
+      const start = parseLocalDate(startStr);
+      const end = parseLocalDate(endStr);
+      const diff = (end.getFullYear() - start.getFullYear()) * 12 + (end.getMonth() - start.getMonth()) + (end.getDate() > start.getDate() ? 1 : 0);
+      return Math.max(1, diff);
+    }
+
+    function calculateDebtMonthlyPlan(debtObj) {
+      const initialVal = Math.max(0, Number(debtObj.initialAmount ?? debtObj.total) || 0);
+      const addedLoans = Math.max(0, Number(debtObj.addedLoans) || 0);
+      const currentTotal = Math.max(initialVal + addedLoans, Number(debtObj.total) || 0);
+      const paid = Math.max(0, Number(debtObj.paid) || 0);
+      const remainingTotal = Math.max(0, currentTotal - paid);
+
+      if (remainingTotal <= 0) {
+        return { currentTotal, remainingTotal: 0, monthlyPlan: 0, remainingThisMonth: 0, monthStatus: 'ok' };
+      }
+
+      const monthsLeft = debtObj.endDate
+        ? countMonthsBetween(getTodayISO(), debtObj.endDate)
+        : 1;
+
+      const monthlyPlan = remainingTotal / monthsLeft;
+      const currMonth = getCurrentMonthKey();
+      const paidInCurrMonth = Array.isArray(debtObj.events)
+        ? debtObj.events
+            .filter((ev) => ev.kind === 'payment' && getMonthKeyISO(ev.date) === currMonth)
+            .reduce((sum, ev) => sum + (Number(ev.amount) || 0), 0)
+        : 0;
+
+      const remainingThisMonth = monthlyPlan - paidInCurrMonth;
+      const monthStatus = remainingThisMonth <= 0 ? 'ok' : 'due';
+
+      return { currentTotal, remainingTotal, monthlyPlan, remainingThisMonth, monthStatus };
+    }
+
+    function syncDebtFormCalculators() {
+      const initialVal = parseFloat(document.getElementById('debtTotal').value) || 0;
+      const paidVal = parseFloat(document.getElementById('debtPaid').value) || 0;
+      const startDate = document.getElementById('debtStartDate').value || getTodayISO();
+      const endDate = document.getElementById('debtEndDate').value || getDefaultEndDateISO(startDate);
+      const payAdd = editingDebtId ? (parseFloat(document.getElementById('debtPayValue').value) || 0) : 0;
+      const loanAdd = editingDebtId ? (parseFloat(document.getElementById('debtLoanValue').value) || 0) : 0;
+
+      const existing = editingDebtId ? state.debts.find((d) => d.id === editingDebtId) : null;
+      const priorAddedLoans = existing ? (Number(existing.addedLoans) || 0) : 0;
+      const totalWithLoans = Math.max(0, initialVal + priorAddedLoans + loanAdd);
+      const totalPaid = Math.max(0, paidVal + payAdd);
+      const remTotal = Math.max(0, totalWithLoans - totalPaid);
+
+      const monthsLeft = countMonthsBetween(getTodayISO(), endDate);
+      const monthlyPlan = remTotal > 0 ? remTotal / monthsLeft : 0;
+
+      const payDate = editingDebtId ? (document.getElementById('debtPayDate').value || getTodayISO()) : getTodayISO();
+      const paidThisMonthInEdit = (editingDebtId && payAdd > 0 && getMonthKeyISO(payDate) === getCurrentMonthKey()) ? payAdd : 0;
+      const existingMonthPaid = existing && Array.isArray(existing.events)
+        ? existing.events
+            .filter((ev) => ev.kind === 'payment' && getMonthKeyISO(ev.date) === getCurrentMonthKey())
+            .reduce((s, ev) => s + (Number(ev.amount) || 0), 0)
+        : 0;
+
+      const remMonth = monthlyPlan - (existingMonthPaid + paidThisMonthInEdit);
+
+      document.getElementById('debtMonthlyPlanAuto').value = `${fmtBRL(monthlyPlan)} (${fmtHours(hoursFromAmount(monthlyPlan))})`;
+      const remMonthEl = document.getElementById('debtRemainingMonthAuto');
+      remMonthEl.value = remMonth <= 0
+        ? `Quitado no mês (${fmtBRL(0)})`
+        : `${fmtBRL(remMonth)} (${fmtHours(hoursFromAmount(remMonth))})`;
+      remMonthEl.style.color = remMonth <= 0 ? 'var(--success)' : 'var(--danger)';
+    }
+
+    ['debtDesc', 'debtStartDate', 'debtEndDate', 'debtTotal', 'debtInterest', 'debtPaid', 'debtPayDate', 'debtPayValue', 'debtLoanDate', 'debtLoanValue'].forEach((id) => {
+      document.getElementById(id).addEventListener('input', syncDebtFormCalculators);
+      document.getElementById(id).addEventListener('change', syncDebtFormCalculators);
+    });
+
     document.getElementById('debtStartDate').value = getTodayISO();
+    document.getElementById('debtEndDate').value = getDefaultEndDateISO(getTodayISO());
     document.getElementById('debtPayDate').value = getTodayISO();
     document.getElementById('debtLoanDate').value = getTodayISO();
 
@@ -2062,23 +2568,28 @@
       document.getElementById('cancelEditDebtBtn').classList.add('hidden');
       document.getElementById('debtEditMovementsWrap').classList.add('hidden');
       document.getElementById('debtDesc').value = '';
-      document.getElementById('debtStartDate').value = getTodayISO();
+      const today = getTodayISO();
+      document.getElementById('debtStartDate').value = today;
+      document.getElementById('debtEndDate').value = getDefaultEndDateISO(today);
       document.getElementById('debtTotal').value = '';
       document.getElementById('debtInterest').value = '';
       document.getElementById('debtPaid').value = '0';
-      document.getElementById('debtPayDate').value = getTodayISO();
+      document.getElementById('debtPayDate').value = today;
       document.getElementById('debtPayValue').value = '0';
-      document.getElementById('debtLoanDate').value = getTodayISO();
+      document.getElementById('debtLoanDate').value = today;
       document.getElementById('debtLoanValue').value = '0';
+      syncDebtFormCalculators();
     }
 
     document.getElementById('cancelEditDebtBtn').addEventListener('click', resetDebtForm);
 
     function buildDebtStatementRows(debt) {
       const startDate = debt.startDate || getTodayISO();
+      const initialAmt = Number(debt.initialAmount ?? debt.total) || 0;
       const events = Array.isArray(debt.events) && debt.events.length ? debt.events.slice() : [];
+
       if (!events.length) {
-        events.push({ date: startDate, kind: 'initial_total', label: 'Início da dívida (Total)', amount: Number(debt.total) || 0 });
+        events.push({ date: startDate, kind: 'initial_total', label: 'Valor inicial da dívida', amount: initialAmt });
         if ((Number(debt.paid) || 0) > 0) {
           events.push({ date: startDate, kind: 'payment', label: 'Pago inicialmente', amount: Number(debt.paid) || 0 });
         }
@@ -2109,10 +2620,11 @@
     document.getElementById('addDebtBtn').addEventListener('click', () => {
       const desc = document.getElementById('debtDesc').value.trim();
       const startDate = document.getElementById('debtStartDate').value || getTodayISO();
-      let total = parseFloat(document.getElementById('debtTotal').value);
+      const endDate = document.getElementById('debtEndDate').value || getDefaultEndDateISO(startDate);
+      const initialAmount = parseFloat(document.getElementById('debtTotal').value);
       const interest = parseFloat(document.getElementById('debtInterest').value) || 0;
       let paid = parseFloat(document.getElementById('debtPaid').value) || 0;
-      if (!desc || !total || total <= 0) return;
+      if (!desc || !initialAmount || initialAmount <= 0) return;
 
       const today = getTodayISO();
 
@@ -2125,34 +2637,35 @@
 
         let events = existing && Array.isArray(existing.events) && existing.events.length
           ? existing.events.slice()
-          : buildDebtStatementRows(existing || { total, paid, startDate }).map((r, idx) => ({
-              date: r.date,
-              kind: idx === 0 ? 'initial_total' : 'payment',
-              label: r.desc.split(' (')[0],
-              amount: idx === 0 ? total : paid
-            }));
+          : [{ date: startDate, kind: 'initial_total', label: 'Valor inicial da dívida', amount: initialAmount }];
 
         const initialEv = events.find((ev) => ev.kind === 'initial_total');
         if (initialEv) {
           initialEv.date = startDate;
-          initialEv.amount = total;
+          initialEv.amount = initialAmount;
         } else {
-          events.unshift({ date: startDate, kind: 'initial_total', label: 'Início da dívida (Total)', amount: total });
+          events.unshift({ date: startDate, kind: 'initial_total', label: 'Valor inicial da dívida', amount: initialAmount });
         }
 
+        let addedLoans = existing ? (Number(existing.addedLoans) || 0) : 0;
         if (loanAdd > 0) {
-          total += loanAdd;
-          events.push({ date: loanDate, kind: 'loan', label: 'Aumento de empréstimo', amount: loanAdd });
+          addedLoans += loanAdd;
+          events.push({ date: loanDate, kind: 'loan', label: 'Novo empréstimo', amount: loanAdd });
         }
         if (payAdd > 0) {
           paid += payAdd;
           events.push({ date: payDate, kind: 'payment', label: 'Pagamento registrado', amount: payAdd });
         }
 
+        const total = initialAmount + addedLoans;
+
         state.debts = state.debts.map((d) => d.id === editingDebtId ? {
           ...d,
           desc,
           startDate,
+          endDate,
+          initialAmount,
+          addedLoans,
           total,
           interest,
           paid,
@@ -2160,7 +2673,7 @@
         } : d);
       } else {
         const events = [
-          { date: startDate, kind: 'initial_total', label: 'Início da dívida (Total)', amount: total }
+          { date: startDate, kind: 'initial_total', label: 'Valor inicial da dívida', amount: initialAmount }
         ];
         if (paid > 0) {
           events.push({ date: startDate, kind: 'payment', label: 'Valor já pago', amount: paid });
@@ -2169,7 +2682,10 @@
           id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
           desc,
           startDate,
-          total,
+          endDate,
+          initialAmount,
+          addedLoans: 0,
+          total: initialAmount,
           interest,
           paid,
           events
@@ -2190,9 +2706,11 @@
       document.getElementById('cancelEditDebtBtn').classList.remove('hidden');
       document.getElementById('debtEditMovementsWrap').classList.remove('hidden');
 
+      const startIso = toInputDateISO(d.startDate);
       document.getElementById('debtDesc').value = d.desc;
-      document.getElementById('debtStartDate').value = toInputDateISO(d.startDate);
-      document.getElementById('debtTotal').value = d.total;
+      document.getElementById('debtStartDate').value = startIso;
+      document.getElementById('debtEndDate').value = toInputDateISO(d.endDate || getDefaultEndDateISO(startIso));
+      document.getElementById('debtTotal').value = d.initialAmount ?? d.total;
       document.getElementById('debtInterest').value = d.interest || '';
       document.getElementById('debtPaid').value = d.paid;
       document.getElementById('debtPayDate').value = getTodayISO();
@@ -2200,6 +2718,7 @@
       document.getElementById('debtLoanDate').value = getTodayISO();
       document.getElementById('debtLoanValue').value = '0';
 
+      syncDebtFormCalculators();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
@@ -2210,19 +2729,38 @@
 
     function renderDebtsAndInstallments() {
       const debtsEl = document.getElementById('debtsList');
-      if (!state.debts.length) {
+      const sortedDebts = state.debts
+        .slice()
+        .sort((a, b) => compareDateAsc(a.endDate || '9999-12-31', b.endDate || '9999-12-31'));
+
+      const totalRemainingAllDebts = sortedDebts.reduce((sum, d) => {
+        const calc = calculateDebtMonthlyPlan(d);
+        return sum + calc.remainingTotal;
+      }, 0);
+
+      document.getElementById('debtsTotalValues').innerHTML = `
+        <span>${fmtBRL(totalRemainingAllDebts)}</span>
+        <span class="pipe-sep">|</span>
+        <span class="hours-tag">${fmtHours(hoursFromAmount(totalRemainingAllDebts))}</span>
+      `;
+
+      if (!sortedDebts.length) {
         debtsEl.innerHTML = '<div class="empty">Nenhuma dívida cadastrada.</div>';
       } else {
-        debtsEl.innerHTML = state.debts.map((d) => {
-          const baseRem = Math.max(0, Number(d.total) - Number(d.paid));
-          const remWithInterest = d.interest > 0 ? baseRem * (1 + Number(d.interest) / 100) : baseRem;
-          const interestNote = d.interest > 0
-            ? ` • Juros: ${d.interest}% a.m. (com 1 mês: ${fmtBRL(remWithInterest)} / ${fmtHours(hoursFromAmount(remWithInterest))})`
-            : '';
-          const startNote = d.startDate ? `Início: ${fmtDateBR(d.startDate)} • ` : '';
+        debtsEl.innerHTML = sortedDebts.map((d) => {
+          const calc = calculateDebtMonthlyPlan(d);
+          const paidAmt = Math.max(0, Number(d.paid) || 0);
+          const totalAmt = calc.currentTotal;
+          const remAmt = calc.remainingTotal;
+          const pct = totalAmt > 0 ? Math.min(100, (paidAmt / totalAmt) * 100) : 0;
 
           const isOpen = Boolean(expandedDebtStatements[d.id]);
           const stmtRows = isOpen ? buildDebtStatementRows(d) : [];
+
+          const monthStatusClass = calc.monthStatus === 'ok' ? 'text-green' : 'text-red';
+          const monthStatusText = calc.remainingThisMonth <= 0
+            ? `Quitado neste mês (${fmtBRL(0)})`
+            : `${fmtBRL(calc.remainingThisMonth)} | ${fmtHours(hoursFromAmount(calc.remainingThisMonth))}`;
 
           return `
             <div class="item-row" style="display:block;">
@@ -2232,16 +2770,37 @@
                     <span>${escapeHtml(d.desc)}</span>
                     <span class="meta-tag">${isOpen ? 'Fechar extrato' : 'Ver extrato'}</span>
                   </div>
-                  <div class="item-sub">${startNote}Total: ${fmtBRL(d.total)} • Pago: ${fmtBRL(d.paid)}${interestNote}</div>
-                </div>
-                <div class="item-right">
-                  <div class="val-main">Resta ${fmtBRL(baseRem)}</div>
-                  <div class="hours-tag hours-warn">${fmtHours(hoursFromAmount(baseRem))}</div>
-                  <div class="row-actions">
-                    <button type="button" class="edit-btn" onclick="startEditDebt('${d.id}')">Editar</button>
-                    <button type="button" class="danger-btn" onclick="deleteItem('debts', '${d.id}')">Excluir</button>
+                  <div class="detail-lines">
+                    <div class="detail-line"><span>Início: <strong>${escapeHtml(fmtDateBR(d.startDate))}</strong> • Prazo: <strong>${escapeHtml(fmtDateBR(d.endDate))}</strong></span></div>
+                    <div class="detail-line"><span>Total: <strong>${fmtBRL(totalAmt)}</strong></span></div>
+                    <div class="detail-line"><span>Valor pago: <strong>${fmtBRL(paidAmt)}</strong></span></div>
+                    <div class="detail-line">
+                      <span>Valor restante: <strong>${fmtBRL(remAmt)}</strong></span>
+                      <span class="pipe-sep">|</span>
+                      <span class="hours-tag">${fmtHours(hoursFromAmount(remAmt))}</span>
+                    </div>
+                    <div class="detail-line">
+                      <span>Meta mensal: <strong>${fmtBRL(calc.monthlyPlan)}</strong></span>
+                      <span class="pipe-sep">|</span>
+                      <span class="hours-tag">${fmtHours(hoursFromAmount(calc.monthlyPlan))}</span>
+                    </div>
+                    <div class="detail-line">
+                      <span>Restante a pagar nesse mês: <strong class="${monthStatusClass}">${escapeHtml(monthStatusText)}</strong></span>
+                    </div>
                   </div>
                 </div>
+                <div class="item-right">
+                  <div class="row-actions">
+                    <button type="button" class="edit-btn" onclick="startEditDebt('${d.id}')">Editar</button>
+                    <button type="button" class="danger-btn" onclick="deleteItem('debts', '${d.id}')">Remover</button>
+                  </div>
+                </div>
+              </div>
+              <div class="progress-row">
+                <div class="progress-track">
+                  <div class="progress-fill good" style="width:${pct}%"></div>
+                </div>
+                <span class="progress-pct">${pct.toFixed(0)}%</span>
               </div>
               ${isOpen ? `
                 <div class="statement-panel">
@@ -2272,43 +2831,71 @@
 
       const instEl = document.getElementById('installmentsList');
       const currentCycle = getCurrentCycleKey();
+
       const cardInstallments = state.expenses
         .filter((e) => e.condition === 'parcelado' && /c6|cartão|cartao/i.test(e.payment))
-        .sort((a, b) => compareDateAsc(a.date, b.date));
+        .map((e) => {
+          const count = Math.max(2, Number(e.installments) || 2);
+          const per = Number(e.value) / count;
+          const base = e.baseCycle || getCardCycleKey(parseLocalDate(e.date));
+          let paidCount = 0;
+          for (let i = 0; i < count; i++) {
+            if (addMonthsToCycleKey(base, i) < currentCycle) paidCount += 1;
+          }
+          const remainingInstallments = Math.max(0, count - paidCount);
+          const remainingAmount = remainingInstallments * per;
+          const endCycle = addMonthsToCycleKey(base, count - 1);
+          const paidAmount = Math.min(Number(e.value) || 0, paidCount * per);
+          const pct = (Number(e.value) || 0) > 0 ? Math.min(100, (paidAmount / Number(e.value)) * 100) : 0;
+
+          return {
+            expense: e,
+            count,
+            per,
+            remainingInstallments,
+            remainingAmount,
+            endCycle,
+            pct
+          };
+        })
+        .sort((a, b) => a.endCycle.localeCompare(b.endCycle));
+
+      const totalRemainingInstallments = cardInstallments.reduce((sum, item) => sum + item.remainingAmount, 0);
+      document.getElementById('installmentsTotalValues').innerHTML = `
+        <span>${fmtBRL(totalRemainingInstallments)}</span>
+        <span class="pipe-sep">|</span>
+        <span class="hours-tag">${fmtHours(hoursFromAmount(totalRemainingInstallments))}</span>
+      `;
 
       if (!cardInstallments.length) {
         instEl.innerHTML = '<div class="empty">Nenhuma compra parcelada no cartão registrada.</div>';
         return;
       }
 
-      instEl.innerHTML = cardInstallments.map((e) => {
-        const per = Number(e.value) / e.installments;
-        const base = e.baseCycle || getCardCycleKey(parseLocalDate(e.date));
-        const catColor = getCategoryColor(e.category, state.categories.indexOf(e.category));
-        let paidCount = 0;
-        for (let i = 0; i < e.installments; i++) {
-          if (addMonthsToCycleKey(base, i) < currentCycle) paidCount += 1;
-        }
-        const remainingInstallments = Math.max(0, e.installments - paidCount);
-        const remainingAmount = remainingInstallments * per;
-        const endCycle = addMonthsToCycleKey(base, e.installments - 1);
-
+      instEl.innerHTML = cardInstallments.map(({ expense: e, count, per, remainingInstallments, remainingAmount, endCycle, pct }) => {
         return `
-          <div class="item-row">
-            <div>
-              <div class="item-title">
-                <span class="color-dot" style="background:${escapeHtml(catColor)};"></span>
-                <span>${escapeHtml(e.desc)} (${e.installments}x de ${fmtBRL(per)})</span>
+          <div class="item-row" style="display:block;">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:10px;">
+              <div>
+                <div class="item-title">
+                  <span>${escapeHtml(e.desc)} (${count}x de ${fmtBRL(per)})</span>
+                </div>
+                <div class="detail-lines">
+                  <div class="detail-line"><span>Data da compra: <strong>${escapeHtml(fmtDateBR(e.date))}</strong></span></div>
+                  <div class="detail-line"><span>Parcelas restantes: <strong>${remainingInstallments}</strong></span></div>
+                  <div class="detail-line"><span>Termina em: <strong>${formatMonthYear(endCycle)}</strong></span></div>
+                </div>
               </div>
-              <div class="item-sub">
-                Compra: ${escapeHtml(fmtDateBR(e.date))} •
-                <span class="meta-tag"><span class="color-dot" style="background:${escapeHtml(catColor)};"></span>${escapeHtml(e.category)}</span> •
-                Termina em: <strong>${formatMonthYear(endCycle)}</strong> • Parcelas restantes: ${remainingInstallments}
+              <div class="item-right">
+                <div class="val-main">${fmtBRL(remainingAmount)}</div>
+                <div class="hours-tag">${fmtHours(hoursFromAmount(remainingAmount))}</div>
               </div>
             </div>
-            <div class="item-right">
-              <div class="val-main">${fmtBRL(remainingAmount)}</div>
-              <div class="hours-tag">${fmtHours(hoursFromAmount(remainingAmount))}</div>
+            <div class="progress-row">
+              <div class="progress-track">
+                <div class="progress-fill good" style="width:${pct}%"></div>
+              </div>
+              <span class="progress-pct">${pct.toFixed(0)}%</span>
             </div>
           </div>
         `;
@@ -2329,16 +2916,45 @@
       return remaining / monthsLeft;
     }
 
+    function getGoalSavedThisMonth(goal, extraDepositAmount = 0, extraDepositDate = '') {
+      const currMonth = getCurrentMonthKey();
+      const fromEvents = Array.isArray(goal && goal.events)
+        ? goal.events
+            .filter((ev) => ev.kind === 'deposit' && getMonthKeyISO(ev.date) === currMonth)
+            .reduce((sum, ev) => sum + (Number(ev.amount) || 0), 0)
+        : 0;
+      const extraInCurrMonth = (extraDepositAmount > 0 && getMonthKeyISO(extraDepositDate || getTodayISO()) === currMonth)
+        ? extraDepositAmount
+        : 0;
+      return fromEvents + extraInCurrMonth;
+    }
+
     function syncGoalMonthlyPreview() {
       const total = parseFloat(document.getElementById('goalTotal').value) || 0;
       const addVal = parseFloat(document.getElementById('goalAddAmount').value) || 0;
+      const addDate = document.getElementById('goalAddDate').value || getTodayISO();
       const savedBase = parseFloat(document.getElementById('goalSaved').value) || 0;
       const deadline = document.getElementById('goalDeadline').value;
+
       const monthly = calculateGoalMonthlyTarget(total, savedBase + addVal, deadline);
-      document.getElementById('goalMonthlyAuto').value = `${fmtBRL(monthly)} (${fmtHours(hoursFromAmount(monthly))})`;
+      const existing = editingGoalId ? state.goals.find((g) => g.id === editingGoalId) : null;
+      const savedMonth = getGoalSavedThisMonth(existing, addVal, addDate);
+      const remMonthTarget = monthly - savedMonth;
+
+      const autoEl = document.getElementById('goalMonthlyAuto');
+      if (monthly <= 0) {
+        autoEl.value = `${fmtBRL(0)} (${fmtHours(0)})`;
+        autoEl.style.color = 'var(--text)';
+      } else if (remMonthTarget <= 0) {
+        autoEl.value = `Meta do mês batida (${fmtBRL(monthly)})`;
+        autoEl.style.color = 'var(--success)';
+      } else {
+        autoEl.value = `${fmtBRL(monthly)} • Falta no mês: ${fmtBRL(remMonthTarget)}`;
+        autoEl.style.color = 'var(--danger)';
+      }
     }
 
-    ['goalTotal', 'goalDeadline', 'goalAddAmount', 'goalSaved'].forEach((id) => {
+    ['goalTotal', 'goalDeadline', 'goalAddAmount', 'goalAddDate', 'goalSaved'].forEach((id) => {
       document.getElementById(id).addEventListener('input', syncGoalMonthlyPreview);
       document.getElementById(id).addEventListener('change', syncGoalMonthlyPreview);
     });
@@ -2426,6 +3042,9 @@
         const events = [
           { date: addDate, kind: 'init', label: 'Início da meta', amount: newSaved }
         ];
+        if (addAmount > 0) {
+          events.push({ date: addDate, kind: 'deposit', label: 'Valor adicionado', amount: addAmount });
+        }
         state.goals.push({
           id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
           desc,
@@ -2467,18 +3086,28 @@
 
     function renderGoals() {
       const el = document.getElementById('goalsList');
-      if (!state.goals.length) {
+      const sortedGoals = state.goals
+        .slice()
+        .sort((a, b) => compareDateAsc(a.deadline || '9999-12-31', b.deadline || '9999-12-31'));
+
+      if (!sortedGoals.length) {
         el.innerHTML = '<div class="empty">Nenhuma meta de poupança criada.</div>';
         return;
       }
 
-      el.innerHTML = state.goals.map((g) => {
+      el.innerHTML = sortedGoals.map((g) => {
         const total = Math.max(0, Number(g.total) || 0);
         const saved = Math.max(0, Number(g.totalSaved) || 0);
         const monthly = calculateGoalMonthlyTarget(total, saved, g.deadline);
+        const savedThisMonth = getGoalSavedThisMonth(g);
+        const monthDiff = monthly - savedThisMonth;
         const pct = total > 0 ? Math.min(100, (saved / total) * 100) : 0;
         const isOpen = Boolean(expandedGoalStatements[g.id]);
         const stmtRows = isOpen ? buildGoalStatementRows(g) : [];
+
+        const monthStatusColorClass = monthly <= 0
+          ? 'text-green'
+          : (monthDiff <= 0 ? 'text-green' : 'text-red');
 
         return `
           <div class="item-row" style="display:block;">
@@ -2488,25 +3117,42 @@
                   <span>${escapeHtml(g.desc)}</span>
                   <span class="meta-tag">${isOpen ? 'Fechar extrato' : 'Ver extrato'}</span>
                 </div>
-                <div class="item-sub">
-                  Total: ${fmtBRL(total)} (${fmtHours(hoursFromAmount(total))}) •
-                  Prazo: ${escapeHtml(fmtDateBR(g.deadline))}
-                </div>
-                <div class="item-sub">
-                  Meta mensal: <strong>${fmtBRL(monthly)}</strong> (${fmtHours(hoursFromAmount(monthly))})
+                <div class="detail-lines">
+                  <div class="detail-line">
+                    <span>Total: <strong>${fmtBRL(total)}</strong></span>
+                    <span class="pipe-sep">|</span>
+                    <span class="hours-tag">${fmtHours(hoursFromAmount(total))}</span>
+                  </div>
+                  <div class="detail-line">
+                    <span>Prazo: <strong>${escapeHtml(fmtDateBR(g.deadline))}</strong></span>
+                  </div>
+                  <div class="detail-line">
+                    <span>Meta mensal: <strong>${fmtBRL(monthly)}</strong></span>
+                    <span class="pipe-sep">|</span>
+                    <span class="hours-tag">${fmtHours(hoursFromAmount(monthly))}</span>
+                  </div>
+                  <div class="detail-line">
+                    <span>Total poupado esse mês: <strong class="${monthStatusColorClass}">${fmtBRL(savedThisMonth)}</strong></span>
+                    <span class="pipe-sep">|</span>
+                    <span class="hours-tag">${fmtHours(hoursFromAmount(savedThisMonth))}</span>
+                    ${monthly > 0 ? `<span class="${monthStatusColorClass}">(${monthDiff <= 0 ? `meta batida • +${fmtBRL(Math.abs(monthDiff))}` : `falta ${fmtBRL(monthDiff)}`})</span>` : ''}
+                  </div>
                 </div>
               </div>
               <div class="item-right">
-                <div class="val-main hours-green">Acumulado: ${fmtBRL(saved)}</div>
-                <div class="hours-tag hours-green">${fmtHours(hoursFromAmount(saved))}</div>
+                <div class="val-main">Acumulado: ${fmtBRL(saved)}</div>
+                <div class="hours-tag">${fmtHours(hoursFromAmount(saved))}</div>
                 <div class="row-actions">
                   <button type="button" class="edit-btn" onclick="startEditGoal('${g.id}')">Editar</button>
-                  <button type="button" class="danger-btn" onclick="deleteItem('goals', '${g.id}')">Excluir</button>
+                  <button type="button" class="danger-btn" onclick="deleteItem('goals', '${g.id}')">Remover</button>
                 </div>
               </div>
             </div>
-            <div class="progress-track">
-              <div class="progress-fill good" style="width:${pct}%"></div>
+            <div class="progress-row">
+              <div class="progress-track">
+                <div class="progress-fill good" style="width:${pct}%"></div>
+              </div>
+              <span class="progress-pct">${pct.toFixed(0)}%</span>
             </div>
             ${isOpen ? `
               <div class="statement-panel">
@@ -2536,12 +3182,15 @@
     }
 
     // --- QUERO COMPRAR ---
+    document.getElementById('wishDate').value = getTodayISO();
+
     function resetWishForm() {
       editingWishId = null;
       document.getElementById('wishFormTitle').textContent = 'Simular Compra e Lista de Desejos';
       document.getElementById('addWishBtn').textContent = '+ Adicionar à Lista "Quero Comprar"';
       document.getElementById('cancelEditWishBtn').classList.add('hidden');
       document.getElementById('wishName').value = '';
+      document.getElementById('wishDate').value = getTodayISO();
       document.getElementById('wishPrice').value = '';
       if (state.wishTypes.length) {
         document.getElementById('wishType').value = state.wishTypes[0];
@@ -2554,6 +3203,7 @@
 
     document.getElementById('addWishBtn').addEventListener('click', () => {
       const name = document.getElementById('wishName').value.trim();
+      const targetDate = document.getElementById('wishDate').value || getTodayISO();
       const price = parseFloat(document.getElementById('wishPrice').value);
       const type = document.getElementById('wishType').value || (state.wishTypes[0] || 'Sobrevivência');
       const urgency = document.getElementById('wishUrgency').value;
@@ -2561,6 +3211,7 @@
 
       const payload = {
         name: name || `Item #${state.wishlist.length + 1}`,
+        targetDate,
         price,
         type,
         urgency
@@ -2588,6 +3239,7 @@
       document.getElementById('addWishBtn').textContent = 'Salvar Alterações';
       document.getElementById('cancelEditWishBtn').classList.remove('hidden');
       document.getElementById('wishName').value = w.name;
+      document.getElementById('wishDate').value = toInputDateISO(w.targetDate || getTodayISO());
       document.getElementById('wishPrice').value = w.price;
       if (state.wishTypes.includes(w.type)) {
         document.getElementById('wishType').value = w.type;
@@ -2607,27 +3259,43 @@
         return;
       }
 
+      const sortedWish = state.wishlist
+        .slice()
+        .sort((a, b) => compareDateAsc(a.targetDate || '9999-12-31', b.targetDate || '9999-12-31'));
+
       const urgMap = {
         alta: ['Urgência Alta', 'urg-alta'],
         media: ['Urgência Média', 'urg-media'],
         baixa: ['Urgência Baixa', 'urg-baixa']
       };
 
-      el.innerHTML = state.wishlist.map((w) => {
+      el.innerHTML = sortedWish.map((w) => {
         const info = urgMap[w.urgency] || urgMap.baixa;
         const typeLabel = w.type || (state.wishTypes[0] || 'Sobrevivência');
         const typeColor = getWishTypeColor(typeLabel, state.wishTypes.indexOf(typeLabel));
+        const typeInk = getContrastInk(typeColor);
+        const whenStr = w.targetDate ? fmtDateBR(w.targetDate) : '--/--/----';
+
         return `
           <div class="item-row">
             <div>
               <div class="item-title">
                 <span>${escapeHtml(w.name)}</span>
-                <span class="meta-tag"><span class="color-dot" style="background:${escapeHtml(typeColor)};"></span>${escapeHtml(typeLabel)}</span>
-                <span class="urg-badge ${info[1]}">${info[0]}</span>
+                <span class="meta-tag">Quando: ${escapeHtml(whenStr)}</span>
               </div>
-              <div class="item-sub">${fmtBRL(w.price)}</div>
+              <div class="detail-lines">
+                <div class="detail-line">
+                  <span>Tipo:</span>
+                  <span class="filled-tag" style="background:${escapeHtml(typeColor)}; color:${escapeHtml(typeInk)};">${escapeHtml(typeLabel)}</span>
+                </div>
+                <div class="detail-line">
+                  <span>Urgência:</span>
+                  <span class="urg-badge ${info[1]}">${info[0]}</span>
+                </div>
+              </div>
             </div>
             <div class="item-right">
+              <div class="val-main">${fmtBRL(w.price)}</div>
               <div class="hours-tag">${fmtHours(hoursFromAmount(w.price))}</div>
               <div class="row-actions">
                 <button type="button" class="edit-btn" onclick="startEditWish('${w.id}')">Editar</button>
@@ -2813,6 +3481,7 @@
 
     window.removeWishType = function(typeName) {
       if (state.wishTypes.length <= 1) return;
+      if (!confirm(`Deseja remover o tipo "${typeName}"?`)) return;
       state.wishTypes = state.wishTypes.filter((t) => t !== typeName);
       delete state.wishTypeColors[typeName];
       delete customExpanded.wishType[typeName];
@@ -2878,6 +3547,7 @@
       saveState();
       updatePreviews();
       syncGoalMonthlyPreview();
+      syncDebtFormCalculators();
     });
 
     document.getElementById('addCatBtn').addEventListener('click', () => {
@@ -2898,6 +3568,7 @@
 
     window.removeCategory = function(cat) {
       if (state.categories.length <= 1) return;
+      if (!confirm(`Deseja remover a categoria "${cat}"?`)) return;
       state.categories = state.categories.filter((c) => c !== cat);
       delete state.categoryColors[cat];
       delete customExpanded.cat[cat];
@@ -2922,6 +3593,7 @@
 
     window.removePayment = function(pay) {
       if (state.payments.length <= 1) return;
+      if (!confirm(`Deseja remover a forma de pagamento "${pay}"?`)) return;
       state.payments = state.payments.filter((p) => p !== pay);
       delete state.paymentColors[pay];
       delete customExpanded.pay[pay];
@@ -2929,6 +3601,7 @@
     };
 
     window.deleteItem = function(collection, id) {
+      if (!confirm('Tem certeza que deseja remover este item?')) return;
       if (collection === 'expenses' && editingExpenseId === id) resetExpenseForm();
       if (collection === 'debts' && editingDebtId === id) resetDebtForm();
       if (collection === 'goals' && editingGoalId === id) resetGoalForm();
@@ -2960,6 +3633,7 @@
           saveState();
           updatePreviews();
           syncGoalMonthlyPreview();
+          syncDebtFormCalculators();
         } catch (err) {
           alert('Arquivo JSON inválido.');
         }
@@ -2986,6 +3660,7 @@
     renderAll();
     updatePreviews();
     syncGoalMonthlyPreview();
+    syncDebtFormCalculators();
 
     if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
       window.addEventListener('load', () => {
