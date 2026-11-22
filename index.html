@@ -422,7 +422,7 @@
 
     .summary-rect-values {
       display: flex;
-      align-items: center;
+      align-items: baseline;
       gap: 8px;
       flex-wrap: wrap;
       font-size: 0.98rem;
@@ -551,7 +551,7 @@
 
     .detail-line {
       display: flex;
-      align-items: center;
+      align-items: baseline;
       flex-wrap: wrap;
       gap: 5px;
     }
@@ -604,8 +604,32 @@
       font-weight: 700;
     }
 
-    .hours-green { color: var(--success); }
-    .hours-warn { color: var(--warning); }
+    /* Quando exibido em Reais | Horas, mantém exatamente o tamanho da fonte de Reais */
+    .brl-hours-pair {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .brl-hours-pair .brl-part {
+      font-size: inherit;
+      font-weight: inherit;
+      color: inherit;
+    }
+
+    .brl-hours-pair .pipe-part {
+      font-size: inherit;
+      font-weight: 700;
+      color: var(--muted);
+    }
+
+    .brl-hours-pair .hours-part {
+      font-size: inherit;
+      font-weight: 700;
+      color: var(--success);
+    }
+
     .text-green { color: var(--success); font-weight: 700; }
     .text-red { color: var(--danger); font-weight: 700; }
 
@@ -691,7 +715,6 @@
       transition: width 0.2s ease;
     }
 
-    .progress-fill.over { background: var(--danger); }
     .progress-fill.good { background: var(--success); }
 
     .progress-pct {
@@ -814,15 +837,14 @@
 
     .urg-badge {
       display: inline-block;
-      padding: 2px 8px;
+      padding: 2px 9px;
       border-radius: 999px;
-      font-size: 0.72rem;
-      font-weight: 800;
+      font-size: 0.74rem;
+      font-weight: 700;
+      background: #ffffff;
+      color: #0f172a;
+      border: 1px solid var(--border);
     }
-
-    .urg-alta { background: rgba(220, 38, 38, 0.14); color: var(--danger); }
-    .urg-media { background: rgba(217, 119, 6, 0.16); color: var(--warning); }
-    .urg-baixa { background: rgba(5, 150, 105, 0.14); color: var(--success); }
 
     .empty {
       color: var(--muted);
@@ -943,9 +965,11 @@
             <div class="summary-rect-box" id="expCycleSummary">
               <div class="summary-rect-label">Total do ciclo (--):</div>
               <div class="summary-rect-values">
-                <span>R$ 0,00</span>
-                <span class="pipe-sep">|</span>
-                <span class="hours-tag">0h 00min</span>
+                <span class="brl-hours-pair">
+                  <span class="brl-part">R$ 0,00</span>
+                  <span class="pipe-part">|</span>
+                  <span class="hours-part">0h 00min</span>
+                </span>
               </div>
             </div>
 
@@ -991,9 +1015,11 @@
             <div class="summary-rect-box" id="fixedSummaryBox">
               <div class="summary-rect-label">Total de gastos fixos mensais:</div>
               <div class="summary-rect-values" id="fixedTotalValues">
-                <span>R$ 0,00</span>
-                <span class="pipe-sep">|</span>
-                <span class="hours-tag">0h 00min</span>
+                <span class="brl-hours-pair">
+                  <span class="brl-part">R$ 0,00</span>
+                  <span class="pipe-part">|</span>
+                  <span class="hours-part">0h 00min</span>
+                </span>
               </div>
             </div>
 
@@ -1108,7 +1134,7 @@
 
             <div class="grid-2">
               <div>
-                <label for="debtMonthlyPlanAuto">Parcela mensal estimada</label>
+                <label for="debtMonthlyPlanAuto">Meta mensal</label>
                 <input type="text" id="debtMonthlyPlanAuto" readonly value="R$ 0,00" />
               </div>
               <div>
@@ -1162,9 +1188,11 @@
             <div class="summary-rect-box" id="debtsTotalBox">
               <div class="summary-rect-label">Total restante de todas as dívidas:</div>
               <div class="summary-rect-values" id="debtsTotalValues">
-                <span>R$ 0,00</span>
-                <span class="pipe-sep">|</span>
-                <span class="hours-tag">0h 00min</span>
+                <span class="brl-hours-pair">
+                  <span class="brl-part">R$ 0,00</span>
+                  <span class="pipe-part">|</span>
+                  <span class="hours-part">0h 00min</span>
+                </span>
               </div>
             </div>
 
@@ -1179,9 +1207,11 @@
             <div class="summary-rect-box" id="installmentsTotalBox">
               <div class="summary-rect-label">Total restante das compras parceladas no cartão:</div>
               <div class="summary-rect-values" id="installmentsTotalValues">
-                <span>R$ 0,00</span>
-                <span class="pipe-sep">|</span>
-                <span class="hours-tag">0h 00min</span>
+                <span class="brl-hours-pair">
+                  <span class="brl-part">R$ 0,00</span>
+                  <span class="pipe-part">|</span>
+                  <span class="hours-part">0h 00min</span>
+                </span>
               </div>
             </div>
 
@@ -1283,14 +1313,14 @@
 
             <div class="preview-pill" id="wishHoursPreview">Você precisa trabalhar: 0h 00min</div>
             <div style="display:flex; gap:8px; flex-wrap:wrap;">
-              <button type="button" class="primary" style="flex:1; min-width:180px;" id="addWishBtn">+ Adicionar à Lista "Quero Comprar"</button>
+              <button type="button" class="primary" style="flex:1; min-width:180px;" id="addWishBtn">+ Adicionar à Lista do que Quero Comprar</button>
               <button type="button" class="ghost-btn hidden" id="cancelEditWishBtn">Cancelar edição</button>
             </div>
           </div>
 
           <div class="card">
             <div class="card-title">
-              <span>Lista "Quero Comprar"</span>
+              <span>LISTA DO QUE QUERO COMPRAR</span>
               <span id="wishTotalHours">0h 00min</span>
             </div>
             <div id="wishList"></div>
@@ -1562,6 +1592,12 @@
       const mins = Math.round((totalHours - hrs) * 60);
       if (mins === 60) return `${hrs + 1}h 00min`;
       return `${hrs}h ${String(mins).padStart(2, '0')}min`;
+    }
+
+    function fmtBrlHoursPair(amount, brlExtraClass = '') {
+      const safeVal = Number(amount) || 0;
+      const clsAttr = brlExtraClass ? ` ${brlExtraClass}` : '';
+      return `<span class="brl-hours-pair"><span class="brl-part${clsAttr}">${fmtBRL(safeVal)}</span><span class="pipe-part">|</span><span class="hours-part">${fmtHours(hoursFromAmount(safeVal))}</span></span>`;
     }
 
     function getTodayISO() {
@@ -1948,9 +1984,7 @@
       document.getElementById('expCycleSummary').innerHTML = `
         <div class="summary-rect-label">Total do ciclo (${escapeHtml(formatCycleLabel(selectedExpCycle))}):</div>
         <div class="summary-rect-values">
-          <span>${fmtBRL(cycleSum)}</span>
-          <span class="pipe-sep">|</span>
-          <span class="hours-tag">${fmtHours(hoursFromAmount(cycleSum))}</span>
+          ${fmtBrlHoursPair(cycleSum)}
         </div>
       `;
 
@@ -2071,7 +2105,6 @@
           draggedFixedIdx = null;
         });
 
-        // Suporte a arrastar por toque no celular usando a alça
         const handle = row.querySelector('.drag-handle-btn');
         if (handle) {
           handle.addEventListener('touchstart', () => {
@@ -2112,11 +2145,7 @@
     function renderFixed() {
       const container = document.getElementById('fixedList');
       const total = state.fixedExpenses.reduce((acc, f) => acc + Number(f.value || 0), 0);
-      document.getElementById('fixedTotalValues').innerHTML = `
-        <span>${fmtBRL(total)}</span>
-        <span class="pipe-sep">|</span>
-        <span class="hours-tag">${fmtHours(hoursFromAmount(total))}</span>
-      `;
+      document.getElementById('fixedTotalValues').innerHTML = fmtBrlHoursPair(total);
 
       if (!state.fixedExpenses.length) {
         container.innerHTML = '<div class="empty">Nenhum gasto fixo cadastrado.</div>';
@@ -2334,7 +2363,6 @@
         startAngle = endAngle;
       });
 
-      // Dentro da rosca: valor em reais em cima e horas embaixo
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
 
@@ -2475,7 +2503,7 @@
     // --- DÍVIDAS & EXTRATO ---
     function getDefaultEndDateISO(startDateStr) {
       const base = startDateStr ? parseLocalDate(startDateStr) : new Date();
-      const end = new Date(base.getFullYear(), base.getMonth() + 6, base.getDate());
+      const end = new Date(base.getFullYear(), base.getMonth() + 3, base.getDate());
       return `${end.getFullYear()}-${String(end.getMonth() + 1).padStart(2, '0')}-${String(end.getDate()).padStart(2, '0')}`;
     }
 
@@ -2487,6 +2515,7 @@
       return Math.max(1, diff);
     }
 
+    // Meta mensal fica fixa pelo valor total / prazo em meses (não é reduzida por pagamentos feitos)
     function calculateDebtMonthlyPlan(debtObj) {
       const initialVal = Math.max(0, Number(debtObj.initialAmount ?? debtObj.total) || 0);
       const addedLoans = Math.max(0, Number(debtObj.addedLoans) || 0);
@@ -2494,15 +2523,15 @@
       const paid = Math.max(0, Number(debtObj.paid) || 0);
       const remainingTotal = Math.max(0, currentTotal - paid);
 
-      if (remainingTotal <= 0) {
-        return { currentTotal, remainingTotal: 0, monthlyPlan: 0, remainingThisMonth: 0, monthStatus: 'ok' };
+      if (currentTotal <= 0) {
+        return { currentTotal: 0, remainingTotal: 0, monthlyPlan: 0, paidInCurrMonth: 0, remainingThisMonth: 0, monthStatus: 'ok' };
       }
 
-      const monthsLeft = debtObj.endDate
-        ? countMonthsBetween(getTodayISO(), debtObj.endDate)
-        : 1;
+      const termMonths = (debtObj.startDate && debtObj.endDate)
+        ? countMonthsBetween(debtObj.startDate, debtObj.endDate)
+        : (debtObj.endDate ? countMonthsBetween(getTodayISO(), debtObj.endDate) : 1);
 
-      const monthlyPlan = remainingTotal / monthsLeft;
+      const monthlyPlan = currentTotal / termMonths;
       const currMonth = getCurrentMonthKey();
       const paidInCurrMonth = Array.isArray(debtObj.events)
         ? debtObj.events
@@ -2513,12 +2542,11 @@
       const remainingThisMonth = monthlyPlan - paidInCurrMonth;
       const monthStatus = remainingThisMonth <= 0 ? 'ok' : 'due';
 
-      return { currentTotal, remainingTotal, monthlyPlan, remainingThisMonth, monthStatus };
+      return { currentTotal, remainingTotal, monthlyPlan, paidInCurrMonth, remainingThisMonth, monthStatus };
     }
 
     function syncDebtFormCalculators() {
       const initialVal = parseFloat(document.getElementById('debtTotal').value) || 0;
-      const paidVal = parseFloat(document.getElementById('debtPaid').value) || 0;
       const startDate = document.getElementById('debtStartDate').value || getTodayISO();
       const endDate = document.getElementById('debtEndDate').value || getDefaultEndDateISO(startDate);
       const payAdd = editingDebtId ? (parseFloat(document.getElementById('debtPayValue').value) || 0) : 0;
@@ -2527,11 +2555,9 @@
       const existing = editingDebtId ? state.debts.find((d) => d.id === editingDebtId) : null;
       const priorAddedLoans = existing ? (Number(existing.addedLoans) || 0) : 0;
       const totalWithLoans = Math.max(0, initialVal + priorAddedLoans + loanAdd);
-      const totalPaid = Math.max(0, paidVal + payAdd);
-      const remTotal = Math.max(0, totalWithLoans - totalPaid);
 
-      const monthsLeft = countMonthsBetween(getTodayISO(), endDate);
-      const monthlyPlan = remTotal > 0 ? remTotal / monthsLeft : 0;
+      const termMonths = countMonthsBetween(startDate, endDate);
+      const monthlyPlan = totalWithLoans > 0 ? totalWithLoans / termMonths : 0;
 
       const payDate = editingDebtId ? (document.getElementById('debtPayDate').value || getTodayISO()) : getTodayISO();
       const paidThisMonthInEdit = (editingDebtId && payAdd > 0 && getMonthKeyISO(payDate) === getCurrentMonthKey()) ? payAdd : 0;
@@ -2546,7 +2572,7 @@
       document.getElementById('debtMonthlyPlanAuto').value = `${fmtBRL(monthlyPlan)} (${fmtHours(hoursFromAmount(monthlyPlan))})`;
       const remMonthEl = document.getElementById('debtRemainingMonthAuto');
       remMonthEl.value = remMonth <= 0
-        ? `Quitado no mês (${fmtBRL(0)})`
+        ? `Meta do mês atingida (${fmtBRL(0)})`
         : `${fmtBRL(remMonth)} (${fmtHours(hoursFromAmount(remMonth))})`;
       remMonthEl.style.color = remMonth <= 0 ? 'var(--success)' : 'var(--danger)';
     }
@@ -2738,11 +2764,7 @@
         return sum + calc.remainingTotal;
       }, 0);
 
-      document.getElementById('debtsTotalValues').innerHTML = `
-        <span>${fmtBRL(totalRemainingAllDebts)}</span>
-        <span class="pipe-sep">|</span>
-        <span class="hours-tag">${fmtHours(hoursFromAmount(totalRemainingAllDebts))}</span>
-      `;
+      document.getElementById('debtsTotalValues').innerHTML = fmtBrlHoursPair(totalRemainingAllDebts);
 
       if (!sortedDebts.length) {
         debtsEl.innerHTML = '<div class="empty">Nenhuma dívida cadastrada.</div>';
@@ -2758,9 +2780,9 @@
           const stmtRows = isOpen ? buildDebtStatementRows(d) : [];
 
           const monthStatusClass = calc.monthStatus === 'ok' ? 'text-green' : 'text-red';
-          const monthStatusText = calc.remainingThisMonth <= 0
-            ? `Quitado neste mês (${fmtBRL(0)})`
-            : `${fmtBRL(calc.remainingThisMonth)} | ${fmtHours(hoursFromAmount(calc.remainingThisMonth))}`;
+          const monthStatusHtml = calc.remainingThisMonth <= 0
+            ? `<strong class="text-green">Meta do mês atingida (${fmtBRL(0)})</strong>`
+            : `<strong class="text-red">${fmtBrlHoursPair(calc.remainingThisMonth)}</strong>`;
 
           return `
             <div class="item-row" style="display:block;">
@@ -2775,17 +2797,13 @@
                     <div class="detail-line"><span>Total: <strong>${fmtBRL(totalAmt)}</strong></span></div>
                     <div class="detail-line"><span>Valor pago: <strong>${fmtBRL(paidAmt)}</strong></span></div>
                     <div class="detail-line">
-                      <span>Valor restante: <strong>${fmtBRL(remAmt)}</strong></span>
-                      <span class="pipe-sep">|</span>
-                      <span class="hours-tag">${fmtHours(hoursFromAmount(remAmt))}</span>
+                      <span>Valor restante: <strong>${fmtBrlHoursPair(remAmt)}</strong></span>
                     </div>
                     <div class="detail-line">
-                      <span>Meta mensal: <strong>${fmtBRL(calc.monthlyPlan)}</strong></span>
-                      <span class="pipe-sep">|</span>
-                      <span class="hours-tag">${fmtHours(hoursFromAmount(calc.monthlyPlan))}</span>
+                      <span>Meta mensal: <strong>${fmtBrlHoursPair(calc.monthlyPlan)}</strong></span>
                     </div>
                     <div class="detail-line">
-                      <span>Restante a pagar nesse mês: <strong class="${monthStatusClass}">${escapeHtml(monthStatusText)}</strong></span>
+                      <span>Restante a pagar nesse mês: ${monthStatusHtml}</span>
                     </div>
                   </div>
                 </div>
@@ -2861,11 +2879,7 @@
         .sort((a, b) => a.endCycle.localeCompare(b.endCycle));
 
       const totalRemainingInstallments = cardInstallments.reduce((sum, item) => sum + item.remainingAmount, 0);
-      document.getElementById('installmentsTotalValues').innerHTML = `
-        <span>${fmtBRL(totalRemainingInstallments)}</span>
-        <span class="pipe-sep">|</span>
-        <span class="hours-tag">${fmtHours(hoursFromAmount(totalRemainingInstallments))}</span>
-      `;
+      document.getElementById('installmentsTotalValues').innerHTML = fmtBrlHoursPair(totalRemainingInstallments);
 
       if (!cardInstallments.length) {
         instEl.innerHTML = '<div class="empty">Nenhuma compra parcelada no cartão registrada.</div>';
@@ -2903,17 +2917,25 @@
     }
 
     // --- POUPANÇA & EXTRATO ---
-    function calculateGoalMonthlyTarget(totalAmount, savedAmount, deadlineStr) {
-      const total = Math.max(0, Number(totalAmount) || 0);
-      const saved = Math.max(0, Number(savedAmount) || 0);
-      const remaining = Math.max(0, total - saved);
-      if (remaining <= 0) return 0;
+    function getDefaultGoalDeadline() {
+      const d = new Date();
+      d.setMonth(d.getMonth() + 3);
+      const yyyy = d.getFullYear();
+      const mm = String(d.getMonth() + 1).padStart(2, '0');
+      const dd = String(d.getDate()).padStart(2, '0');
+      return `${yyyy}-${mm}-${dd}`;
+    }
 
-      const now = new Date();
-      const deadline = deadlineStr ? parseLocalDate(deadlineStr) : new Date(now.getFullYear(), now.getMonth() + 1, now.getDate());
-      const monthsDiff = (deadline.getFullYear() - now.getFullYear()) * 12 + (deadline.getMonth() - now.getMonth()) + (deadline.getDate() > now.getDate() ? 1 : 0);
+    // Meta mensal fica fixa pelo valor total / prazo em meses (não é reduzida por aportes)
+    function calculateGoalMonthlyTarget(totalAmount, deadlineStr, startDateStr = '') {
+      const total = Math.max(0, Number(totalAmount) || 0);
+      if (total <= 0) return 0;
+
+      const start = startDateStr ? parseLocalDate(startDateStr) : new Date();
+      const deadline = deadlineStr ? parseLocalDate(deadlineStr) : new Date(start.getFullYear(), start.getMonth() + 1, start.getDate());
+      const monthsDiff = (deadline.getFullYear() - start.getFullYear()) * 12 + (deadline.getMonth() - start.getMonth()) + (deadline.getDate() > start.getDate() ? 1 : 0);
       const monthsLeft = Math.max(1, monthsDiff);
-      return remaining / monthsLeft;
+      return total / monthsLeft;
     }
 
     function getGoalSavedThisMonth(goal, extraDepositAmount = 0, extraDepositDate = '') {
@@ -2933,11 +2955,11 @@
       const total = parseFloat(document.getElementById('goalTotal').value) || 0;
       const addVal = parseFloat(document.getElementById('goalAddAmount').value) || 0;
       const addDate = document.getElementById('goalAddDate').value || getTodayISO();
-      const savedBase = parseFloat(document.getElementById('goalSaved').value) || 0;
       const deadline = document.getElementById('goalDeadline').value;
 
-      const monthly = calculateGoalMonthlyTarget(total, savedBase + addVal, deadline);
       const existing = editingGoalId ? state.goals.find((g) => g.id === editingGoalId) : null;
+      const startRef = existing && existing.startDate ? existing.startDate : getTodayISO();
+      const monthly = calculateGoalMonthlyTarget(total, deadline, startRef);
       const savedMonth = getGoalSavedThisMonth(existing, addVal, addDate);
       const remMonthTarget = monthly - savedMonth;
 
@@ -2946,7 +2968,7 @@
         autoEl.value = `${fmtBRL(0)} (${fmtHours(0)})`;
         autoEl.style.color = 'var(--text)';
       } else if (remMonthTarget <= 0) {
-        autoEl.value = `Meta do mês batida (${fmtBRL(monthly)})`;
+        autoEl.value = `${fmtBRL(monthly)} • Meta do mês batida`;
         autoEl.style.color = 'var(--success)';
       } else {
         autoEl.value = `${fmtBRL(monthly)} • Falta no mês: ${fmtBRL(remMonthTarget)}`;
@@ -2958,15 +2980,6 @@
       document.getElementById(id).addEventListener('input', syncGoalMonthlyPreview);
       document.getElementById(id).addEventListener('change', syncGoalMonthlyPreview);
     });
-
-    function getDefaultGoalDeadline() {
-      const d = new Date();
-      d.setMonth(d.getMonth() + 6);
-      const yyyy = d.getFullYear();
-      const mm = String(d.getMonth() + 1).padStart(2, '0');
-      const dd = String(d.getDate()).padStart(2, '0');
-      return `${yyyy}-${mm}-${dd}`;
-    }
 
     document.getElementById('goalDeadline').value = getDefaultGoalDeadline();
     document.getElementById('goalAddDate').value = getTodayISO();
@@ -3015,15 +3028,16 @@
       const addAmount = parseFloat(document.getElementById('goalAddAmount').value) || 0;
       const baseSaved = parseFloat(document.getElementById('goalSaved').value) || 0;
       const newSaved = Math.max(0, baseSaved + addAmount);
-      const monthly = calculateGoalMonthlyTarget(total, newSaved, deadline);
 
       if (!desc) return;
 
       if (editingGoalId) {
         const existing = state.goals.find((g) => g.id === editingGoalId);
+        const startRef = (existing && existing.startDate) || addDate;
+        const monthly = calculateGoalMonthlyTarget(total, deadline, startRef);
         let events = existing && Array.isArray(existing.events) && existing.events.length
           ? existing.events.slice()
-          : [{ date: (existing && existing.startDate) || addDate, kind: 'init', label: 'Saldo anterior', amount: baseSaved }];
+          : [{ date: startRef, kind: 'init', label: 'Saldo anterior', amount: baseSaved }];
 
         if (addAmount > 0) {
           events.push({ date: addDate, kind: 'deposit', label: 'Valor adicionado', amount: addAmount });
@@ -3039,6 +3053,7 @@
           events
         } : g);
       } else {
+        const monthly = calculateGoalMonthlyTarget(total, deadline, addDate);
         const events = [
           { date: addDate, kind: 'init', label: 'Início da meta', amount: newSaved }
         ];
@@ -3098,7 +3113,7 @@
       el.innerHTML = sortedGoals.map((g) => {
         const total = Math.max(0, Number(g.total) || 0);
         const saved = Math.max(0, Number(g.totalSaved) || 0);
-        const monthly = calculateGoalMonthlyTarget(total, saved, g.deadline);
+        const monthly = calculateGoalMonthlyTarget(total, g.deadline, g.startDate);
         const savedThisMonth = getGoalSavedThisMonth(g);
         const monthDiff = monthly - savedThisMonth;
         const pct = total > 0 ? Math.min(100, (saved / total) * 100) : 0;
@@ -3119,22 +3134,16 @@
                 </div>
                 <div class="detail-lines">
                   <div class="detail-line">
-                    <span>Total: <strong>${fmtBRL(total)}</strong></span>
-                    <span class="pipe-sep">|</span>
-                    <span class="hours-tag">${fmtHours(hoursFromAmount(total))}</span>
+                    <span>Total: <strong>${fmtBrlHoursPair(total)}</strong></span>
                   </div>
                   <div class="detail-line">
                     <span>Prazo: <strong>${escapeHtml(fmtDateBR(g.deadline))}</strong></span>
                   </div>
                   <div class="detail-line">
-                    <span>Meta mensal: <strong>${fmtBRL(monthly)}</strong></span>
-                    <span class="pipe-sep">|</span>
-                    <span class="hours-tag">${fmtHours(hoursFromAmount(monthly))}</span>
+                    <span>Meta mensal: <strong>${fmtBrlHoursPair(monthly)}</strong></span>
                   </div>
                   <div class="detail-line">
-                    <span>Total poupado esse mês: <strong class="${monthStatusColorClass}">${fmtBRL(savedThisMonth)}</strong></span>
-                    <span class="pipe-sep">|</span>
-                    <span class="hours-tag">${fmtHours(hoursFromAmount(savedThisMonth))}</span>
+                    <span>Total poupado esse mês: <strong class="${monthStatusColorClass}">${fmtBrlHoursPair(savedThisMonth)}</strong></span>
                     ${monthly > 0 ? `<span class="${monthStatusColorClass}">(${monthDiff <= 0 ? `meta batida • +${fmtBRL(Math.abs(monthDiff))}` : `falta ${fmtBRL(monthDiff)}`})</span>` : ''}
                   </div>
                 </div>
@@ -3187,7 +3196,7 @@
     function resetWishForm() {
       editingWishId = null;
       document.getElementById('wishFormTitle').textContent = 'Simular Compra e Lista de Desejos';
-      document.getElementById('addWishBtn').textContent = '+ Adicionar à Lista "Quero Comprar"';
+      document.getElementById('addWishBtn').textContent = '+ Adicionar à Lista do que Quero Comprar';
       document.getElementById('cancelEditWishBtn').classList.add('hidden');
       document.getElementById('wishName').value = '';
       document.getElementById('wishDate').value = getTodayISO();
@@ -3235,7 +3244,7 @@
       if (!w) return;
       editingWishId = id;
       setActiveTab('comprar');
-      document.getElementById('wishFormTitle').textContent = 'Editando Item de "Quero Comprar"';
+      document.getElementById('wishFormTitle').textContent = 'Editando Item da Lista do que Quero Comprar';
       document.getElementById('addWishBtn').textContent = 'Salvar Alterações';
       document.getElementById('cancelEditWishBtn').classList.remove('hidden');
       document.getElementById('wishName').value = w.name;
@@ -3255,7 +3264,7 @@
       document.getElementById('wishTotalHours').textContent = `${fmtHours(hoursFromAmount(totalPrice))}`;
 
       if (!state.wishlist.length) {
-        el.innerHTML = '<div class="empty">Sua lista "Quero Comprar" está vazia.</div>';
+        el.innerHTML = '<div class="empty">Sua lista do que quero comprar está vazia.</div>';
         return;
       }
 
@@ -3263,14 +3272,14 @@
         .slice()
         .sort((a, b) => compareDateAsc(a.targetDate || '9999-12-31', b.targetDate || '9999-12-31'));
 
-      const urgMap = {
-        alta: ['Urgência Alta', 'urg-alta'],
-        media: ['Urgência Média', 'urg-media'],
-        baixa: ['Urgência Baixa', 'urg-baixa']
+      const urgLabels = {
+        alta: 'Urgência Alta',
+        media: 'Urgência Média',
+        baixa: 'Urgência Baixa'
       };
 
       el.innerHTML = sortedWish.map((w) => {
-        const info = urgMap[w.urgency] || urgMap.baixa;
+        const urgText = urgLabels[w.urgency] || 'Urgência Baixa';
         const typeLabel = w.type || (state.wishTypes[0] || 'Sobrevivência');
         const typeColor = getWishTypeColor(typeLabel, state.wishTypes.indexOf(typeLabel));
         const typeInk = getContrastInk(typeColor);
@@ -3290,7 +3299,7 @@
                 </div>
                 <div class="detail-line">
                   <span>Urgência:</span>
-                  <span class="urg-badge ${info[1]}">${info[0]}</span>
+                  <span class="urg-badge">${urgText}</span>
                 </div>
               </div>
             </div>
