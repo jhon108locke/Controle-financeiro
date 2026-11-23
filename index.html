@@ -382,31 +382,22 @@
       color: var(--text);
       border: 1px solid var(--border);
       border-radius: 6px;
-      padding: 4px 8px;
-      font-size: 0.75rem;
+      padding: 5px 9px;
+      font-size: 0.76rem;
       font-weight: 700;
       cursor: pointer;
       line-height: 1.2;
     }
 
-    button.icon-mini-btn.save {
-      background: rgba(5, 150, 105, 0.14);
-      color: var(--success);
-      border-color: rgba(5, 150, 105, 0.4);
+    button.icon-mini-btn:hover {
+      background: var(--accent);
+      border-color: #8ec5fc;
     }
 
     button.icon-mini-btn.danger {
       color: var(--danger);
       border-color: rgba(220, 38, 38, 0.3);
       background: rgba(220, 38, 38, 0.06);
-    }
-
-    .inline-edit-input {
-      width: auto;
-      padding: 4px 6px;
-      margin-bottom: 0;
-      font-size: 0.78rem;
-      border-radius: 6px;
     }
 
     .row-actions {
@@ -1699,6 +1690,36 @@
     </div>
   </div>
 
+  <!-- Center Peek Modal para Editar Lançamento do Extrato (Dívidas e Poupança) -->
+  <div class="center-peek-backdrop hidden" id="statementEditPeek" role="dialog" aria-modal="true" aria-labelledby="stmtEditPeekTitle">
+    <div class="center-peek-modal" style="max-width:440px;" onclick="event.stopPropagation()">
+      <div class="center-peek-header">
+        <div class="center-peek-title" id="stmtEditPeekTitle">Editar Lançamento do Extrato</div>
+        <button type="button" class="center-peek-close" id="closeStmtEditPeekBtn">Fechar</button>
+      </div>
+      <div class="center-peek-body">
+        <label for="stmtEditDescInput">Descrição</label>
+        <input type="text" id="stmtEditDescInput" placeholder="Descrição da movimentação" />
+
+        <div class="grid-2">
+          <div>
+            <label for="stmtEditDateInput">Data</label>
+            <input type="date" id="stmtEditDateInput" />
+          </div>
+          <div>
+            <label for="stmtEditAmountInput">Valor (R$)</label>
+            <input type="number" id="stmtEditAmountInput" inputmode="decimal" step="0.01" placeholder="0,00" />
+          </div>
+        </div>
+
+        <div style="display:flex; gap:8px; margin-top:4px;">
+          <button type="button" class="primary" style="flex:1;" id="saveStmtEditBtn">Salvar Alteração</button>
+          <button type="button" class="ghost-btn" id="cancelStmtEditBtn">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Center Peek Modal para Meses da Meta de Poupança -->
   <div class="center-peek-backdrop hidden" id="goalCenterPeek" role="dialog" aria-modal="true" aria-labelledby="goalPeekTitle">
     <div class="center-peek-modal" onclick="event.stopPropagation()">
@@ -1831,8 +1852,8 @@
     let editingGoalId = null;
     let editingWishId = null;
 
-    let inlineEditingDebtEvent = null; // { debtId, eventId }
-    let inlineEditingGoalEvent = null; // { goalId, eventId }
+    // Contexto ativo do modal de edição de lançamento do extrato
+    let activeStmtEditTarget = null; // { kind: 'debt' | 'goal', parentId, eventIndex }
 
     const expandedDebtStatements = {};
     const expandedGoalStatements = {};
@@ -1903,6 +1924,113 @@
 
     document.getElementById('closeFormPeekBtn').addEventListener('click', closeFormCenterPeek);
     document.getElementById('formCenterPeek').addEventListener('click', closeFormCenterPeek);
+
+    // Center Peek de Edição de Lançamento do Extrato (Dívidas e Poupança)
+    function openStatementEditPeek(kind, parentId, eventIndex) {
+      let ev = null;
+      if (kind === 'debt') {
+        const d = state.debts.find((item) => item.id === parentId);
+        if (!d) return;
+        const events = ensureDebtEvents(d);
+        d.events = events;
+        ev = events[eventIndex];
+      } else if (kind === 'goal') {
+        const g = state.goals.find((item) => item.id === parentId);
+        if (!g) return;
+        const events = ensureGoalEvents(g);
+        g.events = events;
+        ev = events[eventIndex];
+      }
+      if (!ev) return;
+
+      activeStmtEditTarget = { kind, parentId, eventIndex };
+      document.getElementById('stmtEditPeekTitle').textContent =
+        kind === 'debt' ? 'Editar Lançamento da Dívida' : 'Editar Lançamento da Poupança';
+      document.getElementById('stmtEditDescInput').value = ev.label || '';
+      document.getElementById('stmtEditDateInput').value = toInputDateISO(ev.date);
+      document.getElementById('stmtEditAmountInput').value = Number(ev.amount) || 0;
+      document.getElementById('statementEditPeek').classList.remove('hidden');
+    }
+
+    function closeStatementEditPeek() {
+      activeStmtEditTarget = null;
+      document.getElementById('statementEditPeek').classList.add('hidden');
+    }
+
+    document.getElementById('closeStmtEditPeekBtn').addEventListener('click', closeStatementEditPeek);
+    document.getElementById('cancelStmtEditBtn').addEventListener('click', closeStatementEditPeek);
+    document.getElementById('statementEditPeek').addEventListener('click', closeStatementEditPeek);
+
+    document.getElementById('saveStmtEditBtn').addEventListener('click', () => {
+      if (!activeStmtEditTarget) return;
+      const { kind, parentId, eventIndex } = activeStmtEditTarget;
+      const newLabel = document.getElementById('stmtEditDescInput').value.trim();
+      const newDate = document.getElementById('stmtEditDateInput').value || getTodayISO();
+      const newAmt = Math.max(0, parseFloat(String(document.getElementById('stmtEditAmountInput').value).replace(',', '.')) || 0);
+
+      if (kind === 'debt') {
+        const d = state.debts.find((item) => item.id === parentId);
+        if (!d) return;
+        const events = ensureDebtEvents(d);
+        if (!events[eventIndex]) return;
+        events[eventIndex] = {
+          ...events[eventIndex],
+          label: newLabel || events[eventIndex].label,
+          date: newDate,
+          amount: newAmt
+        };
+        const recalculated = recalculateDebtFromEvents(d, events);
+        state.debts = state.debts.map((item) => item.id === parentId ? { ...item, ...recalculated } : item);
+      } else if (kind === 'goal') {
+        const g = state.goals.find((item) => item.id === parentId);
+        if (!g) return;
+        const events = ensureGoalEvents(g);
+        if (!events[eventIndex]) return;
+        events[eventIndex] = {
+          ...events[eventIndex],
+          label: newLabel || events[eventIndex].label,
+          date: newDate,
+          amount: newAmt
+        };
+        const recalculated = recalculateGoalFromEvents(g, events);
+        state.goals = state.goals.map((item) => item.id === parentId ? { ...item, ...recalculated } : item);
+      }
+
+      closeStatementEditPeek();
+      saveState();
+    });
+
+    // Delegação global para botões do extrato de Dívidas e Poupança
+    document.addEventListener('click', (event) => {
+      const btn = event.target.closest('[data-stmt-action]');
+      if (!btn) return;
+      event.stopPropagation();
+      const action = btn.dataset.stmtAction;
+      const kind = btn.dataset.stmtKind;
+      const parentId = btn.dataset.parentId;
+      const eventIndex = Number(btn.dataset.eventIndex);
+
+      if (action === 'edit') {
+        openStatementEditPeek(kind, parentId, eventIndex);
+      } else if (action === 'delete') {
+        if (!confirm('Tem certeza que deseja remover este lançamento do extrato?')) return;
+        if (kind === 'debt') {
+          const d = state.debts.find((item) => item.id === parentId);
+          if (!d) return;
+          const events = ensureDebtEvents(d).filter((_, idx) => idx !== eventIndex);
+          const recalculated = recalculateDebtFromEvents(d, events);
+          state.debts = state.debts.map((item) => item.id === parentId ? { ...item, ...recalculated } : item);
+          saveState();
+        } else if (kind === 'goal') {
+          const g = state.goals.find((item) => item.id === parentId);
+          if (!g) return;
+          const events = ensureGoalEvents(g).filter((_, idx) => idx !== eventIndex);
+          const recalculated = recalculateGoalFromEvents(g, events);
+          state.goals = state.goals.map((item) => item.id === parentId ? { ...item, ...recalculated } : item);
+          saveState();
+        }
+      }
+    });
 
     function getCategoryColor(cat, idx = 0) {
       return normalizeHex(state.categoryColors[cat] || FIXED_COLORS[idx % FIXED_COLORS.length], '#2563EB');
@@ -2992,35 +3120,45 @@
       return Math.max(1, diff);
     }
 
+    // Conta meses de hoje até o mês do prazo final (ex: Nov -> Fev = Nov, Dez, Jan, Fev = 4 meses)
+    function countMonthsUntilDeadline(deadlineStr) {
+      const now = new Date();
+      const deadline = deadlineStr ? parseLocalDate(deadlineStr) : now;
+      const diff = (deadline.getFullYear() - now.getFullYear()) * 12 + (deadline.getMonth() - now.getMonth()) + 1;
+      return Math.max(1, diff);
+    }
+
     function ensureDebtEvents(debt) {
       const startDate = debt.startDate || getTodayISO();
       const initialAmt = Number(debt.initialAmount ?? debt.total) || 0;
+      let list = [];
       if (Array.isArray(debt.events) && debt.events.length) {
-        return debt.events.map((ev, idx) => ({
+        list = debt.events.map((ev, idx) => ({
           id: ev.id || `dev_${idx}_${Math.random().toString(36).slice(2, 6)}`,
           date: ev.date || startDate,
           kind: ev.kind || 'payment',
           label: ev.label || 'Movimentação',
           amount: Number(ev.amount) || 0
         }));
-      }
-      const list = [{
-        id: `dev_init_${Math.random().toString(36).slice(2, 6)}`,
-        date: startDate,
-        kind: 'initial_total',
-        label: 'Valor inicial da dívida',
-        amount: initialAmt
-      }];
-      if ((Number(debt.paid) || 0) > 0) {
-        list.push({
-          id: `dev_paid_${Math.random().toString(36).slice(2, 6)}`,
+      } else {
+        list = [{
+          id: `dev_init_${Math.random().toString(36).slice(2, 6)}`,
           date: startDate,
-          kind: 'payment',
-          label: 'Pago inicialmente',
-          amount: Number(debt.paid) || 0
-        });
+          kind: 'initial_total',
+          label: 'Valor inicial da dívida',
+          amount: initialAmt
+        }];
+        if ((Number(debt.paid) || 0) > 0) {
+          list.push({
+            id: `dev_paid_${Math.random().toString(36).slice(2, 6)}`,
+            date: startDate,
+            kind: 'payment',
+            label: 'Pago inicialmente',
+            amount: Number(debt.paid) || 0
+          });
+        }
       }
-      return list;
+      return list.sort((a, b) => compareDateAsc(a.date, b.date));
     }
 
     function recalculateDebtFromEvents(debt, events) {
@@ -3133,11 +3271,12 @@
     });
 
     function buildDebtStatementRows(debt) {
-      const events = ensureDebtEvents(debt).sort((a, b) => compareDateAsc(a.date, b.date));
+      const events = ensureDebtEvents(debt);
+      debt.events = events;
       let runningTotal = 0;
       let runningPaid = 0;
 
-      return events.map((ev) => {
+      return events.map((ev, index) => {
         const amt = Number(ev.amount) || 0;
         if (ev.kind === 'initial_total' || ev.kind === 'loan') {
           runningTotal += amt;
@@ -3147,7 +3286,7 @@
         const balance = Math.max(0, runningTotal - runningPaid);
         const signPrefix = ev.kind === 'payment' ? '- ' : '+ ';
         return {
-          id: ev.id,
+          index,
           date: ev.date,
           amount: amt,
           desc: `${ev.label} (${signPrefix}${fmtBRL(amt)})`,
@@ -3155,49 +3294,6 @@
         };
       });
     }
-
-    window.startInlineEditDebtEvent = function(debtId, eventId) {
-      inlineEditingDebtEvent = { debtId, eventId };
-      renderDebtsAndInstallments();
-    };
-
-    window.cancelInlineEditDebtEvent = function() {
-      inlineEditingDebtEvent = null;
-      renderDebtsAndInstallments();
-    };
-
-    window.saveInlineEditDebtEvent = function(debtId, eventId) {
-      const dateInput = document.getElementById(`debtEvDate_${eventId}`);
-      const amtInput = document.getElementById(`debtEvAmt_${eventId}`);
-      if (!dateInput || !amtInput) return;
-
-      const newVal = Math.max(0, parseFloat(String(amtInput.value).replace(',', '.')) || 0);
-      const newDate = dateInput.value || getTodayISO();
-
-      const d = state.debts.find((item) => item.id === debtId);
-      if (!d) return;
-      const events = ensureDebtEvents(d).map((item) => item.id === eventId
-        ? { ...item, amount: newVal, date: newDate }
-        : item
-      );
-      const recalculated = recalculateDebtFromEvents(d, events);
-      inlineEditingDebtEvent = null;
-      state.debts = state.debts.map((item) => item.id === debtId ? { ...item, ...recalculated } : item);
-      saveState();
-    };
-
-    window.deleteDebtEvent = function(debtId, eventId) {
-      if (!confirm('Tem certeza que deseja remover este lançamento do extrato?')) return;
-      const d = state.debts.find((item) => item.id === debtId);
-      if (!d) return;
-      const events = ensureDebtEvents(d).filter((item) => item.id !== eventId);
-      const recalculated = recalculateDebtFromEvents(d, events);
-      if (inlineEditingDebtEvent && inlineEditingDebtEvent.eventId === eventId) {
-        inlineEditingDebtEvent = null;
-      }
-      state.debts = state.debts.map((item) => item.id === debtId ? { ...item, ...recalculated } : item);
-      saveState();
-    };
 
     document.getElementById('addDebtBtn').addEventListener('click', () => {
       const desc = document.getElementById('debtDesc').value.trim();
@@ -3387,37 +3483,19 @@
                       </tr>
                     </thead>
                     <tbody>
-                      ${stmtRows.map((r) => {
-                        const isRowEditing = inlineEditingDebtEvent && inlineEditingDebtEvent.debtId === d.id && inlineEditingDebtEvent.eventId === r.id;
-                        if (isRowEditing) {
-                          return `
-                            <tr>
-                              <td><input type="date" id="debtEvDate_${r.id}" class="inline-edit-input" value="${escapeHtml(toInputDateISO(r.date))}" /></td>
-                              <td><input type="number" id="debtEvAmt_${r.id}" class="inline-edit-input" step="0.01" inputmode="decimal" value="${r.amount}" /></td>
-                              <td class="num"><strong>${fmtBRL(r.balance)}</strong></td>
-                              <td class="num">
-                                <div style="display:inline-flex; gap:4px;">
-                                  <button type="button" class="icon-mini-btn save" onclick="saveInlineEditDebtEvent('${d.id}', '${r.id}')">Salvar</button>
-                                  <button type="button" class="icon-mini-btn" onclick="cancelInlineEditDebtEvent()">✕</button>
-                                </div>
-                              </td>
-                            </tr>
-                          `;
-                        }
-                        return `
-                          <tr>
-                            <td>${escapeHtml(fmtDateBR(r.date))}</td>
-                            <td>${escapeHtml(r.desc)}</td>
-                            <td class="num"><strong>${fmtBRL(r.balance)}</strong></td>
-                            <td class="num">
-                              <div style="display:inline-flex; gap:4px;">
-                                <button type="button" class="icon-mini-btn" title="Editar lançamento" aria-label="Editar lançamento" onclick="startInlineEditDebtEvent('${d.id}', '${r.id}')">✎</button>
-                                <button type="button" class="icon-mini-btn danger" title="Remover lançamento" aria-label="Remover lançamento" onclick="deleteDebtEvent('${d.id}', '${r.id}')">🗑</button>
-                              </div>
-                            </td>
-                          </tr>
-                        `;
-                      }).join('')}
+                      ${stmtRows.map((r) => `
+                        <tr>
+                          <td>${escapeHtml(fmtDateBR(r.date))}</td>
+                          <td>${escapeHtml(r.desc)}</td>
+                          <td class="num"><strong>${fmtBRL(r.balance)}</strong></td>
+                          <td class="num">
+                            <div style="display:inline-flex; gap:4px;">
+                              <button type="button" class="icon-mini-btn" data-stmt-action="edit" data-stmt-kind="debt" data-parent-id="${escapeHtml(d.id)}" data-event-index="${r.index}" title="Editar lançamento">Editar</button>
+                              <button type="button" class="icon-mini-btn danger" data-stmt-action="delete" data-stmt-kind="debt" data-parent-id="${escapeHtml(d.id)}" data-event-index="${r.index}" title="Remover lançamento">🗑</button>
+                            </div>
+                          </td>
+                        </tr>
+                      `).join('')}
                     </tbody>
                   </table>
                 </div>
@@ -3506,17 +3584,14 @@
       return `${yyyy}-${mm}-${dd}`;
     }
 
-    // Fórmula: (Total - Acumulado) / número de meses até o prazo
-    function calculateGoalMonthlyTarget(totalAmount, savedAmount, deadlineStr, startDateStr = '') {
+    // Fórmula exata: (Total - Acumulado) / número de meses de agora até o prazo final
+    function calculateGoalMonthlyTarget(totalAmount, savedAmount, deadlineStr) {
       const total = Math.max(0, Number(totalAmount) || 0);
       const saved = Math.max(0, Number(savedAmount) || 0);
       const remainingToSave = Math.max(0, total - saved);
       if (remainingToSave <= 0) return 0;
 
-      const start = startDateStr ? parseLocalDate(startDateStr) : new Date();
-      const deadline = deadlineStr ? parseLocalDate(deadlineStr) : new Date(start.getFullYear(), start.getMonth() + 1, start.getDate());
-      const monthsDiff = (deadline.getFullYear() - start.getFullYear()) * 12 + (deadline.getMonth() - start.getMonth()) + (deadline.getDate() > start.getDate() ? 1 : 0);
-      const monthsLeft = Math.max(1, monthsDiff);
+      const monthsLeft = countMonthsUntilDeadline(deadlineStr);
       return remainingToSave / monthsLeft;
     }
 
@@ -3541,9 +3616,7 @@
       const deadline = document.getElementById('goalDeadline').value;
 
       const existing = editingGoalId ? state.goals.find((g) => g.id === editingGoalId) : null;
-      const startRef = existing && existing.startDate ? existing.startDate : getTodayISO();
-      const accumulatedForPlan = existing ? savedInput : savedInput;
-      const monthly = calculateGoalMonthlyTarget(total, accumulatedForPlan, deadline, startRef);
+      const monthly = calculateGoalMonthlyTarget(total, savedInput + addVal, deadline);
       const savedMonth = getGoalSavedThisMonth(existing, addVal, addDate);
       const remMonthTarget = monthly - savedMonth;
 
@@ -3587,8 +3660,9 @@
     });
 
     function ensureGoalEvents(goal) {
+      let list = [];
       if (Array.isArray(goal.events) && goal.events.length) {
-        return goal.events.map((ev, idx) => ({
+        list = goal.events.map((ev, idx) => ({
           id: ev.id || `gev_${idx}_${Math.random().toString(36).slice(2, 6)}`,
           date: ev.date || goal.startDate || getTodayISO(),
           kind: ev.kind || 'deposit',
@@ -3596,16 +3670,18 @@
           amount: Number(ev.amount) || 0,
           monthKey: ev.monthKey || ''
         }));
+      } else {
+        const startDate = goal.startDate || getTodayISO();
+        list = [{
+          id: `gev_init_${Math.random().toString(36).slice(2, 6)}`,
+          date: startDate,
+          kind: 'init',
+          label: 'Saldo acumulado',
+          amount: Number(goal.totalSaved) || 0,
+          monthKey: ''
+        }];
       }
-      const startDate = goal.startDate || getTodayISO();
-      return [{
-        id: `gev_init_${Math.random().toString(36).slice(2, 6)}`,
-        date: startDate,
-        kind: 'init',
-        label: 'Saldo acumulado',
-        amount: Number(goal.totalSaved) || 0,
-        monthKey: ''
-      }];
+      return list.sort((a, b) => compareDateAsc(a.date, b.date));
     }
 
     function recalculateGoalFromEvents(goal, events) {
@@ -3617,13 +3693,14 @@
     }
 
     function buildGoalStatementRows(goal) {
-      const events = ensureGoalEvents(goal).sort((a, b) => compareDateAsc(a.date, b.date));
+      const events = ensureGoalEvents(goal);
+      goal.events = events;
       let runningBalance = 0;
-      return events.map((ev) => {
+      return events.map((ev, index) => {
         const amt = Number(ev.amount) || 0;
         runningBalance = Math.max(0, runningBalance + amt);
         return {
-          id: ev.id,
+          index,
           date: ev.date,
           amount: amt,
           desc: ev.kind === 'init' ? `Saldo inicial (${fmtBRL(amt)})` : `${ev.label} (+ ${fmtBRL(amt)})`,
@@ -3631,49 +3708,6 @@
         };
       });
     }
-
-    window.startInlineEditGoalEvent = function(goalId, eventId) {
-      inlineEditingGoalEvent = { goalId, eventId };
-      renderGoals();
-    };
-
-    window.cancelInlineEditGoalEvent = function() {
-      inlineEditingGoalEvent = null;
-      renderGoals();
-    };
-
-    window.saveInlineEditGoalEvent = function(goalId, eventId) {
-      const dateInput = document.getElementById(`goalEvDate_${eventId}`);
-      const amtInput = document.getElementById(`goalEvAmt_${eventId}`);
-      if (!dateInput || !amtInput) return;
-
-      const newVal = Math.max(0, parseFloat(String(amtInput.value).replace(',', '.')) || 0);
-      const newDate = dateInput.value || getTodayISO();
-
-      const g = state.goals.find((item) => item.id === goalId);
-      if (!g) return;
-      const events = ensureGoalEvents(g).map((item) => item.id === eventId
-        ? { ...item, amount: newVal, date: newDate }
-        : item
-      );
-      const recalculated = recalculateGoalFromEvents(g, events);
-      inlineEditingGoalEvent = null;
-      state.goals = state.goals.map((item) => item.id === goalId ? { ...item, ...recalculated } : item);
-      saveState();
-    };
-
-    window.deleteGoalEvent = function(goalId, eventId) {
-      if (!confirm('Tem certeza que deseja remover este lançamento do extrato?')) return;
-      const g = state.goals.find((item) => item.id === goalId);
-      if (!g) return;
-      const events = ensureGoalEvents(g).filter((item) => item.id !== eventId);
-      const recalculated = recalculateGoalFromEvents(g, events);
-      if (inlineEditingGoalEvent && inlineEditingGoalEvent.eventId === eventId) {
-        inlineEditingGoalEvent = null;
-      }
-      state.goals = state.goals.map((item) => item.id === goalId ? { ...item, ...recalculated } : item);
-      saveState();
-    };
 
     document.getElementById('addGoalBtn').addEventListener('click', () => {
       const desc = document.getElementById('goalDesc').value.trim();
@@ -3689,7 +3723,7 @@
       if (editingGoalId) {
         const existing = state.goals.find((g) => g.id === editingGoalId);
         const startRef = (existing && existing.startDate) || addDate;
-        const monthly = calculateGoalMonthlyTarget(total, baseSaved, deadline, startRef);
+        const monthly = calculateGoalMonthlyTarget(total, newSaved, deadline);
         let events = existing ? ensureGoalEvents(existing) : [{ id: `gev_init_${Date.now().toString(36)}`, date: startRef, kind: 'init', label: 'Saldo acumulado', amount: baseSaved }];
 
         if (addAmount > 0) {
@@ -3707,7 +3741,7 @@
           events
         } : g);
       } else {
-        const monthly = calculateGoalMonthlyTarget(total, baseSaved, deadline, addDate);
+        const monthly = calculateGoalMonthlyTarget(total, newSaved, deadline);
         const events = [
           { id: `gev_init_${Date.now().toString(36)}`, date: addDate, kind: 'init', label: 'Saldo acumulado', amount: baseSaved, monthKey: '' }
         ];
@@ -3805,7 +3839,7 @@
 
       const total = Math.max(0, Number(g.total) || 0);
       const saved = Math.max(0, Number(g.totalSaved) || 0);
-      const monthly = calculateGoalMonthlyTarget(total, saved, g.deadline, g.startDate);
+      const monthly = calculateGoalMonthlyTarget(total, saved, g.deadline);
       const months = getGoalScheduleMonths(g);
       const events = ensureGoalEvents(g);
       const checks = g.monthChecks || {};
@@ -3902,7 +3936,7 @@
       el.innerHTML = sortedGoals.map((g) => {
         const total = Math.max(0, Number(g.total) || 0);
         const saved = Math.max(0, Number(g.totalSaved) || 0);
-        const monthly = calculateGoalMonthlyTarget(total, saved, g.deadline, g.startDate);
+        const monthly = calculateGoalMonthlyTarget(total, saved, g.deadline);
         const savedThisMonth = getGoalSavedThisMonth(g);
         const monthDiff = monthly - savedThisMonth;
         const pct = total > 0 ? Math.min(100, (saved / total) * 100) : 0;
@@ -3965,37 +3999,19 @@
                     </tr>
                   </thead>
                   <tbody>
-                    ${stmtRows.map((r) => {
-                      const isRowEditing = inlineEditingGoalEvent && inlineEditingGoalEvent.goalId === g.id && inlineEditingGoalEvent.eventId === r.id;
-                      if (isRowEditing) {
-                        return `
-                          <tr>
-                            <td><input type="date" id="goalEvDate_${r.id}" class="inline-edit-input" value="${escapeHtml(toInputDateISO(r.date))}" /></td>
-                            <td><input type="number" id="goalEvAmt_${r.id}" class="inline-edit-input" step="0.01" inputmode="decimal" value="${r.amount}" /></td>
-                            <td class="num"><strong>${fmtBRL(r.balance)}</strong></td>
-                            <td class="num">
-                              <div style="display:inline-flex; gap:4px;">
-                                <button type="button" class="icon-mini-btn save" onclick="saveInlineEditGoalEvent('${g.id}', '${r.id}')">Salvar</button>
-                                <button type="button" class="icon-mini-btn" onclick="cancelInlineEditGoalEvent()">✕</button>
-                              </div>
-                            </td>
-                          </tr>
-                        `;
-                      }
-                      return `
-                        <tr>
-                          <td>${escapeHtml(fmtDateBR(r.date))}</td>
-                          <td>${escapeHtml(r.desc)}</td>
-                          <td class="num"><strong>${fmtBRL(r.balance)}</strong></td>
-                          <td class="num">
-                            <div style="display:inline-flex; gap:4px;">
-                              <button type="button" class="icon-mini-btn" title="Editar lançamento" aria-label="Editar lançamento" onclick="startInlineEditGoalEvent('${g.id}', '${r.id}')">✎</button>
-                              <button type="button" class="icon-mini-btn danger" title="Remover lançamento" aria-label="Remover lançamento" onclick="deleteGoalEvent('${g.id}', '${r.id}')">🗑</button>
-                            </div>
-                          </td>
-                        </tr>
-                      `;
-                    }).join('')}
+                    ${stmtRows.map((r) => `
+                      <tr>
+                        <td>${escapeHtml(fmtDateBR(r.date))}</td>
+                        <td>${escapeHtml(r.desc)}</td>
+                        <td class="num"><strong>${fmtBRL(r.balance)}</strong></td>
+                        <td class="num">
+                          <div style="display:inline-flex; gap:4px;">
+                            <button type="button" class="icon-mini-btn" data-stmt-action="edit" data-stmt-kind="goal" data-parent-id="${escapeHtml(g.id)}" data-event-index="${r.index}" title="Editar lançamento">Editar</button>
+                            <button type="button" class="icon-mini-btn danger" data-stmt-action="delete" data-stmt-kind="goal" data-parent-id="${escapeHtml(g.id)}" data-event-index="${r.index}" title="Remover lançamento">🗑</button>
+                          </div>
+                        </td>
+                      </tr>
+                    `).join('')}
                   </tbody>
                 </table>
               </div>
