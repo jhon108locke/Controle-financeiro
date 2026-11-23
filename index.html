@@ -188,6 +188,32 @@
       display: block;
     }
 
+    .top-add-bar {
+      margin-bottom: 14px;
+    }
+
+    button.top-add-btn {
+      width: 100%;
+      background: var(--accent);
+      color: var(--accent-ink);
+      border: 1px solid #8ec5fc;
+      padding: 13px 16px;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      transition: background 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    button.top-add-btn:hover {
+      background: var(--accent-hover);
+    }
+
     .card {
       background: var(--card);
       border: 1px solid var(--border);
@@ -356,17 +382,31 @@
       color: var(--text);
       border: 1px solid var(--border);
       border-radius: 6px;
-      padding: 3px 7px;
+      padding: 4px 8px;
       font-size: 0.75rem;
       font-weight: 700;
       cursor: pointer;
       line-height: 1.2;
     }
 
+    button.icon-mini-btn.save {
+      background: rgba(5, 150, 105, 0.14);
+      color: var(--success);
+      border-color: rgba(5, 150, 105, 0.4);
+    }
+
     button.icon-mini-btn.danger {
       color: var(--danger);
       border-color: rgba(220, 38, 38, 0.3);
       background: rgba(220, 38, 38, 0.06);
+    }
+
+    .inline-edit-input {
+      width: auto;
+      padding: 4px 6px;
+      margin-bottom: 0;
+      font-size: 0.78rem;
+      border-radius: 6px;
     }
 
     .row-actions {
@@ -459,11 +499,6 @@
       flex-wrap: wrap;
       font-size: 0.98rem;
       font-weight: 800;
-    }
-
-    .pipe-sep {
-      color: var(--muted);
-      font-weight: 700;
     }
 
     .section-divider {
@@ -701,7 +736,7 @@
       width: 100%;
       border-collapse: collapse;
       font-size: 0.78rem;
-      min-width: 360px;
+      min-width: 390px;
     }
 
     .statement-table th,
@@ -902,7 +937,7 @@
       border: 1px solid var(--border);
     }
 
-    /* Center Peek Modal para Poupança */
+    /* Center Peek Modal */
     .center-peek-backdrop {
       position: fixed;
       inset: 0;
@@ -921,7 +956,7 @@
     .center-peek-modal {
       width: 100%;
       max-width: 640px;
-      max-height: 86vh;
+      max-height: 88vh;
       background: var(--bg);
       border: 1px solid var(--border);
       border-radius: 18px;
@@ -1042,49 +1077,8 @@
 
         <!-- BALANCETE -->
         <section class="tab-panel active" data-tab="gastos">
-          <div class="card">
-            <div class="card-title" id="expFormTitle">Novo Gasto no Balancete</div>
-            <div class="grid-2">
-              <div>
-                <label for="expDate">Data da compra</label>
-                <input type="date" id="expDate" />
-              </div>
-              <div>
-                <label for="expValue">Valor total (R$)</label>
-                <input type="number" id="expValue" inputmode="decimal" step="0.01" placeholder="0,00" />
-              </div>
-            </div>
-
-            <label for="expDesc">Descrição</label>
-            <input type="text" id="expDesc" placeholder="Ex: Supermercado, Almoço..." />
-
-            <div class="grid-3" id="expConditionRow">
-              <div>
-                <label for="expPayment">Forma de pagamento</label>
-                <select id="expPayment"></select>
-              </div>
-              <div>
-                <label for="expCondition">Condição</label>
-                <select id="expCondition">
-                  <option value="avista">À vista</option>
-                  <option value="parcelado">Parcelado</option>
-                </select>
-              </div>
-              <div id="installmentFieldWrap" class="hidden">
-                <label for="expInstallments">Número de parcelas</label>
-                <input type="number" id="expInstallments" min="2" max="60" value="2" />
-              </div>
-              <div>
-                <label for="expCategory">Categoria</label>
-                <select id="expCategory"></select>
-              </div>
-            </div>
-
-            <div class="preview-pill" id="expHoursPreview">Custo estimado: 0h 00min de trabalho</div>
-            <div style="display:flex; gap:8px; flex-wrap:wrap;">
-              <button type="button" class="primary" style="flex:1; min-width:180px;" id="addExpenseBtn">Registrar Gasto</button>
-              <button type="button" class="ghost-btn hidden" id="cancelEditExpenseBtn">Cancelar edição</button>
-            </div>
+          <div class="top-add-bar">
+            <button type="button" class="top-add-btn" onclick="openFormCenterPeek('gastos')">+ ADICIONAR NOVO GASTO</button>
           </div>
 
           <div class="card">
@@ -1135,32 +1129,8 @@
 
         <!-- GASTOS FIXOS -->
         <section class="tab-panel" data-tab="fixos">
-          <div class="card">
-            <div class="card-title">Adicionar Gasto Fixo Mensal</div>
-            <div class="grid-2">
-              <div>
-                <label for="fixedDay">Dia a pagar (1 a 31)</label>
-                <input type="number" id="fixedDay" inputmode="numeric" min="1" max="31" value="10" />
-              </div>
-              <div>
-                <label for="fixedValue">Valor mensal (R$)</label>
-                <input type="number" id="fixedValue" inputmode="decimal" step="0.01" placeholder="0,00" />
-              </div>
-            </div>
-
-            <div class="grid-2">
-              <div>
-                <label for="fixedDesc">Descrição</label>
-                <input type="text" id="fixedDesc" placeholder="Ex: Internet, Academia..." />
-              </div>
-              <div>
-                <label for="fixedCategory">Categoria</label>
-                <select id="fixedCategory"></select>
-              </div>
-            </div>
-
-            <div class="preview-pill" id="fixedHoursPreview">Custo mensal: 0h 00min de trabalho</div>
-            <button type="button" class="primary" id="addFixedBtn">Salvar Gasto Fixo</button>
+          <div class="top-add-bar">
+            <button type="button" class="top-add-btn" onclick="openFormCenterPeek('fixos')">+ ADICIONAR NOVO GASTO FIXO</button>
           </div>
 
           <div class="card">
@@ -1301,83 +1271,8 @@
 
         <!-- DÍVIDAS -->
         <section class="tab-panel" data-tab="dividas">
-          <div class="card">
-            <div class="card-title" id="debtFormTitle">Nova Dívida</div>
-
-            <label for="debtDesc">Descrição</label>
-            <input type="text" id="debtDesc" placeholder="Ex: Empréstimo, Acordo..." />
-
-            <div class="grid-2">
-              <div>
-                <label for="debtStartDate">Data inicial</label>
-                <input type="date" id="debtStartDate" />
-              </div>
-              <div>
-                <label for="debtEndDate">Data final</label>
-                <input type="date" id="debtEndDate" />
-              </div>
-            </div>
-
-            <div class="grid-3">
-              <div>
-                <label for="debtTotal">Valor inicial (R$)</label>
-                <input type="number" id="debtTotal" inputmode="decimal" step="0.01" placeholder="0,00" />
-              </div>
-              <div>
-                <label for="debtInterest">Juros mensais % (opcional)</label>
-                <input type="number" id="debtInterest" inputmode="decimal" step="0.01" placeholder="Ex: 1,5" />
-              </div>
-              <div>
-                <label for="debtPaid">Quanto já foi pago (R$)</label>
-                <input type="number" id="debtPaid" inputmode="decimal" step="0.01" placeholder="0,00" value="0" />
-              </div>
-            </div>
-
-            <div class="grid-2">
-              <div>
-                <label for="debtMonthlyPlanAuto">Meta mensal</label>
-                <input type="text" id="debtMonthlyPlanAuto" readonly value="R$ 0,00" />
-              </div>
-              <div>
-                <label for="debtRemainingMonthAuto">Restante a pagar nesse mês</label>
-                <input type="text" id="debtRemainingMonthAuto" readonly value="R$ 0,00" />
-              </div>
-            </div>
-
-            <div id="debtEditMovementsWrap" class="hidden">
-              <div class="sub-box">
-                <div class="sub-box-title">Adicionar pagamento</div>
-                <div class="grid-2">
-                  <div>
-                    <label for="debtPayDate">Data</label>
-                    <input type="date" id="debtPayDate" style="margin-bottom:0;" />
-                  </div>
-                  <div>
-                    <label for="debtPayValue">Valor (R$)</label>
-                    <input type="number" id="debtPayValue" inputmode="decimal" step="0.01" placeholder="0,00" value="0" style="margin-bottom:0;" />
-                  </div>
-                </div>
-              </div>
-
-              <div class="sub-box">
-                <div class="sub-box-title">Adicionar empréstimo</div>
-                <div class="grid-2">
-                  <div>
-                    <label for="debtLoanDate">Data</label>
-                    <input type="date" id="debtLoanDate" style="margin-bottom:0;" />
-                  </div>
-                  <div>
-                    <label for="debtLoanValue">Valor (R$)</label>
-                    <input type="number" id="debtLoanValue" inputmode="decimal" step="0.01" placeholder="0,00" value="0" style="margin-bottom:0;" />
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div style="display:flex; gap:8px; flex-wrap:wrap;">
-              <button type="button" class="primary" style="flex:1; min-width:180px;" id="addDebtBtn">Adicionar Dívida</button>
-              <button type="button" class="ghost-btn hidden" id="cancelEditDebtBtn">Cancelar edição</button>
-            </div>
+          <div class="top-add-bar">
+            <button type="button" class="top-add-btn" onclick="openFormCenterPeek('dividas')">+ ADICIONAR NOVA DÍVIDA</button>
           </div>
 
           <div class="card">
@@ -1422,51 +1317,8 @@
 
         <!-- POUPANÇA -->
         <section class="tab-panel" data-tab="poupanca">
-          <div class="card">
-            <div class="card-title" id="goalFormTitle">Nova Meta de Poupança</div>
-            <label for="goalDesc">Descrição</label>
-            <input type="text" id="goalDesc" placeholder="Ex: Comprar moto, Reserva..." />
-
-            <div class="grid-2">
-              <div>
-                <label for="goalTotal">Valor total (R$)</label>
-                <input type="number" id="goalTotal" inputmode="decimal" step="0.01" placeholder="0,00" />
-              </div>
-              <div>
-                <label for="goalDeadline">Prazo final</label>
-                <input type="date" id="goalDeadline" />
-              </div>
-            </div>
-
-            <div class="grid-2">
-              <div>
-                <label for="goalMonthlyAuto">Meta mensal</label>
-                <input type="text" id="goalMonthlyAuto" readonly value="R$ 0,00" />
-              </div>
-              <div>
-                <label for="goalSaved">Saldo acumulado (R$)</label>
-                <input type="number" id="goalSaved" inputmode="decimal" step="0.01" placeholder="0,00" value="0" />
-              </div>
-            </div>
-
-            <div class="sub-box">
-              <div class="sub-box-title">Adicionar valor</div>
-              <div class="grid-2">
-                <div>
-                  <label for="goalAddDate">Data</label>
-                  <input type="date" id="goalAddDate" style="margin-bottom:0;" />
-                </div>
-                <div>
-                  <label for="goalAddAmount">Valor (R$)</label>
-                  <input type="number" id="goalAddAmount" inputmode="decimal" step="0.01" placeholder="0,00" value="0" style="margin-bottom:0;" />
-                </div>
-              </div>
-            </div>
-
-            <div style="display:flex; gap:8px; flex-wrap:wrap;">
-              <button type="button" class="primary" style="flex:1; min-width:180px;" id="addGoalBtn">Criar Meta</button>
-              <button type="button" class="ghost-btn hidden" id="cancelEditGoalBtn">Cancelar edição</button>
-            </div>
+          <div class="top-add-bar">
+            <button type="button" class="top-add-btn" onclick="openFormCenterPeek('poupanca')">+ ADICIONAR NOVA META DE POUPANÇA</button>
           </div>
 
           <div class="card">
@@ -1480,43 +1332,8 @@
 
         <!-- QUERO COMPRAR -->
         <section class="tab-panel" data-tab="comprar">
-          <div class="card">
-            <div class="card-title" id="wishFormTitle">Simular Compra e Lista de Desejos</div>
-            <div class="grid-2">
-              <div>
-                <label for="wishName">O que você quer comprar?</label>
-                <input type="text" id="wishName" placeholder="Ex: Jaqueta, Capacete..." />
-              </div>
-              <div>
-                <label for="wishDate">Quando:</label>
-                <input type="date" id="wishDate" />
-              </div>
-            </div>
-
-            <div class="grid-3">
-              <div>
-                <label for="wishPrice">Preço (R$)</label>
-                <input type="number" id="wishPrice" inputmode="decimal" step="0.01" placeholder="0,00" />
-              </div>
-              <div>
-                <label for="wishType">Tipo</label>
-                <select id="wishType"></select>
-              </div>
-              <div>
-                <label for="wishUrgency">Nível de urgência</label>
-                <select id="wishUrgency">
-                  <option value="baixa">Baixa</option>
-                  <option value="media">Média</option>
-                  <option value="alta">Alta</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="preview-pill" id="wishHoursPreview">Você precisa trabalhar: 0h 00min</div>
-            <div style="display:flex; gap:8px; flex-wrap:wrap;">
-              <button type="button" class="primary" style="flex:1; min-width:180px;" id="addWishBtn">+ Adicionar à Lista do que Quero Comprar</button>
-              <button type="button" class="ghost-btn hidden" id="cancelEditWishBtn">Cancelar edição</button>
-            </div>
+          <div class="top-add-bar">
+            <button type="button" class="top-add-btn" onclick="openFormCenterPeek('comprar')">+ ADICIONAR NOVO ITEM</button>
           </div>
 
           <div class="card">
@@ -1634,6 +1451,254 @@
     </div>
   </div>
 
+  <!-- Center Peek Modal para Formulários (Balancete, Gastos Fixos, Dívidas, Poupança, Quero Comprar) -->
+  <div class="center-peek-backdrop hidden" id="formCenterPeek" role="dialog" aria-modal="true" aria-labelledby="formPeekTitle">
+    <div class="center-peek-modal" onclick="event.stopPropagation()">
+      <div class="center-peek-header">
+        <div class="center-peek-title" id="formPeekTitle">Novo Item</div>
+        <button type="button" class="center-peek-close" id="closeFormPeekBtn">Fechar</button>
+      </div>
+      <div class="center-peek-body">
+        <!-- Form Balancete -->
+        <div id="formBoxGastos" class="hidden">
+          <div class="grid-2">
+            <div>
+              <label for="expDate">Data da compra</label>
+              <input type="date" id="expDate" />
+            </div>
+            <div>
+              <label for="expValue">Valor total (R$)</label>
+              <input type="number" id="expValue" inputmode="decimal" step="0.01" placeholder="0,00" />
+            </div>
+          </div>
+
+          <label for="expDesc">Descrição</label>
+          <input type="text" id="expDesc" placeholder="Ex: Supermercado, Almoço..." />
+
+          <div class="grid-3" id="expConditionRow">
+            <div>
+              <label for="expPayment">Forma de pagamento</label>
+              <select id="expPayment"></select>
+            </div>
+            <div>
+              <label for="expCondition">Condição</label>
+              <select id="expCondition">
+                <option value="avista">À vista</option>
+                <option value="parcelado">Parcelado</option>
+              </select>
+            </div>
+            <div id="installmentFieldWrap" class="hidden">
+              <label for="expInstallments">Número de parcelas</label>
+              <input type="number" id="expInstallments" min="2" max="60" value="2" />
+            </div>
+            <div>
+              <label for="expCategory">Categoria</label>
+              <select id="expCategory"></select>
+            </div>
+          </div>
+
+          <div class="preview-pill" id="expHoursPreview">Custo estimado: 0h 00min de trabalho</div>
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <button type="button" class="primary" style="flex:1; min-width:180px;" id="addExpenseBtn">Registrar Gasto</button>
+            <button type="button" class="ghost-btn hidden" id="cancelEditExpenseBtn">Cancelar edição</button>
+          </div>
+        </div>
+
+        <!-- Form Gastos Fixos -->
+        <div id="formBoxFixos" class="hidden">
+          <div class="grid-2">
+            <div>
+              <label for="fixedDay">Dia a pagar (1 a 31)</label>
+              <input type="number" id="fixedDay" inputmode="numeric" min="1" max="31" value="10" />
+            </div>
+            <div>
+              <label for="fixedValue">Valor mensal (R$)</label>
+              <input type="number" id="fixedValue" inputmode="decimal" step="0.01" placeholder="0,00" />
+            </div>
+          </div>
+
+          <div class="grid-2">
+            <div>
+              <label for="fixedDesc">Descrição</label>
+              <input type="text" id="fixedDesc" placeholder="Ex: Internet, Academia..." />
+            </div>
+            <div>
+              <label for="fixedCategory">Categoria</label>
+              <select id="fixedCategory"></select>
+            </div>
+          </div>
+
+          <div class="preview-pill" id="fixedHoursPreview">Custo mensal: 0h 00min de trabalho</div>
+          <button type="button" class="primary" id="addFixedBtn">Salvar Gasto Fixo</button>
+        </div>
+
+        <!-- Form Dívidas -->
+        <div id="formBoxDividas" class="hidden">
+          <label for="debtDesc">Descrição</label>
+          <input type="text" id="debtDesc" placeholder="Ex: Empréstimo, Acordo..." />
+
+          <div class="grid-2">
+            <div>
+              <label for="debtStartDate">Data inicial</label>
+              <input type="date" id="debtStartDate" />
+            </div>
+            <div>
+              <label for="debtEndDate">Data final</label>
+              <input type="date" id="debtEndDate" />
+            </div>
+          </div>
+
+          <div class="grid-3">
+            <div>
+              <label for="debtTotal">Valor inicial (R$)</label>
+              <input type="number" id="debtTotal" inputmode="decimal" step="0.01" placeholder="0,00" />
+            </div>
+            <div>
+              <label for="debtInterest">Juros mensais % (opcional)</label>
+              <input type="number" id="debtInterest" inputmode="decimal" step="0.01" placeholder="Ex: 1,5" />
+            </div>
+            <div>
+              <label for="debtPaid">Quanto já foi pago (R$)</label>
+              <input type="number" id="debtPaid" inputmode="decimal" step="0.01" placeholder="0,00" value="0" />
+            </div>
+          </div>
+
+          <div class="grid-2">
+            <div>
+              <label for="debtMonthlyPlanAuto">Meta mensal</label>
+              <input type="text" id="debtMonthlyPlanAuto" readonly value="R$ 0,00" />
+            </div>
+            <div>
+              <label for="debtRemainingMonthAuto">Restante a pagar nesse mês</label>
+              <input type="text" id="debtRemainingMonthAuto" readonly value="R$ 0,00" />
+            </div>
+          </div>
+
+          <div id="debtEditMovementsWrap" class="hidden">
+            <div class="sub-box">
+              <div class="sub-box-title">Adicionar pagamento</div>
+              <div class="grid-2">
+                <div>
+                  <label for="debtPayDate">Data</label>
+                  <input type="date" id="debtPayDate" style="margin-bottom:0;" />
+                </div>
+                <div>
+                  <label for="debtPayValue">Valor (R$)</label>
+                  <input type="number" id="debtPayValue" inputmode="decimal" step="0.01" placeholder="0,00" value="0" style="margin-bottom:0;" />
+                </div>
+              </div>
+            </div>
+
+            <div class="sub-box">
+              <div class="sub-box-title">Adicionar empréstimo</div>
+              <div class="grid-2">
+                <div>
+                  <label for="debtLoanDate">Data</label>
+                  <input type="date" id="debtLoanDate" style="margin-bottom:0;" />
+                </div>
+                <div>
+                  <label for="debtLoanValue">Valor (R$)</label>
+                  <input type="number" id="debtLoanValue" inputmode="decimal" step="0.01" placeholder="0,00" value="0" style="margin-bottom:0;" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <button type="button" class="primary" style="flex:1; min-width:180px;" id="addDebtBtn">Adicionar Dívida</button>
+            <button type="button" class="ghost-btn hidden" id="cancelEditDebtBtn">Cancelar edição</button>
+          </div>
+        </div>
+
+        <!-- Form Poupança -->
+        <div id="formBoxPoupanca" class="hidden">
+          <label for="goalDesc">Descrição</label>
+          <input type="text" id="goalDesc" placeholder="Ex: Comprar moto, Reserva..." />
+
+          <div class="grid-2">
+            <div>
+              <label for="goalTotal">Valor total (R$)</label>
+              <input type="number" id="goalTotal" inputmode="decimal" step="0.01" placeholder="0,00" />
+            </div>
+            <div>
+              <label for="goalDeadline">Prazo final</label>
+              <input type="date" id="goalDeadline" />
+            </div>
+          </div>
+
+          <div class="grid-2">
+            <div>
+              <label for="goalMonthlyAuto">Meta mensal</label>
+              <input type="text" id="goalMonthlyAuto" readonly value="R$ 0,00" />
+            </div>
+            <div>
+              <label for="goalSaved">Saldo acumulado (R$)</label>
+              <input type="number" id="goalSaved" inputmode="decimal" step="0.01" placeholder="0,00" value="0" />
+            </div>
+          </div>
+
+          <div class="sub-box">
+            <div class="sub-box-title">Adicionar valor</div>
+            <div class="grid-2">
+              <div>
+                <label for="goalAddDate">Data</label>
+                <input type="date" id="goalAddDate" style="margin-bottom:0;" />
+              </div>
+              <div>
+                <label for="goalAddAmount">Valor (R$)</label>
+                <input type="number" id="goalAddAmount" inputmode="decimal" step="0.01" placeholder="0,00" value="0" style="margin-bottom:0;" />
+              </div>
+            </div>
+          </div>
+
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <button type="button" class="primary" style="flex:1; min-width:180px;" id="addGoalBtn">Criar Meta</button>
+            <button type="button" class="ghost-btn hidden" id="cancelEditGoalBtn">Cancelar edição</button>
+          </div>
+        </div>
+
+        <!-- Form Quero Comprar -->
+        <div id="formBoxComprar" class="hidden">
+          <div class="grid-2">
+            <div>
+              <label for="wishName">O que você quer comprar?</label>
+              <input type="text" id="wishName" placeholder="Ex: Jaqueta, Capacete..." />
+            </div>
+            <div>
+              <label for="wishDate">Quando:</label>
+              <input type="date" id="wishDate" />
+            </div>
+          </div>
+
+          <div class="grid-3">
+            <div>
+              <label for="wishPrice">Preço (R$)</label>
+              <input type="number" id="wishPrice" inputmode="decimal" step="0.01" placeholder="0,00" />
+            </div>
+            <div>
+              <label for="wishType">Tipo</label>
+              <select id="wishType"></select>
+            </div>
+            <div>
+              <label for="wishUrgency">Nível de urgência</label>
+              <select id="wishUrgency">
+                <option value="baixa">Baixa</option>
+                <option value="media">Média</option>
+                <option value="alta">Alta</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="preview-pill" id="wishHoursPreview">Você precisa trabalhar: 0h 00min</div>
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <button type="button" class="primary" style="flex:1; min-width:180px;" id="addWishBtn">+ Adicionar à Lista do que Quero Comprar</button>
+            <button type="button" class="ghost-btn hidden" id="cancelEditWishBtn">Cancelar edição</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Center Peek Modal para Meses da Meta de Poupança -->
   <div class="center-peek-backdrop hidden" id="goalCenterPeek" role="dialog" aria-modal="true" aria-labelledby="goalPeekTitle">
     <div class="center-peek-modal" onclick="event.stopPropagation()">
@@ -1661,6 +1726,14 @@
       poupanca: 'Poupança',
       comprar: 'Quero comprar',
       ajustes: 'Configurações'
+    };
+
+    const FORM_PEEK_TITLES = {
+      gastos: 'Adicionar Novo Gasto',
+      fixos: 'Adicionar Novo Gasto Fixo',
+      dividas: 'Adicionar Nova Dívida',
+      poupanca: 'Adicionar Nova Meta de Poupança',
+      comprar: 'Adicionar Novo Item'
     };
 
     const defaultState = {
@@ -1758,9 +1831,13 @@
     let editingGoalId = null;
     let editingWishId = null;
 
+    let inlineEditingDebtEvent = null; // { debtId, eventId }
+    let inlineEditingGoalEvent = null; // { goalId, eventId }
+
     const expandedDebtStatements = {};
     const expandedGoalStatements = {};
     let activePeekGoalId = null;
+    let activeFormPeekKey = null;
 
     let selectedExpCycle = null;
     let selectedChartCycle = null;
@@ -1772,7 +1849,6 @@
     let fixedFilterOpen = false;
     let fixedStatusFilter = 'all';
 
-    // Modos de ordenação
     const SORT_MODES = [
       { key: 'date_asc', label: 'Data ↑' },
       { key: 'date_desc', label: 'Data ↓' },
@@ -1797,6 +1873,36 @@
         renderGoalCenterPeek(activePeekGoalId);
       }
     }
+
+    // Center Peek de Formulários
+    window.openFormCenterPeek = function(formKey) {
+      activeFormPeekKey = formKey;
+      ['gastos', 'fixos', 'dividas', 'poupanca', 'comprar'].forEach((k) => {
+        const mapId = {
+          gastos: 'formBoxGastos',
+          fixos: 'formBoxFixos',
+          dividas: 'formBoxDividas',
+          poupanca: 'formBoxPoupanca',
+          comprar: 'formBoxComprar'
+        }[k];
+        const box = document.getElementById(mapId);
+        if (box) box.classList.toggle('hidden', k !== formKey);
+      });
+      document.getElementById('formPeekTitle').textContent = FORM_PEEK_TITLES[formKey] || 'Novo Item';
+      document.getElementById('formCenterPeek').classList.remove('hidden');
+      if (formKey === 'gastos') syncInstallmentFieldLayout();
+      if (formKey === 'dividas') syncDebtFormCalculators();
+      if (formKey === 'poupanca') syncGoalMonthlyPreview();
+      updatePreviews();
+    };
+
+    function closeFormCenterPeek() {
+      activeFormPeekKey = null;
+      document.getElementById('formCenterPeek').classList.add('hidden');
+    }
+
+    document.getElementById('closeFormPeekBtn').addEventListener('click', closeFormCenterPeek);
+    document.getElementById('formCenterPeek').addEventListener('click', closeFormCenterPeek);
 
     function getCategoryColor(cat, idx = 0) {
       return normalizeHex(state.categoryColors[cat] || FIXED_COLORS[idx % FIXED_COLORS.length], '#2563EB');
@@ -1896,7 +2002,6 @@
       return parseLocalDate(aStr).getTime() - parseLocalDate(bStr).getTime();
     }
 
-    // Limpa valor zero/padrão automaticamente ao focar ou iniciar digitação
     document.querySelectorAll('input[type="number"]').forEach((inp) => {
       inp.addEventListener('focus', () => {
         const trimmed = String(inp.value).trim();
@@ -2082,7 +2187,6 @@
 
     function resetExpenseForm() {
       editingExpenseId = null;
-      document.getElementById('expFormTitle').textContent = 'Novo Gasto no Balancete';
       document.getElementById('addExpenseBtn').textContent = 'Registrar Gasto';
       document.getElementById('cancelEditExpenseBtn').classList.add('hidden');
       expDateInput.value = getTodayISO();
@@ -2094,7 +2198,10 @@
       updatePreviews();
     }
 
-    document.getElementById('cancelEditExpenseBtn').addEventListener('click', resetExpenseForm);
+    document.getElementById('cancelEditExpenseBtn').addEventListener('click', () => {
+      resetExpenseForm();
+      closeFormCenterPeek();
+    });
 
     document.getElementById('addExpenseBtn').addEventListener('click', () => {
       const dateStr = expDateInput.value || getTodayISO();
@@ -2132,6 +2239,7 @@
       }
 
       resetExpenseForm();
+      closeFormCenterPeek();
       saveState();
     });
 
@@ -2140,7 +2248,8 @@
       if (!item) return;
       editingExpenseId = id;
       setActiveTab('gastos');
-      document.getElementById('expFormTitle').textContent = 'Editando Gasto do Balancete';
+      openFormCenterPeek('gastos');
+      document.getElementById('formPeekTitle').textContent = 'Editar Gasto';
       document.getElementById('addExpenseBtn').textContent = 'Salvar Alterações';
       document.getElementById('cancelEditExpenseBtn').classList.remove('hidden');
 
@@ -2154,7 +2263,6 @@
 
       syncInstallmentFieldLayout();
       updatePreviews();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
     function sortGenericRows(rows, modeKey, getDateFn, getAmountFn) {
@@ -2331,6 +2439,7 @@
 
       document.getElementById('fixedDesc').value = '';
       document.getElementById('fixedValue').value = '';
+      closeFormCenterPeek();
       saveState();
       updatePreviews();
     });
@@ -2534,7 +2643,6 @@
       const map = {};
       state.categories.forEach((c) => { map[c] = 0; });
 
-      // Gasto fixo só entra no gráfico após marcado como pago no mês atual
       state.fixedExpenses.forEach((f) => {
         if (!isFixedPaidInCurrentMonth(f)) return;
         const cat = map[f.category] !== undefined ? f.category : 'Outros';
@@ -3002,7 +3110,6 @@
 
     function resetDebtForm() {
       editingDebtId = null;
-      document.getElementById('debtFormTitle').textContent = 'Nova Dívida';
       document.getElementById('addDebtBtn').textContent = 'Adicionar Dívida';
       document.getElementById('cancelEditDebtBtn').classList.add('hidden');
       document.getElementById('debtEditMovementsWrap').classList.add('hidden');
@@ -3020,7 +3127,10 @@
       syncDebtFormCalculators();
     }
 
-    document.getElementById('cancelEditDebtBtn').addEventListener('click', resetDebtForm);
+    document.getElementById('cancelEditDebtBtn').addEventListener('click', () => {
+      resetDebtForm();
+      closeFormCenterPeek();
+    });
 
     function buildDebtStatementRows(debt) {
       const events = ensureDebtEvents(debt).sort((a, b) => compareDateAsc(a.date, b.date));
@@ -3039,33 +3149,39 @@
         return {
           id: ev.id,
           date: ev.date,
+          amount: amt,
           desc: `${ev.label} (${signPrefix}${fmtBRL(amt)})`,
           balance
         };
       });
     }
 
-    window.editDebtEvent = function(debtId, eventId) {
+    window.startInlineEditDebtEvent = function(debtId, eventId) {
+      inlineEditingDebtEvent = { debtId, eventId };
+      renderDebtsAndInstallments();
+    };
+
+    window.cancelInlineEditDebtEvent = function() {
+      inlineEditingDebtEvent = null;
+      renderDebtsAndInstallments();
+    };
+
+    window.saveInlineEditDebtEvent = function(debtId, eventId) {
+      const dateInput = document.getElementById(`debtEvDate_${eventId}`);
+      const amtInput = document.getElementById(`debtEvAmt_${eventId}`);
+      if (!dateInput || !amtInput) return;
+
+      const newVal = Math.max(0, parseFloat(String(amtInput.value).replace(',', '.')) || 0);
+      const newDate = dateInput.value || getTodayISO();
+
       const d = state.debts.find((item) => item.id === debtId);
       if (!d) return;
-      const events = ensureDebtEvents(d);
-      const ev = events.find((item) => item.id === eventId);
-      if (!ev) return;
-
-      const newValStr = prompt('Novo valor (R$):', String(ev.amount));
-      if (newValStr === null) return;
-      const newVal = parseFloat(String(newValStr).replace(',', '.'));
-      if (Number.isNaN(newVal) || newVal < 0) return;
-
-      const newDateStr = prompt('Nova data (AAAA-MM-DD):', toInputDateISO(ev.date));
-      if (newDateStr === null) return;
-
-      const updatedEvents = events.map((item) => item.id === eventId
-        ? { ...item, amount: newVal, date: newDateStr.trim() || item.date }
+      const events = ensureDebtEvents(d).map((item) => item.id === eventId
+        ? { ...item, amount: newVal, date: newDate }
         : item
       );
-      const recalculated = recalculateDebtFromEvents(d, updatedEvents);
-
+      const recalculated = recalculateDebtFromEvents(d, events);
+      inlineEditingDebtEvent = null;
       state.debts = state.debts.map((item) => item.id === debtId ? { ...item, ...recalculated } : item);
       saveState();
     };
@@ -3076,6 +3192,9 @@
       if (!d) return;
       const events = ensureDebtEvents(d).filter((item) => item.id !== eventId);
       const recalculated = recalculateDebtFromEvents(d, events);
+      if (inlineEditingDebtEvent && inlineEditingDebtEvent.eventId === eventId) {
+        inlineEditingDebtEvent = null;
+      }
       state.debts = state.debts.map((item) => item.id === debtId ? { ...item, ...recalculated } : item);
       saveState();
     };
@@ -3153,6 +3272,7 @@
       }
 
       resetDebtForm();
+      closeFormCenterPeek();
       saveState();
     });
 
@@ -3161,7 +3281,8 @@
       if (!d) return;
       editingDebtId = id;
       setActiveTab('dividas');
-      document.getElementById('debtFormTitle').textContent = 'Editando Dívida';
+      openFormCenterPeek('dividas');
+      document.getElementById('formPeekTitle').textContent = 'Editar Dívida';
       document.getElementById('addDebtBtn').textContent = 'Salvar Alterações da Dívida';
       document.getElementById('cancelEditDebtBtn').classList.remove('hidden');
       document.getElementById('debtEditMovementsWrap').classList.remove('hidden');
@@ -3179,7 +3300,6 @@
       document.getElementById('debtLoanValue').value = '0';
 
       syncDebtFormCalculators();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
     window.toggleDebtStatement = function(id) {
@@ -3261,25 +3381,43 @@
                     <thead>
                       <tr>
                         <th>Data</th>
-                        <th>Movimentação</th>
+                        <th>Movimentação / Valor</th>
                         <th class="num">Saldo</th>
                         <th class="num">Ações</th>
                       </tr>
                     </thead>
                     <tbody>
-                      ${stmtRows.map((r) => `
-                        <tr>
-                          <td>${escapeHtml(fmtDateBR(r.date))}</td>
-                          <td>${escapeHtml(r.desc)}</td>
-                          <td class="num"><strong>${fmtBRL(r.balance)}</strong></td>
-                          <td class="num">
-                            <div style="display:inline-flex; gap:4px;">
-                              <button type="button" class="icon-mini-btn" title="Editar lançamento" aria-label="Editar lançamento" onclick="editDebtEvent('${d.id}', '${r.id}')">✎</button>
-                              <button type="button" class="icon-mini-btn danger" title="Remover lançamento" aria-label="Remover lançamento" onclick="deleteDebtEvent('${d.id}', '${r.id}')">🗑</button>
-                            </div>
-                          </td>
-                        </tr>
-                      `).join('')}
+                      ${stmtRows.map((r) => {
+                        const isRowEditing = inlineEditingDebtEvent && inlineEditingDebtEvent.debtId === d.id && inlineEditingDebtEvent.eventId === r.id;
+                        if (isRowEditing) {
+                          return `
+                            <tr>
+                              <td><input type="date" id="debtEvDate_${r.id}" class="inline-edit-input" value="${escapeHtml(toInputDateISO(r.date))}" /></td>
+                              <td><input type="number" id="debtEvAmt_${r.id}" class="inline-edit-input" step="0.01" inputmode="decimal" value="${r.amount}" /></td>
+                              <td class="num"><strong>${fmtBRL(r.balance)}</strong></td>
+                              <td class="num">
+                                <div style="display:inline-flex; gap:4px;">
+                                  <button type="button" class="icon-mini-btn save" onclick="saveInlineEditDebtEvent('${d.id}', '${r.id}')">Salvar</button>
+                                  <button type="button" class="icon-mini-btn" onclick="cancelInlineEditDebtEvent()">✕</button>
+                                </div>
+                              </td>
+                            </tr>
+                          `;
+                        }
+                        return `
+                          <tr>
+                            <td>${escapeHtml(fmtDateBR(r.date))}</td>
+                            <td>${escapeHtml(r.desc)}</td>
+                            <td class="num"><strong>${fmtBRL(r.balance)}</strong></td>
+                            <td class="num">
+                              <div style="display:inline-flex; gap:4px;">
+                                <button type="button" class="icon-mini-btn" title="Editar lançamento" aria-label="Editar lançamento" onclick="startInlineEditDebtEvent('${d.id}', '${r.id}')">✎</button>
+                                <button type="button" class="icon-mini-btn danger" title="Remover lançamento" aria-label="Remover lançamento" onclick="deleteDebtEvent('${d.id}', '${r.id}')">🗑</button>
+                              </div>
+                            </td>
+                          </tr>
+                        `;
+                      }).join('')}
                     </tbody>
                   </table>
                 </div>
@@ -3368,18 +3506,18 @@
       return `${yyyy}-${mm}-${dd}`;
     }
 
-    // Subtrai o saldo acumulado do valor total almejado para calcular a meta mensal no prazo
+    // Fórmula: (Total - Acumulado) / número de meses até o prazo
     function calculateGoalMonthlyTarget(totalAmount, savedAmount, deadlineStr, startDateStr = '') {
       const total = Math.max(0, Number(totalAmount) || 0);
       const saved = Math.max(0, Number(savedAmount) || 0);
-      const targetRemaining = Math.max(0, total - saved);
-      if (targetRemaining <= 0) return 0;
+      const remainingToSave = Math.max(0, total - saved);
+      if (remainingToSave <= 0) return 0;
 
       const start = startDateStr ? parseLocalDate(startDateStr) : new Date();
       const deadline = deadlineStr ? parseLocalDate(deadlineStr) : new Date(start.getFullYear(), start.getMonth() + 1, start.getDate());
       const monthsDiff = (deadline.getFullYear() - start.getFullYear()) * 12 + (deadline.getMonth() - start.getMonth()) + (deadline.getDate() > start.getDate() ? 1 : 0);
       const monthsLeft = Math.max(1, monthsDiff);
-      return targetRemaining / monthsLeft;
+      return remainingToSave / monthsLeft;
     }
 
     function getGoalSavedThisMonth(goal, extraDepositAmount = 0, extraDepositDate = '') {
@@ -3399,13 +3537,13 @@
       const total = parseFloat(document.getElementById('goalTotal').value) || 0;
       const addVal = parseFloat(document.getElementById('goalAddAmount').value) || 0;
       const addDate = document.getElementById('goalAddDate').value || getTodayISO();
-      const savedBase = parseFloat(document.getElementById('goalSaved').value) || 0;
+      const savedInput = parseFloat(document.getElementById('goalSaved').value) || 0;
       const deadline = document.getElementById('goalDeadline').value;
 
       const existing = editingGoalId ? state.goals.find((g) => g.id === editingGoalId) : null;
       const startRef = existing && existing.startDate ? existing.startDate : getTodayISO();
-      const savedForPlan = existing ? (Number(existing.initialSaved ?? existing.totalSaved) || 0) : savedBase;
-      const monthly = calculateGoalMonthlyTarget(total, savedForPlan, deadline, startRef);
+      const accumulatedForPlan = existing ? savedInput : savedInput;
+      const monthly = calculateGoalMonthlyTarget(total, accumulatedForPlan, deadline, startRef);
       const savedMonth = getGoalSavedThisMonth(existing, addVal, addDate);
       const remMonthTarget = monthly - savedMonth;
 
@@ -3432,7 +3570,6 @@
 
     function resetGoalForm() {
       editingGoalId = null;
-      document.getElementById('goalFormTitle').textContent = 'Nova Meta de Poupança';
       document.getElementById('addGoalBtn').textContent = 'Criar Meta';
       document.getElementById('cancelEditGoalBtn').classList.add('hidden');
       document.getElementById('goalDesc').value = '';
@@ -3444,7 +3581,10 @@
       syncGoalMonthlyPreview();
     }
 
-    document.getElementById('cancelEditGoalBtn').addEventListener('click', resetGoalForm);
+    document.getElementById('cancelEditGoalBtn').addEventListener('click', () => {
+      resetGoalForm();
+      closeFormCenterPeek();
+    });
 
     function ensureGoalEvents(goal) {
       if (Array.isArray(goal.events) && goal.events.length) {
@@ -3462,7 +3602,7 @@
         id: `gev_init_${Math.random().toString(36).slice(2, 6)}`,
         date: startDate,
         kind: 'init',
-        label: 'Início da meta',
+        label: 'Saldo acumulado',
         amount: Number(goal.totalSaved) || 0,
         monthKey: ''
       }];
@@ -3485,32 +3625,39 @@
         return {
           id: ev.id,
           date: ev.date,
-          desc: ev.kind === 'init' ? `Início da meta (${fmtBRL(amt)})` : `${ev.label} (+ ${fmtBRL(amt)})`,
+          amount: amt,
+          desc: ev.kind === 'init' ? `Saldo inicial (${fmtBRL(amt)})` : `${ev.label} (+ ${fmtBRL(amt)})`,
           balance: runningBalance
         };
       });
     }
 
-    window.editGoalEvent = function(goalId, eventId) {
+    window.startInlineEditGoalEvent = function(goalId, eventId) {
+      inlineEditingGoalEvent = { goalId, eventId };
+      renderGoals();
+    };
+
+    window.cancelInlineEditGoalEvent = function() {
+      inlineEditingGoalEvent = null;
+      renderGoals();
+    };
+
+    window.saveInlineEditGoalEvent = function(goalId, eventId) {
+      const dateInput = document.getElementById(`goalEvDate_${eventId}`);
+      const amtInput = document.getElementById(`goalEvAmt_${eventId}`);
+      if (!dateInput || !amtInput) return;
+
+      const newVal = Math.max(0, parseFloat(String(amtInput.value).replace(',', '.')) || 0);
+      const newDate = dateInput.value || getTodayISO();
+
       const g = state.goals.find((item) => item.id === goalId);
       if (!g) return;
-      const events = ensureGoalEvents(g);
-      const ev = events.find((item) => item.id === eventId);
-      if (!ev) return;
-
-      const newValStr = prompt('Novo valor (R$):', String(ev.amount));
-      if (newValStr === null) return;
-      const newVal = parseFloat(String(newValStr).replace(',', '.'));
-      if (Number.isNaN(newVal) || newVal < 0) return;
-
-      const newDateStr = prompt('Nova data (AAAA-MM-DD):', toInputDateISO(ev.date));
-      if (newDateStr === null) return;
-
-      const updatedEvents = events.map((item) => item.id === eventId
-        ? { ...item, amount: newVal, date: newDateStr.trim() || item.date }
+      const events = ensureGoalEvents(g).map((item) => item.id === eventId
+        ? { ...item, amount: newVal, date: newDate }
         : item
       );
-      const recalculated = recalculateGoalFromEvents(g, updatedEvents);
+      const recalculated = recalculateGoalFromEvents(g, events);
+      inlineEditingGoalEvent = null;
       state.goals = state.goals.map((item) => item.id === goalId ? { ...item, ...recalculated } : item);
       saveState();
     };
@@ -3521,6 +3668,9 @@
       if (!g) return;
       const events = ensureGoalEvents(g).filter((item) => item.id !== eventId);
       const recalculated = recalculateGoalFromEvents(g, events);
+      if (inlineEditingGoalEvent && inlineEditingGoalEvent.eventId === eventId) {
+        inlineEditingGoalEvent = null;
+      }
       state.goals = state.goals.map((item) => item.id === goalId ? { ...item, ...recalculated } : item);
       saveState();
     };
@@ -3539,9 +3689,8 @@
       if (editingGoalId) {
         const existing = state.goals.find((g) => g.id === editingGoalId);
         const startRef = (existing && existing.startDate) || addDate;
-        const initialSavedRef = existing ? (Number(existing.initialSaved ?? baseSaved) || 0) : baseSaved;
-        const monthly = calculateGoalMonthlyTarget(total, initialSavedRef, deadline, startRef);
-        let events = existing ? ensureGoalEvents(existing) : [{ id: `gev_init_${Date.now().toString(36)}`, date: startRef, kind: 'init', label: 'Saldo anterior', amount: baseSaved }];
+        const monthly = calculateGoalMonthlyTarget(total, baseSaved, deadline, startRef);
+        let events = existing ? ensureGoalEvents(existing) : [{ id: `gev_init_${Date.now().toString(36)}`, date: startRef, kind: 'init', label: 'Saldo acumulado', amount: baseSaved }];
 
         if (addAmount > 0) {
           events.push({ id: `gev_dep_${Date.now().toString(36)}`, date: addDate, kind: 'deposit', label: 'Valor adicionado', amount: addAmount, monthKey: getMonthKeyISO(addDate) });
@@ -3554,13 +3703,13 @@
           deadline,
           monthly,
           totalSaved: newSaved,
-          initialSaved: initialSavedRef,
+          initialSaved: baseSaved,
           events
         } : g);
       } else {
         const monthly = calculateGoalMonthlyTarget(total, baseSaved, deadline, addDate);
         const events = [
-          { id: `gev_init_${Date.now().toString(36)}`, date: addDate, kind: 'init', label: 'Início da meta', amount: baseSaved, monthKey: '' }
+          { id: `gev_init_${Date.now().toString(36)}`, date: addDate, kind: 'init', label: 'Saldo acumulado', amount: baseSaved, monthKey: '' }
         ];
         if (addAmount > 0) {
           events.push({ id: `gev_dep_${Date.now().toString(36)}`, date: addDate, kind: 'deposit', label: 'Valor adicionado', amount: addAmount, monthKey: getMonthKeyISO(addDate) });
@@ -3580,6 +3729,7 @@
       }
 
       resetGoalForm();
+      closeFormCenterPeek();
       saveState();
     });
 
@@ -3588,7 +3738,8 @@
       if (!g) return;
       editingGoalId = id;
       setActiveTab('poupanca');
-      document.getElementById('goalFormTitle').textContent = 'Editando Meta de Poupança';
+      openFormCenterPeek('poupanca');
+      document.getElementById('formPeekTitle').textContent = 'Editar Meta de Poupança';
       document.getElementById('addGoalBtn').textContent = 'Salvar Alterações da Meta';
       document.getElementById('cancelEditGoalBtn').classList.remove('hidden');
       document.getElementById('goalDesc').value = g.desc;
@@ -3598,7 +3749,6 @@
       document.getElementById('goalAddAmount').value = '0';
       document.getElementById('goalSaved').value = g.totalSaved || 0;
       syncGoalMonthlyPreview();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
     window.toggleGoalStatement = function(id) {
@@ -3606,7 +3756,6 @@
       renderGoals();
     };
 
-    // Center Peek de meses até o prazo final
     function getGoalScheduleMonths(goal) {
       const now = new Date();
       const start = new Date(now.getFullYear(), now.getMonth(), 1);
@@ -3656,8 +3805,7 @@
 
       const total = Math.max(0, Number(g.total) || 0);
       const saved = Math.max(0, Number(g.totalSaved) || 0);
-      const initialSaved = Math.max(0, Number(g.initialSaved) || 0);
-      const monthly = calculateGoalMonthlyTarget(total, initialSaved, g.deadline, g.startDate);
+      const monthly = calculateGoalMonthlyTarget(total, saved, g.deadline, g.startDate);
       const months = getGoalScheduleMonths(g);
       const events = ensureGoalEvents(g);
       const checks = g.monthChecks || {};
@@ -3694,9 +3842,8 @@
       const g = state.goals.find((item) => item.id === goalId);
       if (!g) return;
       const targetAmount = Math.max(0, parseFloat(newPaidVal) || 0);
-      let events = ensureGoalEvents(g);
+      const events = ensureGoalEvents(g);
 
-      // Remove lançamentos de depósito anteriores desse mês para substituir pelo valor informado e somar ao acumulado
       const otherEvents = events.filter((ev) => !(ev.kind === 'deposit' && (ev.monthKey === monthKey || (!ev.monthKey && getMonthKeyISO(ev.date) === monthKey))));
       if (targetAmount > 0) {
         otherEvents.push({
@@ -3755,8 +3902,7 @@
       el.innerHTML = sortedGoals.map((g) => {
         const total = Math.max(0, Number(g.total) || 0);
         const saved = Math.max(0, Number(g.totalSaved) || 0);
-        const initialSaved = Math.max(0, Number(g.initialSaved) || 0);
-        const monthly = calculateGoalMonthlyTarget(total, initialSaved, g.deadline, g.startDate);
+        const monthly = calculateGoalMonthlyTarget(total, saved, g.deadline, g.startDate);
         const savedThisMonth = getGoalSavedThisMonth(g);
         const monthDiff = monthly - savedThisMonth;
         const pct = total > 0 ? Math.min(100, (saved / total) * 100) : 0;
@@ -3813,25 +3959,43 @@
                   <thead>
                     <tr>
                       <th>Data</th>
-                      <th>Movimentação</th>
+                      <th>Movimentação / Valor</th>
                       <th class="num">Saldo</th>
                       <th class="num">Ações</th>
                     </tr>
                   </thead>
                   <tbody>
-                    ${stmtRows.map((r) => `
-                      <tr>
-                        <td>${escapeHtml(fmtDateBR(r.date))}</td>
-                        <td>${escapeHtml(r.desc)}</td>
-                        <td class="num"><strong>${fmtBRL(r.balance)}</strong></td>
-                        <td class="num">
-                          <div style="display:inline-flex; gap:4px;">
-                            <button type="button" class="icon-mini-btn" title="Editar lançamento" aria-label="Editar lançamento" onclick="editGoalEvent('${g.id}', '${r.id}')">✎</button>
-                            <button type="button" class="icon-mini-btn danger" title="Remover lançamento" aria-label="Remover lançamento" onclick="deleteGoalEvent('${g.id}', '${r.id}')">🗑</button>
-                          </div>
-                        </td>
-                      </tr>
-                    `).join('')}
+                    ${stmtRows.map((r) => {
+                      const isRowEditing = inlineEditingGoalEvent && inlineEditingGoalEvent.goalId === g.id && inlineEditingGoalEvent.eventId === r.id;
+                      if (isRowEditing) {
+                        return `
+                          <tr>
+                            <td><input type="date" id="goalEvDate_${r.id}" class="inline-edit-input" value="${escapeHtml(toInputDateISO(r.date))}" /></td>
+                            <td><input type="number" id="goalEvAmt_${r.id}" class="inline-edit-input" step="0.01" inputmode="decimal" value="${r.amount}" /></td>
+                            <td class="num"><strong>${fmtBRL(r.balance)}</strong></td>
+                            <td class="num">
+                              <div style="display:inline-flex; gap:4px;">
+                                <button type="button" class="icon-mini-btn save" onclick="saveInlineEditGoalEvent('${g.id}', '${r.id}')">Salvar</button>
+                                <button type="button" class="icon-mini-btn" onclick="cancelInlineEditGoalEvent()">✕</button>
+                              </div>
+                            </td>
+                          </tr>
+                        `;
+                      }
+                      return `
+                        <tr>
+                          <td>${escapeHtml(fmtDateBR(r.date))}</td>
+                          <td>${escapeHtml(r.desc)}</td>
+                          <td class="num"><strong>${fmtBRL(r.balance)}</strong></td>
+                          <td class="num">
+                            <div style="display:inline-flex; gap:4px;">
+                              <button type="button" class="icon-mini-btn" title="Editar lançamento" aria-label="Editar lançamento" onclick="startInlineEditGoalEvent('${g.id}', '${r.id}')">✎</button>
+                              <button type="button" class="icon-mini-btn danger" title="Remover lançamento" aria-label="Remover lançamento" onclick="deleteGoalEvent('${g.id}', '${r.id}')">🗑</button>
+                            </div>
+                          </td>
+                        </tr>
+                      `;
+                    }).join('')}
                   </tbody>
                 </table>
               </div>
@@ -3846,7 +4010,6 @@
 
     function resetWishForm() {
       editingWishId = null;
-      document.getElementById('wishFormTitle').textContent = 'Simular Compra e Lista de Desejos';
       document.getElementById('addWishBtn').textContent = '+ Adicionar à Lista do que Quero Comprar';
       document.getElementById('cancelEditWishBtn').classList.add('hidden');
       document.getElementById('wishName').value = '';
@@ -3859,7 +4022,10 @@
       updatePreviews();
     }
 
-    document.getElementById('cancelEditWishBtn').addEventListener('click', resetWishForm);
+    document.getElementById('cancelEditWishBtn').addEventListener('click', () => {
+      resetWishForm();
+      closeFormCenterPeek();
+    });
 
     document.getElementById('addWishBtn').addEventListener('click', () => {
       const name = document.getElementById('wishName').value.trim();
@@ -3887,6 +4053,7 @@
       }
 
       resetWishForm();
+      closeFormCenterPeek();
       saveState();
     });
 
@@ -3895,7 +4062,8 @@
       if (!w) return;
       editingWishId = id;
       setActiveTab('comprar');
-      document.getElementById('wishFormTitle').textContent = 'Editando Item da Lista do que Quero Comprar';
+      openFormCenterPeek('comprar');
+      document.getElementById('formPeekTitle').textContent = 'Editar Item da Lista';
       document.getElementById('addWishBtn').textContent = 'Salvar Alterações';
       document.getElementById('cancelEditWishBtn').classList.remove('hidden');
       document.getElementById('wishName').value = w.name;
@@ -3906,7 +4074,6 @@
       }
       document.getElementById('wishUrgency').value = w.urgency;
       updatePreviews();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
     function renderWishlist() {
