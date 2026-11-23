@@ -230,6 +230,13 @@
       outline: none;
     }
 
+    input[type="checkbox"] {
+      width: auto;
+      margin-bottom: 0;
+      accent-color: #2563eb;
+      cursor: pointer;
+    }
+
     input[readonly] {
       background: var(--card-2);
       color: var(--text);
@@ -344,6 +351,24 @@
       cursor: pointer;
     }
 
+    button.icon-mini-btn {
+      background: var(--card);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 3px 7px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+      line-height: 1.2;
+    }
+
+    button.icon-mini-btn.danger {
+      color: var(--danger);
+      border-color: rgba(220, 38, 38, 0.3);
+      background: rgba(220, 38, 38, 0.06);
+    }
+
     .row-actions {
       display: inline-flex;
       gap: 6px;
@@ -379,6 +404,14 @@
       text-align: center;
     }
 
+    .toolbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+
     .filter-toggle-btn {
       display: inline-flex;
       align-items: center;
@@ -391,7 +424,6 @@
       font-size: 0.8rem;
       font-weight: 700;
       cursor: pointer;
-      margin-bottom: 10px;
       transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
     }
 
@@ -453,30 +485,26 @@
       border-bottom: none;
     }
 
-    .draggable-fixed-row {
+    .draggable-row-card {
       background: var(--bg);
       border: 1px solid var(--border);
       border-radius: 12px;
       padding: 11px 12px;
       margin-bottom: 8px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
       transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
     }
 
-    .draggable-fixed-row:last-child {
+    .draggable-row-card:last-child {
       margin-bottom: 0;
     }
 
-    .draggable-fixed-row.dragging {
+    .draggable-row-card.dragging {
       opacity: 0.65;
       border-color: #60a5fa;
       box-shadow: 0 6px 18px rgba(15, 23, 42, 0.12);
     }
 
-    .draggable-fixed-row.drag-over {
+    .draggable-row-card.drag-over {
       border-color: #2563eb;
       box-shadow: inset 0 2px 0 #2563eb;
     }
@@ -510,6 +538,34 @@
       cursor: grabbing;
       background: var(--accent);
       color: var(--text);
+    }
+
+    .paid-check-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px dashed var(--border);
+      font-size: 0.8rem;
+    }
+
+    .paid-check-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 0;
+      color: var(--text);
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .paid-date-inline {
+      width: auto;
+      padding: 5px 8px;
+      margin-bottom: 0;
+      font-size: 0.8rem;
     }
 
     .item-title {
@@ -604,7 +660,6 @@
       font-weight: 700;
     }
 
-    /* Quando exibido em Reais | Horas, mantém exatamente o tamanho da fonte de Reais */
     .brl-hours-pair {
       display: inline-flex;
       align-items: baseline;
@@ -646,7 +701,7 @@
       width: 100%;
       border-collapse: collapse;
       font-size: 0.78rem;
-      min-width: 340px;
+      min-width: 360px;
     }
 
     .statement-table th,
@@ -654,6 +709,7 @@
       padding: 7px 8px;
       border-bottom: 1px solid var(--border);
       text-align: left;
+      vertical-align: middle;
     }
 
     .statement-table th {
@@ -846,6 +902,93 @@
       border: 1px solid var(--border);
     }
 
+    /* Center Peek Modal para Poupança */
+    .center-peek-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.48);
+      z-index: 60;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .center-peek-backdrop.hidden {
+      display: none;
+    }
+
+    .center-peek-modal {
+      width: 100%;
+      max-width: 640px;
+      max-height: 86vh;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: 0 20px 50px rgba(15, 23, 42, 0.24);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .center-peek-header {
+      padding: 14px 16px;
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .center-peek-title {
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--text);
+    }
+
+    .center-peek-close {
+      background: var(--bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .center-peek-body {
+      padding: 14px 16px 20px;
+      overflow-y: auto;
+    }
+
+    .goal-month-row {
+      display: grid;
+      grid-template-columns: auto 1fr auto auto;
+      align-items: center;
+      gap: 10px;
+      padding: 10px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin-bottom: 8px;
+    }
+
+    @media (max-width: 560px) {
+      .goal-month-row {
+        grid-template-columns: auto 1fr;
+      }
+    }
+
+    .goal-month-paid-input {
+      width: 115px;
+      padding: 7px 9px;
+      margin-bottom: 0;
+      font-size: 0.88rem;
+      font-weight: 700;
+    }
+
     .empty {
       color: var(--muted);
       font-size: 0.85rem;
@@ -950,12 +1093,25 @@
               <span id="expCount">0 itens</span>
             </div>
 
-            <button type="button" class="filter-toggle-btn" id="expFilterToggleBtn" aria-expanded="false" aria-controls="expCycleFilterWrap">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
-              </svg>
-              <span>Filtrar</span>
-            </button>
+            <div class="toolbar-actions">
+              <button type="button" class="filter-toggle-btn" id="expFilterToggleBtn" aria-expanded="false" aria-controls="expCycleFilterWrap">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+                </svg>
+                <span>Filtrar</span>
+              </button>
+
+              <button type="button" class="filter-toggle-btn" id="expSortBtn" title="Alternar ordenação">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M11 5h10"></path>
+                  <path d="M11 9h7"></path>
+                  <path d="M11 13h4"></path>
+                  <path d="m3 17 3 3 3-3"></path>
+                  <path d="M6 18V4"></path>
+                </svg>
+                <span id="expSortLabel">Ordenar: Data ↑</span>
+              </button>
+            </div>
 
             <div id="expCycleFilterWrap" class="hidden">
               <label for="expCycleFilter">Selecionar ciclo</label>
@@ -1012,6 +1168,35 @@
               <span>Gastos Fixos Ativos</span>
             </div>
 
+            <div class="toolbar-actions">
+              <button type="button" class="filter-toggle-btn" id="fixedFilterToggleBtn" aria-expanded="false" aria-controls="fixedFilterWrap">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+                </svg>
+                <span>Filtrar</span>
+              </button>
+
+              <button type="button" class="filter-toggle-btn" id="fixedSortBtn" title="Alternar ordenação">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M11 5h10"></path>
+                  <path d="M11 9h7"></path>
+                  <path d="M11 13h4"></path>
+                  <path d="m3 17 3 3 3-3"></path>
+                  <path d="M6 18V4"></path>
+                </svg>
+                <span id="fixedSortLabel">Ordenar: Manual</span>
+              </button>
+            </div>
+
+            <div id="fixedFilterWrap" class="hidden">
+              <label for="fixedStatusFilter">Status no mês atual</label>
+              <select id="fixedStatusFilter" style="margin-bottom:10px;">
+                <option value="all">Todos</option>
+                <option value="paid">Pagos no mês atual</option>
+                <option value="unpaid">Não pagos no mês atual</option>
+              </select>
+            </div>
+
             <div class="summary-rect-box" id="fixedSummaryBox">
               <div class="summary-rect-label">Total de gastos fixos mensais:</div>
               <div class="summary-rect-values" id="fixedTotalValues">
@@ -1036,12 +1221,14 @@
               <span id="chartPeriodBadge">--</span>
             </div>
 
-            <button type="button" class="filter-toggle-btn" id="chartFilterToggleBtn" aria-expanded="false" aria-controls="chartCycleFilterWrap">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
-              </svg>
-              <span>Filtrar</span>
-            </button>
+            <div class="toolbar-actions">
+              <button type="button" class="filter-toggle-btn" id="chartFilterToggleBtn" aria-expanded="false" aria-controls="chartCycleFilterWrap">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+                </svg>
+                <span>Filtrar</span>
+              </button>
+            </div>
 
             <div id="chartCycleFilterWrap" class="hidden">
               <label for="chartCycleFilter">Selecionar ciclo</label>
@@ -1054,6 +1241,7 @@
             </div>
 
             <canvas id="categoryCanvas" style="height: 290px;"></canvas>
+            <div class="item-sub" style="margin-bottom:8px;">Clique e segure na alça ⋮⋮ para reordenar as categorias.</div>
             <div id="categoryBreakdown"></div>
           </div>
 
@@ -1078,12 +1266,25 @@
           <div class="card">
             <div class="card-title">Fatura — Cartão C6</div>
 
-            <button type="button" class="filter-toggle-btn" id="c6FilterToggleBtn" aria-expanded="false" aria-controls="c6CycleFilterWrap">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
-              </svg>
-              <span>Filtrar</span>
-            </button>
+            <div class="toolbar-actions">
+              <button type="button" class="filter-toggle-btn" id="c6FilterToggleBtn" aria-expanded="false" aria-controls="c6CycleFilterWrap">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+                </svg>
+                <span>Filtrar</span>
+              </button>
+
+              <button type="button" class="filter-toggle-btn" id="c6SortBtn" title="Alternar ordenação">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M11 5h10"></path>
+                  <path d="M11 9h7"></path>
+                  <path d="M11 13h4"></path>
+                  <path d="m3 17 3 3 3-3"></path>
+                  <path d="M6 18V4"></path>
+                </svg>
+                <span id="c6SortLabel">Ordenar: Data ↑</span>
+              </button>
+            </div>
 
             <div id="c6CycleFilterWrap" class="hidden">
               <label for="c6CycleFilter">Selecionar ciclo da fatura</label>
@@ -1271,7 +1472,7 @@
           <div class="card">
             <div class="card-title">
               <span>Minhas Metas de Poupança</span>
-              <span class="item-sub" style="margin:0; text-transform:none; letter-spacing:0;">Toque na meta para ver o extrato</span>
+              <span class="item-sub" style="margin:0; text-transform:none; letter-spacing:0;">Toque na meta para abrir o cronograma</span>
             </div>
             <div id="goalsList"></div>
           </div>
@@ -1433,6 +1634,20 @@
     </div>
   </div>
 
+  <!-- Center Peek Modal para Meses da Meta de Poupança -->
+  <div class="center-peek-backdrop hidden" id="goalCenterPeek" role="dialog" aria-modal="true" aria-labelledby="goalPeekTitle">
+    <div class="center-peek-modal" onclick="event.stopPropagation()">
+      <div class="center-peek-header">
+        <div>
+          <div class="center-peek-title" id="goalPeekTitle">Cronograma da Meta</div>
+          <div class="subtitle" id="goalPeekSubtitle"></div>
+        </div>
+        <button type="button" class="center-peek-close" id="closeGoalPeekBtn">Fechar</button>
+      </div>
+      <div class="center-peek-body" id="goalPeekBody"></div>
+    </div>
+  </div>
+
   <script>
     const STORAGE_KEY = 'controle_horas_pwa_v1';
     const FIXED_COLORS = ['#2563EB', '#059669', '#D97706', '#DC2626', '#7C3AED', '#DB2777', '#0D9488', '#0284C7'];
@@ -1545,6 +1760,7 @@
 
     const expandedDebtStatements = {};
     const expandedGoalStatements = {};
+    let activePeekGoalId = null;
 
     let selectedExpCycle = null;
     let selectedChartCycle = null;
@@ -1553,10 +1769,33 @@
     let expFilterOpen = false;
     let chartFilterOpen = false;
     let c6FilterOpen = false;
+    let fixedFilterOpen = false;
+    let fixedStatusFilter = 'all';
+
+    // Modos de ordenação
+    const SORT_MODES = [
+      { key: 'date_asc', label: 'Data ↑' },
+      { key: 'date_desc', label: 'Data ↓' },
+      { key: 'val_desc', label: 'Maior valor' },
+      { key: 'val_asc', label: 'Menor valor' }
+    ];
+    let expSortIdx = 0;
+    let c6SortIdx = 0;
+
+    const FIXED_SORT_MODES = [
+      { key: 'manual', label: 'Manual' },
+      { key: 'day_asc', label: 'Dia ↑' },
+      { key: 'val_desc', label: 'Maior valor' },
+      { key: 'val_asc', label: 'Menor valor' }
+    ];
+    let fixedSortIdx = 0;
 
     function saveState() {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
       renderAll();
+      if (activePeekGoalId) {
+        renderGoalCenterPeek(activePeekGoalId);
+      }
     }
 
     function getCategoryColor(cat, idx = 0) {
@@ -1918,37 +2157,50 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
+    function sortGenericRows(rows, modeKey, getDateFn, getAmountFn) {
+      const copy = rows.slice();
+      if (modeKey === 'date_asc') {
+        copy.sort((a, b) => compareDateAsc(getDateFn(a), getDateFn(b)));
+      } else if (modeKey === 'date_desc') {
+        copy.sort((a, b) => compareDateAsc(getDateFn(b), getDateFn(a)));
+      } else if (modeKey === 'val_desc') {
+        copy.sort((a, b) => (Number(getAmountFn(b)) || 0) - (Number(getAmountFn(a)) || 0));
+      } else if (modeKey === 'val_asc') {
+        copy.sort((a, b) => (Number(getAmountFn(a)) || 0) - (Number(getAmountFn(b)) || 0));
+      }
+      return copy;
+    }
+
     function getExpensesForCycle(cycleKey) {
       const rows = [];
-      state.expenses
-        .slice()
-        .sort((a, b) => compareDateAsc(a.date, b.date))
-        .forEach((e) => {
-          const base = e.baseCycle || getCardCycleKey(parseLocalDate(e.date));
-          if (e.condition === 'parcelado') {
-            const count = Math.max(2, Number(e.installments) || 2);
-            const per = Number(e.value) / count;
-            for (let i = 0; i < count; i++) {
-              const instCycle = addMonthsToCycleKey(base, i);
-              if (instCycle === cycleKey) {
-                rows.push({
-                  expense: e,
-                  displayAmount: per,
-                  installmentLabel: `Parcela ${i + 1}/${count}`,
-                  endCycle: addMonthsToCycleKey(base, count - 1)
-                });
-              }
+      state.expenses.forEach((e) => {
+        const base = e.baseCycle || getCardCycleKey(parseLocalDate(e.date));
+        if (e.condition === 'parcelado') {
+          const count = Math.max(2, Number(e.installments) || 2);
+          const per = Number(e.value) / count;
+          for (let i = 0; i < count; i++) {
+            const instCycle = addMonthsToCycleKey(base, i);
+            if (instCycle === cycleKey) {
+              rows.push({
+                expense: e,
+                displayAmount: per,
+                installmentLabel: `Parcela ${i + 1}/${count}`,
+                endCycle: addMonthsToCycleKey(base, count - 1)
+              });
             }
-          } else if (base === cycleKey) {
-            rows.push({
-              expense: e,
-              displayAmount: Number(e.value),
-              installmentLabel: 'À vista',
-              endCycle: base
-            });
           }
-        });
-      return rows;
+        } else if (base === cycleKey) {
+          rows.push({
+            expense: e,
+            displayAmount: Number(e.value),
+            installmentLabel: 'À vista',
+            endCycle: base
+          });
+        }
+      });
+
+      const mode = SORT_MODES[expSortIdx] || SORT_MODES[0];
+      return sortGenericRows(rows, mode.key, (r) => r.expense.date, (r) => r.displayAmount);
     }
 
     function bindFilterToggle(btnId, wrapId, getStateFn, setStateFn) {
@@ -1964,8 +2216,32 @@
     }
 
     bindFilterToggle('expFilterToggleBtn', 'expCycleFilterWrap', () => expFilterOpen, (v) => { expFilterOpen = v; });
+    bindFilterToggle('fixedFilterToggleBtn', 'fixedFilterWrap', () => fixedFilterOpen, (v) => { fixedFilterOpen = v; });
     bindFilterToggle('chartFilterToggleBtn', 'chartCycleFilterWrap', () => chartFilterOpen, (v) => { chartFilterOpen = v; });
     bindFilterToggle('c6FilterToggleBtn', 'c6CycleFilterWrap', () => c6FilterOpen, (v) => { c6FilterOpen = v; });
+
+    document.getElementById('expSortBtn').addEventListener('click', () => {
+      expSortIdx = (expSortIdx + 1) % SORT_MODES.length;
+      document.getElementById('expSortLabel').textContent = `Ordenar: ${SORT_MODES[expSortIdx].label}`;
+      renderExpenses();
+    });
+
+    document.getElementById('fixedSortBtn').addEventListener('click', () => {
+      fixedSortIdx = (fixedSortIdx + 1) % FIXED_SORT_MODES.length;
+      document.getElementById('fixedSortLabel').textContent = `Ordenar: ${FIXED_SORT_MODES[fixedSortIdx].label}`;
+      renderFixed();
+    });
+
+    document.getElementById('fixedStatusFilter').addEventListener('change', (e) => {
+      fixedStatusFilter = e.target.value;
+      renderFixed();
+    });
+
+    document.getElementById('c6SortBtn').addEventListener('click', () => {
+      c6SortIdx = (c6SortIdx + 1) % SORT_MODES.length;
+      document.getElementById('c6SortLabel').textContent = `Ordenar: ${SORT_MODES[c6SortIdx].label}`;
+      renderC6();
+    });
 
     const expCycleFilterEl = document.getElementById('expCycleFilter');
     expCycleFilterEl.addEventListener('change', () => {
@@ -1975,6 +2251,7 @@
 
     function renderExpenses() {
       selectedExpCycle = populateCycleSelect(expCycleFilterEl, selectedExpCycle);
+      document.getElementById('expSortLabel').textContent = `Ordenar: ${SORT_MODES[expSortIdx].label}`;
       const container = document.getElementById('expensesList');
       const cycleRows = getExpensesForCycle(selectedExpCycle);
 
@@ -2028,7 +2305,12 @@
       }).join('');
     }
 
-    // --- GASTOS FIXOS COM ARRASTAR E SOLTAR ---
+    // --- GASTOS FIXOS ---
+    function isFixedPaidInCurrentMonth(fixedItem) {
+      const currMonth = getCurrentMonthKey();
+      return Boolean(fixedItem && fixedItem.paidCurrentMonth && fixedItem.paidMonthKey === currMonth);
+    }
+
     document.getElementById('addFixedBtn').addEventListener('click', () => {
       const day = Math.min(31, Math.max(1, parseInt(document.getElementById('fixedDay').value, 10) || 1));
       const value = parseFloat(document.getElementById('fixedValue').value);
@@ -2041,7 +2323,10 @@
         day,
         value,
         desc: desc || category,
-        category
+        category,
+        paidCurrentMonth: false,
+        paidMonthKey: getCurrentMonthKey(),
+        paidDate: getTodayISO()
       });
 
       document.getElementById('fixedDesc').value = '';
@@ -2050,9 +2335,37 @@
       updatePreviews();
     });
 
+    window.toggleFixedPaid = function(id, checked) {
+      const currMonth = getCurrentMonthKey();
+      state.fixedExpenses = state.fixedExpenses.map((f) => {
+        if (f.id !== id) return f;
+        return {
+          ...f,
+          paidCurrentMonth: Boolean(checked),
+          paidMonthKey: currMonth,
+          paidDate: checked ? (f.paidDate || getTodayISO()) : (f.paidDate || getTodayISO())
+        };
+      });
+      saveState();
+    };
+
+    window.changeFixedPaidDate = function(id, dateVal) {
+      const currMonth = getCurrentMonthKey();
+      state.fixedExpenses = state.fixedExpenses.map((f) => {
+        if (f.id !== id) return f;
+        return {
+          ...f,
+          paidDate: dateVal || getTodayISO(),
+          paidMonthKey: currMonth
+        };
+      });
+      saveState();
+    };
+
     function moveFixedItem(fromIndex, toIndex) {
       if (fromIndex === toIndex) return;
       if (fromIndex < 0 || toIndex < 0 || fromIndex >= state.fixedExpenses.length || toIndex >= state.fixedExpenses.length) return;
+      fixedSortIdx = 0;
       const list = state.fixedExpenses.slice();
       const [moved] = list.splice(fromIndex, 1);
       list.splice(toIndex, 0, moved);
@@ -2060,17 +2373,15 @@
       saveState();
     }
 
-    let draggedFixedIdx = null;
-
-    function attachFixedDragListeners() {
-      const container = document.getElementById('fixedList');
-      const rows = Array.from(container.querySelectorAll('.draggable-fixed-row'));
+    function attachDragReorder(containerEl, selector, onReorder) {
+      let draggedIdx = null;
+      const rows = Array.from(containerEl.querySelectorAll(selector));
 
       rows.forEach((row) => {
         const idx = Number(row.dataset.index);
 
         row.addEventListener('dragstart', (e) => {
-          draggedFixedIdx = idx;
+          draggedIdx = idx;
           row.classList.add('dragging');
           if (e.dataTransfer) {
             e.dataTransfer.effectAllowed = 'move';
@@ -2081,12 +2392,12 @@
         row.addEventListener('dragend', () => {
           row.classList.remove('dragging');
           rows.forEach((r) => r.classList.remove('drag-over'));
-          draggedFixedIdx = null;
+          draggedIdx = null;
         });
 
         row.addEventListener('dragover', (e) => {
           e.preventDefault();
-          if (draggedFixedIdx !== null && draggedFixedIdx !== idx) {
+          if (draggedIdx !== null && draggedIdx !== idx) {
             row.classList.add('drag-over');
           }
         });
@@ -2098,26 +2409,26 @@
         row.addEventListener('drop', (e) => {
           e.preventDefault();
           row.classList.remove('drag-over');
-          const fromIdx = draggedFixedIdx !== null ? draggedFixedIdx : Number(e.dataTransfer?.getData('text/plain'));
+          const fromIdx = draggedIdx !== null ? draggedIdx : Number(e.dataTransfer?.getData('text/plain'));
           if (!Number.isNaN(fromIdx) && fromIdx !== idx) {
-            moveFixedItem(fromIdx, idx);
+            onReorder(fromIdx, idx);
           }
-          draggedFixedIdx = null;
+          draggedIdx = null;
         });
 
         const handle = row.querySelector('.drag-handle-btn');
         if (handle) {
           handle.addEventListener('touchstart', () => {
-            draggedFixedIdx = idx;
+            draggedIdx = idx;
             row.classList.add('dragging');
           }, { passive: true });
 
           handle.addEventListener('touchmove', (e) => {
-            if (draggedFixedIdx === null) return;
+            if (draggedIdx === null) return;
             e.preventDefault();
             const touch = e.touches[0];
             const targetEl = document.elementFromPoint(touch.clientX, touch.clientY);
-            const targetRow = targetEl ? targetEl.closest('.draggable-fixed-row') : null;
+            const targetRow = targetEl ? targetEl.closest(selector) : null;
             rows.forEach((r) => r.classList.remove('drag-over'));
             if (targetRow && targetRow !== row) {
               targetRow.classList.add('drag-over');
@@ -2128,58 +2439,94 @@
             row.classList.remove('dragging');
             const touch = e.changedTouches[0];
             const targetEl = document.elementFromPoint(touch.clientX, touch.clientY);
-            const targetRow = targetEl ? targetEl.closest('.draggable-fixed-row') : null;
+            const targetRow = targetEl ? targetEl.closest(selector) : null;
             rows.forEach((r) => r.classList.remove('drag-over'));
-            if (targetRow && draggedFixedIdx !== null) {
+            if (targetRow && draggedIdx !== null) {
               const dropIdx = Number(targetRow.dataset.index);
-              if (!Number.isNaN(dropIdx) && dropIdx !== draggedFixedIdx) {
-                moveFixedItem(draggedFixedIdx, dropIdx);
+              if (!Number.isNaN(dropIdx) && dropIdx !== draggedIdx) {
+                onReorder(draggedIdx, dropIdx);
               }
             }
-            draggedFixedIdx = null;
+            draggedIdx = null;
           });
         }
       });
     }
 
     function renderFixed() {
+      document.getElementById('fixedSortLabel').textContent = `Ordenar: ${FIXED_SORT_MODES[fixedSortIdx].label}`;
       const container = document.getElementById('fixedList');
+
       const total = state.fixedExpenses.reduce((acc, f) => acc + Number(f.value || 0), 0);
       document.getElementById('fixedTotalValues').innerHTML = fmtBrlHoursPair(total);
 
-      if (!state.fixedExpenses.length) {
-        container.innerHTML = '<div class="empty">Nenhum gasto fixo cadastrado.</div>';
+      let list = state.fixedExpenses.map((item, origIdx) => ({ item, origIdx }));
+
+      if (fixedStatusFilter === 'paid') {
+        list = list.filter(({ item }) => isFixedPaidInCurrentMonth(item));
+      } else if (fixedStatusFilter === 'unpaid') {
+        list = list.filter(({ item }) => !isFixedPaidInCurrentMonth(item));
+      }
+
+      const sortMode = FIXED_SORT_MODES[fixedSortIdx] || FIXED_SORT_MODES[0];
+      if (sortMode.key === 'day_asc') {
+        list.sort((a, b) => Number(a.item.day || 1) - Number(b.item.day || 1));
+      } else if (sortMode.key === 'val_desc') {
+        list.sort((a, b) => Number(b.item.value || 0) - Number(a.item.value || 0));
+      } else if (sortMode.key === 'val_asc') {
+        list.sort((a, b) => Number(a.item.value || 0) - Number(b.item.value || 0));
+      }
+
+      if (!list.length) {
+        container.innerHTML = '<div class="empty">Nenhum gasto fixo encontrado para o filtro selecionado.</div>';
         return;
       }
 
-      container.innerHTML = state.fixedExpenses.map((f, idx) => {
+      container.innerHTML = list.map(({ item: f, origIdx }) => {
         const catColor = getCategoryColor(f.category, state.categories.indexOf(f.category));
         const catInk = getContrastInk(catColor);
+        const isPaid = isFixedPaidInCurrentMonth(f);
+        const paidDateVal = toInputDateISO(f.paidDate || getTodayISO());
+
         return `
-          <div class="draggable-fixed-row" data-index="${idx}" draggable="true">
-            <div class="fixed-left-group">
-              <button type="button" class="drag-handle-btn" title="Segure e arraste para reordenar" aria-label="Segure e arraste para reordenar">⋮⋮</button>
-              <div>
-                <div class="item-title">
-                  <span>${escapeHtml(f.desc)}</span>
-                </div>
-                <div class="item-sub">
-                  <span>Todo dia ${f.day}</span>
-                  <span>•</span>
-                  <span class="filled-tag" style="background:${escapeHtml(catColor)}; color:${escapeHtml(catInk)};">${escapeHtml(f.category)}</span>
+          <div class="draggable-row-card" data-index="${origIdx}" draggable="true">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:10px;">
+              <div class="fixed-left-group">
+                <button type="button" class="drag-handle-btn" title="Segure e arraste para reordenar" aria-label="Segure e arraste para reordenar">⋮⋮</button>
+                <div>
+                  <div class="item-title">
+                    <span>${escapeHtml(f.desc)}</span>
+                  </div>
+                  <div class="item-sub">
+                    <span>Todo dia ${f.day}</span>
+                    <span>•</span>
+                    <span class="filled-tag" style="background:${escapeHtml(catColor)}; color:${escapeHtml(catInk)};">${escapeHtml(f.category)}</span>
+                  </div>
                 </div>
               </div>
+              <div class="item-right">
+                <div class="val-main">${fmtBRL(f.value)}</div>
+                <div class="hours-tag">${fmtHours(hoursFromAmount(f.value))}</div>
+                <button type="button" class="danger-btn" style="margin-top:4px;" onclick="deleteItem('fixedExpenses', '${f.id}')">Remover</button>
+              </div>
             </div>
-            <div class="item-right">
-              <div class="val-main">${fmtBRL(f.value)}</div>
-              <div class="hours-tag">${fmtHours(hoursFromAmount(f.value))}</div>
-              <button type="button" class="danger-btn" style="margin-top:4px;" onclick="deleteItem('fixedExpenses', '${f.id}')">Remover</button>
+            <div class="paid-check-row">
+              <label class="paid-check-label">
+                <input type="checkbox" ${isPaid ? 'checked' : ''} onchange="toggleFixedPaid('${f.id}', this.checked)" />
+                <span>Pago no mês atual</span>
+              </label>
+              <label class="paid-check-label" style="font-weight:600; color:var(--muted);">
+                <span>Data pago:</span>
+                <input type="date" class="paid-date-inline" value="${escapeHtml(paidDateVal)}" onchange="changeFixedPaidDate('${f.id}', this.value)" />
+              </label>
             </div>
           </div>
         `;
       }).join('');
 
-      attachFixedDragListeners();
+      attachDragReorder(container, '.draggable-row-card', (fromIdx, toIdx) => {
+        moveFixedItem(fromIdx, toIdx);
+      });
     }
 
     // --- GRÁFICO ---
@@ -2187,7 +2534,9 @@
       const map = {};
       state.categories.forEach((c) => { map[c] = 0; });
 
+      // Gasto fixo só entra no gráfico após marcado como pago no mês atual
       state.fixedExpenses.forEach((f) => {
+        if (!isFixedPaidInCurrentMonth(f)) return;
         const cat = map[f.category] !== undefined ? f.category : 'Outros';
         map[cat] = (map[cat] || 0) + Number(f.value || 0);
       });
@@ -2229,6 +2578,16 @@
       renderChartTab();
     });
 
+    function moveCategoryOrder(fromIdx, toIdx) {
+      if (fromIdx === toIdx) return;
+      if (fromIdx < 0 || toIdx < 0 || fromIdx >= state.categories.length || toIdx >= state.categories.length) return;
+      const list = state.categories.slice();
+      const [moved] = list.splice(fromIdx, 1);
+      list.splice(toIdx, 0, moved);
+      state.categories = list;
+      saveState();
+    }
+
     function renderChartTab() {
       selectedChartCycle = populateCycleSelect(chartCycleFilterEl, selectedChartCycle);
       document.getElementById('chartPeriodBadge').textContent = formatCycleLabel(selectedChartCycle);
@@ -2238,7 +2597,8 @@
       document.getElementById('cycleSpentVal').textContent = fmtBRL(spentTotal);
       document.getElementById('cycleSpentHours').textContent = `${fmtHours(hoursFromAmount(spentTotal))} gastos no ciclo`;
 
-      document.getElementById('categoryBreakdown').innerHTML = state.categories.map((cat, idx) => {
+      const breakdownEl = document.getElementById('categoryBreakdown');
+      breakdownEl.innerHTML = state.categories.map((cat, idx) => {
         const spent = totals[cat] || 0;
         const cap = Number(state.categoryCaps[cat] || 0);
         const color = getCategoryColor(cat, idx);
@@ -2279,10 +2639,13 @@
         }
 
         return `
-          <div class="item-row" style="display:block;">
+          <div class="draggable-row-card" data-index="${idx}" draggable="true">
             <div style="display:flex; justify-content:space-between; align-items:center; gap:8px;">
-              <div class="item-title">
-                <span class="filled-tag" style="background:${escapeHtml(color)}; color:${escapeHtml(catInk)};">${escapeHtml(cat)}</span>
+              <div class="fixed-left-group" style="align-items:center;">
+                <button type="button" class="drag-handle-btn" title="Clique e segure para reordenar" aria-label="Clique e segure para reordenar">⋮⋮</button>
+                <div class="item-title">
+                  <span class="filled-tag" style="background:${escapeHtml(color)}; color:${escapeHtml(catInk)};">${escapeHtml(cat)}</span>
+                </div>
               </div>
               <div class="item-right">
                 <span class="val-main">${fmtBRL(spent)}</span>
@@ -2293,6 +2656,10 @@
           </div>
         `;
       }).join('');
+
+      attachDragReorder(breakdownEl, '.draggable-row-card', (fromIdx, toIdx) => {
+        moveCategoryOrder(fromIdx, toIdx);
+      });
 
       drawChart();
     }
@@ -2431,14 +2798,11 @@
 
     function renderC6() {
       selectedC6Cycle = populateCycleSelect(c6CycleFilterEl, selectedC6Cycle);
+      document.getElementById('c6SortLabel').textContent = `Ordenar: ${SORT_MODES[c6SortIdx].label}`;
       let total = 0;
       const lines = [];
 
-      const sortedExpenses = state.expenses
-        .slice()
-        .sort((a, b) => compareDateAsc(a.date, b.date));
-
-      sortedExpenses.forEach((e) => {
+      state.expenses.forEach((e) => {
         if (!/c6/i.test(e.payment)) return;
         const base = e.baseCycle || getCardCycleKey(parseLocalDate(e.date));
         const catColor = getCategoryColor(e.category, state.categories.indexOf(e.category));
@@ -2450,6 +2814,7 @@
               total += per;
               lines.push({
                 desc: `${e.desc} (${i + 1}/${e.installments})`,
+                date: e.date,
                 meta: `Compra em ${fmtDateBR(e.date)}`,
                 category: e.category,
                 val: per,
@@ -2462,6 +2827,7 @@
           total += Number(e.value);
           lines.push({
             desc: e.desc,
+            date: e.date,
             meta: `Compra em ${fmtDateBR(e.date)}`,
             category: e.category,
             val: Number(e.value),
@@ -2471,16 +2837,19 @@
         }
       });
 
+      const sortMode = SORT_MODES[c6SortIdx] || SORT_MODES[0];
+      const sortedLines = sortGenericRows(lines, sortMode.key, (l) => l.date, (l) => l.val);
+
       document.getElementById('c6InvoiceTotal').textContent = fmtBRL(total);
       document.getElementById('c6InvoiceHours').textContent = `${fmtHours(hoursFromAmount(total))} de trabalho`;
 
       const el = document.getElementById('c6Breakdown');
-      if (!lines.length) {
+      if (!sortedLines.length) {
         el.innerHTML = '<div class="empty">Nenhum lançamento na fatura deste ciclo para o Cartão C6.</div>';
         return;
       }
 
-      el.innerHTML = lines.map((l) => `
+      el.innerHTML = sortedLines.map((l) => `
         <div class="item-row">
           <div>
             <div class="item-title">
@@ -2515,7 +2884,51 @@
       return Math.max(1, diff);
     }
 
-    // Meta mensal fica fixa pelo valor total / prazo em meses (não é reduzida por pagamentos feitos)
+    function ensureDebtEvents(debt) {
+      const startDate = debt.startDate || getTodayISO();
+      const initialAmt = Number(debt.initialAmount ?? debt.total) || 0;
+      if (Array.isArray(debt.events) && debt.events.length) {
+        return debt.events.map((ev, idx) => ({
+          id: ev.id || `dev_${idx}_${Math.random().toString(36).slice(2, 6)}`,
+          date: ev.date || startDate,
+          kind: ev.kind || 'payment',
+          label: ev.label || 'Movimentação',
+          amount: Number(ev.amount) || 0
+        }));
+      }
+      const list = [{
+        id: `dev_init_${Math.random().toString(36).slice(2, 6)}`,
+        date: startDate,
+        kind: 'initial_total',
+        label: 'Valor inicial da dívida',
+        amount: initialAmt
+      }];
+      if ((Number(debt.paid) || 0) > 0) {
+        list.push({
+          id: `dev_paid_${Math.random().toString(36).slice(2, 6)}`,
+          date: startDate,
+          kind: 'payment',
+          label: 'Pago inicialmente',
+          amount: Number(debt.paid) || 0
+        });
+      }
+      return list;
+    }
+
+    function recalculateDebtFromEvents(debt, events) {
+      const ordered = events.slice().sort((a, b) => compareDateAsc(a.date, b.date));
+      const initEv = ordered.find((e) => e.kind === 'initial_total');
+      const initialAmount = initEv ? (Number(initEv.amount) || 0) : (Number(debt.initialAmount ?? debt.total) || 0);
+      const addedLoans = ordered
+        .filter((e) => e.kind === 'loan')
+        .reduce((s, e) => s + (Number(e.amount) || 0), 0);
+      const paid = ordered
+        .filter((e) => e.kind === 'payment')
+        .reduce((s, e) => s + (Number(e.amount) || 0), 0);
+      const total = initialAmount + addedLoans;
+      return { initialAmount, addedLoans, total, paid, events: ordered };
+    }
+
     function calculateDebtMonthlyPlan(debtObj) {
       const initialVal = Math.max(0, Number(debtObj.initialAmount ?? debtObj.total) || 0);
       const addedLoans = Math.max(0, Number(debtObj.addedLoans) || 0);
@@ -2610,19 +3023,7 @@
     document.getElementById('cancelEditDebtBtn').addEventListener('click', resetDebtForm);
 
     function buildDebtStatementRows(debt) {
-      const startDate = debt.startDate || getTodayISO();
-      const initialAmt = Number(debt.initialAmount ?? debt.total) || 0;
-      const events = Array.isArray(debt.events) && debt.events.length ? debt.events.slice() : [];
-
-      if (!events.length) {
-        events.push({ date: startDate, kind: 'initial_total', label: 'Valor inicial da dívida', amount: initialAmt });
-        if ((Number(debt.paid) || 0) > 0) {
-          events.push({ date: startDate, kind: 'payment', label: 'Pago inicialmente', amount: Number(debt.paid) || 0 });
-        }
-      }
-
-      events.sort((a, b) => compareDateAsc(a.date, b.date));
-
+      const events = ensureDebtEvents(debt).sort((a, b) => compareDateAsc(a.date, b.date));
       let runningTotal = 0;
       let runningPaid = 0;
 
@@ -2636,12 +3037,48 @@
         const balance = Math.max(0, runningTotal - runningPaid);
         const signPrefix = ev.kind === 'payment' ? '- ' : '+ ';
         return {
+          id: ev.id,
           date: ev.date,
           desc: `${ev.label} (${signPrefix}${fmtBRL(amt)})`,
           balance
         };
       });
     }
+
+    window.editDebtEvent = function(debtId, eventId) {
+      const d = state.debts.find((item) => item.id === debtId);
+      if (!d) return;
+      const events = ensureDebtEvents(d);
+      const ev = events.find((item) => item.id === eventId);
+      if (!ev) return;
+
+      const newValStr = prompt('Novo valor (R$):', String(ev.amount));
+      if (newValStr === null) return;
+      const newVal = parseFloat(String(newValStr).replace(',', '.'));
+      if (Number.isNaN(newVal) || newVal < 0) return;
+
+      const newDateStr = prompt('Nova data (AAAA-MM-DD):', toInputDateISO(ev.date));
+      if (newDateStr === null) return;
+
+      const updatedEvents = events.map((item) => item.id === eventId
+        ? { ...item, amount: newVal, date: newDateStr.trim() || item.date }
+        : item
+      );
+      const recalculated = recalculateDebtFromEvents(d, updatedEvents);
+
+      state.debts = state.debts.map((item) => item.id === debtId ? { ...item, ...recalculated } : item);
+      saveState();
+    };
+
+    window.deleteDebtEvent = function(debtId, eventId) {
+      if (!confirm('Tem certeza que deseja remover este lançamento do extrato?')) return;
+      const d = state.debts.find((item) => item.id === debtId);
+      if (!d) return;
+      const events = ensureDebtEvents(d).filter((item) => item.id !== eventId);
+      const recalculated = recalculateDebtFromEvents(d, events);
+      state.debts = state.debts.map((item) => item.id === debtId ? { ...item, ...recalculated } : item);
+      saveState();
+    };
 
     document.getElementById('addDebtBtn').addEventListener('click', () => {
       const desc = document.getElementById('debtDesc').value.trim();
@@ -2661,26 +3098,23 @@
         const loanDate = document.getElementById('debtLoanDate').value || today;
         const loanAdd = parseFloat(document.getElementById('debtLoanValue').value) || 0;
 
-        let events = existing && Array.isArray(existing.events) && existing.events.length
-          ? existing.events.slice()
-          : [{ date: startDate, kind: 'initial_total', label: 'Valor inicial da dívida', amount: initialAmount }];
-
+        let events = existing ? ensureDebtEvents(existing) : [];
         const initialEv = events.find((ev) => ev.kind === 'initial_total');
         if (initialEv) {
           initialEv.date = startDate;
           initialEv.amount = initialAmount;
         } else {
-          events.unshift({ date: startDate, kind: 'initial_total', label: 'Valor inicial da dívida', amount: initialAmount });
+          events.unshift({ id: `dev_init_${Date.now().toString(36)}`, date: startDate, kind: 'initial_total', label: 'Valor inicial da dívida', amount: initialAmount });
         }
 
         let addedLoans = existing ? (Number(existing.addedLoans) || 0) : 0;
         if (loanAdd > 0) {
           addedLoans += loanAdd;
-          events.push({ date: loanDate, kind: 'loan', label: 'Novo empréstimo', amount: loanAdd });
+          events.push({ id: `dev_loan_${Date.now().toString(36)}`, date: loanDate, kind: 'loan', label: 'Novo empréstimo', amount: loanAdd });
         }
         if (payAdd > 0) {
           paid += payAdd;
-          events.push({ date: payDate, kind: 'payment', label: 'Pagamento registrado', amount: payAdd });
+          events.push({ id: `dev_pay_${Date.now().toString(36)}`, date: payDate, kind: 'payment', label: 'Pagamento registrado', amount: payAdd });
         }
 
         const total = initialAmount + addedLoans;
@@ -2699,10 +3133,10 @@
         } : d);
       } else {
         const events = [
-          { date: startDate, kind: 'initial_total', label: 'Valor inicial da dívida', amount: initialAmount }
+          { id: `dev_init_${Date.now().toString(36)}`, date: startDate, kind: 'initial_total', label: 'Valor inicial da dívida', amount: initialAmount }
         ];
         if (paid > 0) {
-          events.push({ date: startDate, kind: 'payment', label: 'Valor já pago', amount: paid });
+          events.push({ id: `dev_pay_${Date.now().toString(36)}`, date: startDate, kind: 'payment', label: 'Valor já pago', amount: paid });
         }
         state.debts.push({
           id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
@@ -2779,7 +3213,6 @@
           const isOpen = Boolean(expandedDebtStatements[d.id]);
           const stmtRows = isOpen ? buildDebtStatementRows(d) : [];
 
-          const monthStatusClass = calc.monthStatus === 'ok' ? 'text-green' : 'text-red';
           const monthStatusHtml = calc.remainingThisMonth <= 0
             ? `<strong class="text-green">Meta do mês atingida (${fmtBRL(0)})</strong>`
             : `<strong class="text-red">${fmtBrlHoursPair(calc.remainingThisMonth)}</strong>`;
@@ -2794,7 +3227,6 @@
                   </div>
                   <div class="detail-lines">
                     <div class="detail-line"><span>Início: <strong>${escapeHtml(fmtDateBR(d.startDate))}</strong> • Prazo: <strong>${escapeHtml(fmtDateBR(d.endDate))}</strong></span></div>
-                    <div class="detail-line"><span>Total: <strong>${fmtBRL(totalAmt)}</strong></span></div>
                     <div class="detail-line"><span>Valor pago: <strong>${fmtBRL(paidAmt)}</strong></span></div>
                     <div class="detail-line">
                       <span>Valor restante: <strong>${fmtBrlHoursPair(remAmt)}</strong></span>
@@ -2808,6 +3240,9 @@
                   </div>
                 </div>
                 <div class="item-right">
+                  <div class="item-sub" style="margin-top:0; margin-bottom:2px; justify-content:flex-end;">Valor total:</div>
+                  <div class="val-main">${fmtBRL(totalAmt)}</div>
+                  <div class="hours-tag">${fmtHours(hoursFromAmount(totalAmt))}</div>
                   <div class="row-actions">
                     <button type="button" class="edit-btn" onclick="startEditDebt('${d.id}')">Editar</button>
                     <button type="button" class="danger-btn" onclick="deleteItem('debts', '${d.id}')">Remover</button>
@@ -2828,6 +3263,7 @@
                         <th>Data</th>
                         <th>Movimentação</th>
                         <th class="num">Saldo</th>
+                        <th class="num">Ações</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -2836,6 +3272,12 @@
                           <td>${escapeHtml(fmtDateBR(r.date))}</td>
                           <td>${escapeHtml(r.desc)}</td>
                           <td class="num"><strong>${fmtBRL(r.balance)}</strong></td>
+                          <td class="num">
+                            <div style="display:inline-flex; gap:4px;">
+                              <button type="button" class="icon-mini-btn" title="Editar lançamento" aria-label="Editar lançamento" onclick="editDebtEvent('${d.id}', '${r.id}')">✎</button>
+                              <button type="button" class="icon-mini-btn danger" title="Remover lançamento" aria-label="Remover lançamento" onclick="deleteDebtEvent('${d.id}', '${r.id}')">🗑</button>
+                            </div>
+                          </td>
                         </tr>
                       `).join('')}
                     </tbody>
@@ -2916,7 +3358,7 @@
       }).join('');
     }
 
-    // --- POUPANÇA & EXTRATO ---
+    // --- POUPANÇA, EXTRATO & CENTER PEEK ---
     function getDefaultGoalDeadline() {
       const d = new Date();
       d.setMonth(d.getMonth() + 3);
@@ -2926,16 +3368,18 @@
       return `${yyyy}-${mm}-${dd}`;
     }
 
-    // Meta mensal fica fixa pelo valor total / prazo em meses (não é reduzida por aportes)
-    function calculateGoalMonthlyTarget(totalAmount, deadlineStr, startDateStr = '') {
+    // Subtrai o saldo acumulado do valor total almejado para calcular a meta mensal no prazo
+    function calculateGoalMonthlyTarget(totalAmount, savedAmount, deadlineStr, startDateStr = '') {
       const total = Math.max(0, Number(totalAmount) || 0);
-      if (total <= 0) return 0;
+      const saved = Math.max(0, Number(savedAmount) || 0);
+      const targetRemaining = Math.max(0, total - saved);
+      if (targetRemaining <= 0) return 0;
 
       const start = startDateStr ? parseLocalDate(startDateStr) : new Date();
       const deadline = deadlineStr ? parseLocalDate(deadlineStr) : new Date(start.getFullYear(), start.getMonth() + 1, start.getDate());
       const monthsDiff = (deadline.getFullYear() - start.getFullYear()) * 12 + (deadline.getMonth() - start.getMonth()) + (deadline.getDate() > start.getDate() ? 1 : 0);
       const monthsLeft = Math.max(1, monthsDiff);
-      return total / monthsLeft;
+      return targetRemaining / monthsLeft;
     }
 
     function getGoalSavedThisMonth(goal, extraDepositAmount = 0, extraDepositDate = '') {
@@ -2955,11 +3399,13 @@
       const total = parseFloat(document.getElementById('goalTotal').value) || 0;
       const addVal = parseFloat(document.getElementById('goalAddAmount').value) || 0;
       const addDate = document.getElementById('goalAddDate').value || getTodayISO();
+      const savedBase = parseFloat(document.getElementById('goalSaved').value) || 0;
       const deadline = document.getElementById('goalDeadline').value;
 
       const existing = editingGoalId ? state.goals.find((g) => g.id === editingGoalId) : null;
       const startRef = existing && existing.startDate ? existing.startDate : getTodayISO();
-      const monthly = calculateGoalMonthlyTarget(total, deadline, startRef);
+      const savedForPlan = existing ? (Number(existing.initialSaved ?? existing.totalSaved) || 0) : savedBase;
+      const monthly = calculateGoalMonthlyTarget(total, savedForPlan, deadline, startRef);
       const savedMonth = getGoalSavedThisMonth(existing, addVal, addDate);
       const remMonthTarget = monthly - savedMonth;
 
@@ -3000,25 +3446,84 @@
 
     document.getElementById('cancelEditGoalBtn').addEventListener('click', resetGoalForm);
 
-    function buildGoalStatementRows(goal) {
-      const events = Array.isArray(goal.events) && goal.events.length ? goal.events.slice() : [];
-      if (!events.length) {
-        const startDate = goal.startDate || getTodayISO();
-        events.push({ date: startDate, kind: 'init', label: 'Início da meta', amount: Number(goal.totalSaved) || 0 });
+    function ensureGoalEvents(goal) {
+      if (Array.isArray(goal.events) && goal.events.length) {
+        return goal.events.map((ev, idx) => ({
+          id: ev.id || `gev_${idx}_${Math.random().toString(36).slice(2, 6)}`,
+          date: ev.date || goal.startDate || getTodayISO(),
+          kind: ev.kind || 'deposit',
+          label: ev.label || 'Valor adicionado',
+          amount: Number(ev.amount) || 0,
+          monthKey: ev.monthKey || ''
+        }));
       }
-      events.sort((a, b) => compareDateAsc(a.date, b.date));
+      const startDate = goal.startDate || getTodayISO();
+      return [{
+        id: `gev_init_${Math.random().toString(36).slice(2, 6)}`,
+        date: startDate,
+        kind: 'init',
+        label: 'Início da meta',
+        amount: Number(goal.totalSaved) || 0,
+        monthKey: ''
+      }];
+    }
 
+    function recalculateGoalFromEvents(goal, events) {
+      const ordered = events.slice().sort((a, b) => compareDateAsc(a.date, b.date));
+      const totalSaved = Math.max(0, ordered.reduce((sum, ev) => sum + (Number(ev.amount) || 0), 0));
+      const initEv = ordered.find((ev) => ev.kind === 'init');
+      const initialSaved = initEv ? (Number(initEv.amount) || 0) : (Number(goal.initialSaved) || 0);
+      return { totalSaved, initialSaved, events: ordered };
+    }
+
+    function buildGoalStatementRows(goal) {
+      const events = ensureGoalEvents(goal).sort((a, b) => compareDateAsc(a.date, b.date));
       let runningBalance = 0;
       return events.map((ev) => {
         const amt = Number(ev.amount) || 0;
         runningBalance = Math.max(0, runningBalance + amt);
         return {
+          id: ev.id,
           date: ev.date,
-          desc: ev.kind === 'init' ? `Início da meta (${fmtBRL(amt)})` : `Valor adicionado (+ ${fmtBRL(amt)})`,
+          desc: ev.kind === 'init' ? `Início da meta (${fmtBRL(amt)})` : `${ev.label} (+ ${fmtBRL(amt)})`,
           balance: runningBalance
         };
       });
     }
+
+    window.editGoalEvent = function(goalId, eventId) {
+      const g = state.goals.find((item) => item.id === goalId);
+      if (!g) return;
+      const events = ensureGoalEvents(g);
+      const ev = events.find((item) => item.id === eventId);
+      if (!ev) return;
+
+      const newValStr = prompt('Novo valor (R$):', String(ev.amount));
+      if (newValStr === null) return;
+      const newVal = parseFloat(String(newValStr).replace(',', '.'));
+      if (Number.isNaN(newVal) || newVal < 0) return;
+
+      const newDateStr = prompt('Nova data (AAAA-MM-DD):', toInputDateISO(ev.date));
+      if (newDateStr === null) return;
+
+      const updatedEvents = events.map((item) => item.id === eventId
+        ? { ...item, amount: newVal, date: newDateStr.trim() || item.date }
+        : item
+      );
+      const recalculated = recalculateGoalFromEvents(g, updatedEvents);
+      state.goals = state.goals.map((item) => item.id === goalId ? { ...item, ...recalculated } : item);
+      saveState();
+    };
+
+    window.deleteGoalEvent = function(goalId, eventId) {
+      if (!confirm('Tem certeza que deseja remover este lançamento do extrato?')) return;
+      const g = state.goals.find((item) => item.id === goalId);
+      if (!g) return;
+      const events = ensureGoalEvents(g).filter((item) => item.id !== eventId);
+      const recalculated = recalculateGoalFromEvents(g, events);
+      state.goals = state.goals.map((item) => item.id === goalId ? { ...item, ...recalculated } : item);
+      saveState();
+    };
 
     document.getElementById('addGoalBtn').addEventListener('click', () => {
       const desc = document.getElementById('goalDesc').value.trim();
@@ -3034,13 +3539,12 @@
       if (editingGoalId) {
         const existing = state.goals.find((g) => g.id === editingGoalId);
         const startRef = (existing && existing.startDate) || addDate;
-        const monthly = calculateGoalMonthlyTarget(total, deadline, startRef);
-        let events = existing && Array.isArray(existing.events) && existing.events.length
-          ? existing.events.slice()
-          : [{ date: startRef, kind: 'init', label: 'Saldo anterior', amount: baseSaved }];
+        const initialSavedRef = existing ? (Number(existing.initialSaved ?? baseSaved) || 0) : baseSaved;
+        const monthly = calculateGoalMonthlyTarget(total, initialSavedRef, deadline, startRef);
+        let events = existing ? ensureGoalEvents(existing) : [{ id: `gev_init_${Date.now().toString(36)}`, date: startRef, kind: 'init', label: 'Saldo anterior', amount: baseSaved }];
 
         if (addAmount > 0) {
-          events.push({ date: addDate, kind: 'deposit', label: 'Valor adicionado', amount: addAmount });
+          events.push({ id: `gev_dep_${Date.now().toString(36)}`, date: addDate, kind: 'deposit', label: 'Valor adicionado', amount: addAmount, monthKey: getMonthKeyISO(addDate) });
         }
 
         state.goals = state.goals.map((g) => g.id === editingGoalId ? {
@@ -3050,15 +3554,16 @@
           deadline,
           monthly,
           totalSaved: newSaved,
+          initialSaved: initialSavedRef,
           events
         } : g);
       } else {
-        const monthly = calculateGoalMonthlyTarget(total, deadline, addDate);
+        const monthly = calculateGoalMonthlyTarget(total, baseSaved, deadline, addDate);
         const events = [
-          { date: addDate, kind: 'init', label: 'Início da meta', amount: newSaved }
+          { id: `gev_init_${Date.now().toString(36)}`, date: addDate, kind: 'init', label: 'Início da meta', amount: baseSaved, monthKey: '' }
         ];
         if (addAmount > 0) {
-          events.push({ date: addDate, kind: 'deposit', label: 'Valor adicionado', amount: addAmount });
+          events.push({ id: `gev_dep_${Date.now().toString(36)}`, date: addDate, kind: 'deposit', label: 'Valor adicionado', amount: addAmount, monthKey: getMonthKeyISO(addDate) });
         }
         state.goals.push({
           id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
@@ -3067,7 +3572,9 @@
           deadline,
           monthly,
           totalSaved: newSaved,
+          initialSaved: baseSaved,
           startDate: addDate,
+          monthChecks: {},
           events
         });
       }
@@ -3099,6 +3606,141 @@
       renderGoals();
     };
 
+    // Center Peek de meses até o prazo final
+    function getGoalScheduleMonths(goal) {
+      const now = new Date();
+      const start = new Date(now.getFullYear(), now.getMonth(), 1);
+      const dl = goal.deadline ? parseLocalDate(goal.deadline) : new Date(now.getFullYear(), now.getMonth() + 3, 1);
+      const end = new Date(dl.getFullYear(), dl.getMonth(), 1);
+
+      const months = [];
+      let cursor = new Date(start.getFullYear(), start.getMonth(), 1);
+      let safety = 0;
+      while (cursor.getTime() <= end.getTime() && safety < 120) {
+        const key = `${cursor.getFullYear()}-${String(cursor.getMonth() + 1).padStart(2, '0')}`;
+        months.push({
+          key,
+          label: `${String(cursor.getMonth() + 1).padStart(2, '0')}/${cursor.getFullYear()}`,
+          dateISO: `${key}-01`
+        });
+        cursor = new Date(cursor.getFullYear(), cursor.getMonth() + 1, 1);
+        safety += 1;
+      }
+      if (!months.length) {
+        const key = getCurrentMonthKey();
+        months.push({ key, label: formatMonthYear(key), dateISO: `${key}-01` });
+      }
+      return months;
+    }
+
+    window.openGoalCenterPeek = function(goalId) {
+      activePeekGoalId = goalId;
+      renderGoalCenterPeek(goalId);
+      document.getElementById('goalCenterPeek').classList.remove('hidden');
+    };
+
+    function closeGoalCenterPeek() {
+      activePeekGoalId = null;
+      document.getElementById('goalCenterPeek').classList.add('hidden');
+    }
+
+    document.getElementById('closeGoalPeekBtn').addEventListener('click', closeGoalCenterPeek);
+    document.getElementById('goalCenterPeek').addEventListener('click', closeGoalCenterPeek);
+
+    function renderGoalCenterPeek(goalId) {
+      const g = state.goals.find((item) => item.id === goalId);
+      if (!g) {
+        closeGoalCenterPeek();
+        return;
+      }
+
+      const total = Math.max(0, Number(g.total) || 0);
+      const saved = Math.max(0, Number(g.totalSaved) || 0);
+      const initialSaved = Math.max(0, Number(g.initialSaved) || 0);
+      const monthly = calculateGoalMonthlyTarget(total, initialSaved, g.deadline, g.startDate);
+      const months = getGoalScheduleMonths(g);
+      const events = ensureGoalEvents(g);
+      const checks = g.monthChecks || {};
+
+      document.getElementById('goalPeekTitle').textContent = g.desc;
+      document.getElementById('goalPeekSubtitle').textContent =
+        `Acumulado: ${fmtBRL(saved)} (${fmtHours(hoursFromAmount(saved))}) • Meta mensal: ${fmtBRL(monthly)}`;
+
+      const body = document.getElementById('goalPeekBody');
+      body.innerHTML = months.map((m) => {
+        const monthPaid = events
+          .filter((ev) => ev.kind === 'deposit' && (ev.monthKey === m.key || getMonthKeyISO(ev.date) === m.key))
+          .reduce((s, ev) => s + (Number(ev.amount) || 0), 0);
+
+        const isChecked = Boolean(checks[m.key]) || monthPaid > 0;
+
+        return `
+          <div class="goal-month-row">
+            <input type="checkbox" ${isChecked ? 'checked' : ''} onchange="toggleGoalMonthPaid('${g.id}', '${m.key}', '${m.dateISO}', ${monthly.toFixed(2)}, this.checked)" aria-label="Marcar mês ${m.label} como pago" />
+            <div>
+              <div class="item-title">${escapeHtml(m.label)}</div>
+              <div class="item-sub">Meta do mês: <strong>${fmtBRL(monthly)}</strong> • <span class="hours-tag">${fmtHours(hoursFromAmount(monthly))}</span></div>
+            </div>
+            <div>
+              <label style="font-size:0.72rem; margin-bottom:2px;">Valor pago (R$)</label>
+              <input type="number" class="goal-month-paid-input" step="0.01" inputmode="decimal" value="${monthPaid > 0 ? monthPaid : 0}" onchange="setGoalMonthPaidValue('${g.id}', '${m.key}', '${m.dateISO}', this.value)" />
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function updateGoalMonthDeposit(goalId, monthKey, dateISO, newPaidVal) {
+      const g = state.goals.find((item) => item.id === goalId);
+      if (!g) return;
+      const targetAmount = Math.max(0, parseFloat(newPaidVal) || 0);
+      let events = ensureGoalEvents(g);
+
+      // Remove lançamentos de depósito anteriores desse mês para substituir pelo valor informado e somar ao acumulado
+      const otherEvents = events.filter((ev) => !(ev.kind === 'deposit' && (ev.monthKey === monthKey || (!ev.monthKey && getMonthKeyISO(ev.date) === monthKey))));
+      if (targetAmount > 0) {
+        otherEvents.push({
+          id: `gev_m_${monthKey}_${Date.now().toString(36)}`,
+          date: dateISO,
+          kind: 'deposit',
+          label: `Aporte mês ${formatMonthYear(monthKey)}`,
+          amount: targetAmount,
+          monthKey
+        });
+      }
+
+      const monthChecks = { ...(g.monthChecks || {}) };
+      monthChecks[monthKey] = targetAmount > 0;
+
+      const recalculated = recalculateGoalFromEvents(g, otherEvents);
+      state.goals = state.goals.map((item) => item.id === goalId ? {
+        ...item,
+        ...recalculated,
+        monthChecks
+      } : item);
+      saveState();
+    }
+
+    window.toggleGoalMonthPaid = function(goalId, monthKey, dateISO, monthlyDefault, checked) {
+      const g = state.goals.find((item) => item.id === goalId);
+      if (!g) return;
+      const events = ensureGoalEvents(g);
+      const currentMonthPaid = events
+        .filter((ev) => ev.kind === 'deposit' && (ev.monthKey === monthKey || (!ev.monthKey && getMonthKeyISO(ev.date) === monthKey)))
+        .reduce((s, ev) => s + (Number(ev.amount) || 0), 0);
+
+      if (checked) {
+        const amtToSet = currentMonthPaid > 0 ? currentMonthPaid : Number(monthlyDefault || 0);
+        updateGoalMonthDeposit(goalId, monthKey, dateISO, amtToSet);
+      } else {
+        updateGoalMonthDeposit(goalId, monthKey, dateISO, 0);
+      }
+    };
+
+    window.setGoalMonthPaidValue = function(goalId, monthKey, dateISO, valStr) {
+      updateGoalMonthDeposit(goalId, monthKey, dateISO, valStr);
+    };
+
     function renderGoals() {
       const el = document.getElementById('goalsList');
       const sortedGoals = state.goals
@@ -3113,7 +3755,8 @@
       el.innerHTML = sortedGoals.map((g) => {
         const total = Math.max(0, Number(g.total) || 0);
         const saved = Math.max(0, Number(g.totalSaved) || 0);
-        const monthly = calculateGoalMonthlyTarget(total, g.deadline, g.startDate);
+        const initialSaved = Math.max(0, Number(g.initialSaved) || 0);
+        const monthly = calculateGoalMonthlyTarget(total, initialSaved, g.deadline, g.startDate);
         const savedThisMonth = getGoalSavedThisMonth(g);
         const monthDiff = monthly - savedThisMonth;
         const pct = total > 0 ? Math.min(100, (saved / total) * 100) : 0;
@@ -3128,9 +3771,10 @@
           <div class="item-row" style="display:block;">
             <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:10px;">
               <div>
-                <div class="item-title clickable-title" onclick="toggleGoalStatement('${g.id}')">
-                  <span>${escapeHtml(g.desc)}</span>
-                  <span class="meta-tag">${isOpen ? 'Fechar extrato' : 'Ver extrato'}</span>
+                <div class="item-title">
+                  <span class="clickable-title" onclick="openGoalCenterPeek('${g.id}')">${escapeHtml(g.desc)}</span>
+                  <button type="button" class="meta-tag" style="cursor:pointer;" onclick="openGoalCenterPeek('${g.id}')">Meses</button>
+                  <span class="meta-tag clickable-title" onclick="toggleGoalStatement('${g.id}')">${isOpen ? 'Fechar extrato' : 'Ver extrato'}</span>
                 </div>
                 <div class="detail-lines">
                   <div class="detail-line">
@@ -3171,6 +3815,7 @@
                       <th>Data</th>
                       <th>Movimentação</th>
                       <th class="num">Saldo</th>
+                      <th class="num">Ações</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -3179,6 +3824,12 @@
                         <td>${escapeHtml(fmtDateBR(r.date))}</td>
                         <td>${escapeHtml(r.desc)}</td>
                         <td class="num"><strong>${fmtBRL(r.balance)}</strong></td>
+                        <td class="num">
+                          <div style="display:inline-flex; gap:4px;">
+                            <button type="button" class="icon-mini-btn" title="Editar lançamento" aria-label="Editar lançamento" onclick="editGoalEvent('${g.id}', '${r.id}')">✎</button>
+                            <button type="button" class="icon-mini-btn danger" title="Remover lançamento" aria-label="Remover lançamento" onclick="deleteGoalEvent('${g.id}', '${r.id}')">🗑</button>
+                          </div>
+                        </td>
                       </tr>
                     `).join('')}
                   </tbody>
