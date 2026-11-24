@@ -400,7 +400,7 @@
       color: var(--text);
       border: 1px solid var(--border);
       border-radius: 6px;
-      padding: 5px 9px;
+      padding: 5px 8px;
       font-size: 0.76rem;
       font-weight: 700;
       cursor: pointer;
@@ -623,14 +623,6 @@
       gap: 6px;
     }
 
-    .clickable-title {
-      cursor: pointer;
-    }
-
-    .clickable-title:hover {
-      text-decoration: underline;
-    }
-
     .item-sub {
       font-size: 0.79rem;
       color: var(--muted);
@@ -732,45 +724,6 @@
 
     .text-green { color: var(--success); font-weight: 700; }
     .text-red { color: var(--danger); font-weight: 700; }
-
-    .statement-panel {
-      margin-top: 10px;
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 10px;
-      overflow-x: auto;
-    }
-
-    .statement-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.78rem;
-      min-width: 390px;
-    }
-
-    .statement-table th,
-    .statement-table td {
-      padding: 7px 8px;
-      border-bottom: 1px solid var(--border);
-      text-align: left;
-      vertical-align: middle;
-    }
-
-    .statement-table th {
-      color: var(--muted);
-      font-weight: 700;
-      background: var(--card);
-    }
-
-    .statement-table td.num,
-    .statement-table th.num {
-      text-align: right;
-    }
-
-    .statement-table tr:last-child td {
-      border-bottom: none;
-    }
 
     .hero-box {
       background: var(--bg);
@@ -965,7 +918,7 @@
 
     .center-peek-modal {
       width: 100%;
-      max-width: 640px;
+      max-width: 720px;
       max-height: 88vh;
       background: var(--bg);
       border: 1px solid var(--border);
@@ -1027,42 +980,71 @@
       margin-bottom: 2px;
     }
 
-    .peek-schedule-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.82rem;
+    .db-table-wrap {
+      overflow-x: auto;
       background: var(--bg);
       border: 1px solid var(--border);
       border-radius: 12px;
-      overflow: hidden;
+      margin-bottom: 10px;
     }
 
-    .peek-schedule-table th,
-    .peek-schedule-table td {
-      padding: 9px 8px;
-      border-bottom: 1px solid var(--border);
-      text-align: left;
-      vertical-align: middle;
+    .db-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+      min-width: 540px;
     }
 
-    .peek-schedule-table th {
+    .db-table th {
       background: var(--card);
       color: var(--muted);
       font-weight: 700;
-      font-size: 0.76rem;
-      text-transform: uppercase;
+      font-size: 0.78rem;
+      padding: 9px 10px;
+      border-bottom: 1px solid var(--border);
+      border-right: 1px solid var(--border);
+      text-align: left;
+      white-space: nowrap;
     }
 
-    .peek-schedule-table tr:last-child td {
+    .db-table th:last-child {
+      border-right: none;
+      text-align: center;
+    }
+
+    .db-table td {
+      padding: 0;
+      border-bottom: 1px solid var(--border);
+      border-right: 1px solid var(--border);
+      vertical-align: middle;
+    }
+
+    .db-table td:last-child {
+      border-right: none;
+      padding: 6px;
+      text-align: center;
+    }
+
+    .db-table tr:last-child td {
       border-bottom: none;
     }
 
-    .goal-month-paid-input {
-      width: 105px;
-      padding: 6px 8px;
-      margin-bottom: 0;
+    .db-cell-input {
+      width: 100%;
+      border: none;
+      background: transparent;
+      color: var(--text);
+      padding: 9px 10px;
+      margin: 0;
+      border-radius: 0;
       font-size: 0.84rem;
-      font-weight: 700;
+      box-shadow: none !important;
+    }
+
+    .db-cell-input:focus {
+      background: rgba(168, 213, 255, 0.16);
+      outline: 2px solid #60a5fa;
+      outline-offset: -2px;
     }
 
     .empty {
@@ -1490,7 +1472,7 @@
     </div>
   </div>
 
-  <!-- Center Peek Modal para Formulários (Balancete, Gastos Fixos, Dívidas, Poupança, Quero Comprar) -->
+  <!-- Center Peek Modal para Formulários -->
   <div class="center-peek-backdrop hidden" id="formCenterPeek" role="dialog" aria-modal="true" aria-labelledby="formPeekTitle">
     <div class="center-peek-modal" onclick="event.stopPropagation()">
       <div class="center-peek-header">
@@ -1589,7 +1571,7 @@
 
           <div class="grid-3">
             <div>
-              <label for="debtTotal">Valor inicial (R$)</label>
+              <label for="debtTotal">Valor total (R$)</label>
               <input type="number" id="debtTotal" inputmode="decimal" step="0.01" placeholder="0,00" />
             </div>
             <div>
@@ -1597,7 +1579,7 @@
               <input type="number" id="debtInterest" inputmode="decimal" step="0.01" placeholder="Ex: 1,5" />
             </div>
             <div>
-              <label for="debtPaid">Quanto já foi pago (R$)</label>
+              <label for="debtPaid">Valor pago (R$)</label>
               <input type="number" id="debtPaid" inputmode="decimal" step="0.01" placeholder="0,00" value="0" />
             </div>
           </div>
@@ -1610,36 +1592,6 @@
             <div>
               <label for="debtRemainingMonthAuto">Restante a pagar nesse mês</label>
               <input type="text" id="debtRemainingMonthAuto" readonly value="R$ 0,00" />
-            </div>
-          </div>
-
-          <div id="debtEditMovementsWrap" class="hidden">
-            <div class="sub-box">
-              <div class="sub-box-title">Adicionar pagamento</div>
-              <div class="grid-2">
-                <div>
-                  <label for="debtPayDate">Data</label>
-                  <input type="date" id="debtPayDate" style="margin-bottom:0;" />
-                </div>
-                <div>
-                  <label for="debtPayValue">Valor (R$)</label>
-                  <input type="number" id="debtPayValue" inputmode="decimal" step="0.01" placeholder="0,00" value="0" style="margin-bottom:0;" />
-                </div>
-              </div>
-            </div>
-
-            <div class="sub-box">
-              <div class="sub-box-title">Adicionar empréstimo</div>
-              <div class="grid-2">
-                <div>
-                  <label for="debtLoanDate">Data</label>
-                  <input type="date" id="debtLoanDate" style="margin-bottom:0;" />
-                </div>
-                <div>
-                  <label for="debtLoanValue">Valor (R$)</label>
-                  <input type="number" id="debtLoanValue" inputmode="decimal" step="0.01" placeholder="0,00" value="0" style="margin-bottom:0;" />
-                </div>
-              </div>
             </div>
           </div>
 
@@ -1671,22 +1623,8 @@
               <input type="text" id="goalMonthlyAuto" readonly value="R$ 0,00" />
             </div>
             <div>
-              <label for="goalSaved">Saldo acumulado (R$)</label>
+              <label for="goalSaved">Valor pago / acumulado (R$)</label>
               <input type="number" id="goalSaved" inputmode="decimal" step="0.01" placeholder="0,00" value="0" />
-            </div>
-          </div>
-
-          <div class="sub-box">
-            <div class="sub-box-title">Adicionar valor</div>
-            <div class="grid-2">
-              <div>
-                <label for="goalAddDate">Data</label>
-                <input type="date" id="goalAddDate" style="margin-bottom:0;" />
-              </div>
-              <div>
-                <label for="goalAddAmount">Valor (R$)</label>
-                <input type="number" id="goalAddAmount" inputmode="decimal" step="0.01" placeholder="0,00" value="0" style="margin-bottom:0;" />
-              </div>
             </div>
           </div>
 
@@ -1738,7 +1676,7 @@
     </div>
   </div>
 
-  <!-- Center Peek Modal de Detalhes e Cronograma (Dívidas e Poupanças) -->
+  <!-- Center Peek Modal de Detalhes e Tabela Editável (Dívidas e Poupanças) -->
   <div class="center-peek-backdrop hidden" id="detailCenterPeek" role="dialog" aria-modal="true" aria-labelledby="detailPeekHeaderTitle">
     <div class="center-peek-modal" onclick="event.stopPropagation()">
       <div class="center-peek-header">
@@ -1869,7 +1807,6 @@
     let editingGoalId = null;
     let editingWishId = null;
 
-    // Alvo aberto no Center Peek de detalhes (Dívida ou Poupança)
     let activeDetailPeek = null; // { kind: 'debt' | 'goal', id: string }
     let activeFormPeekKey = null;
 
@@ -1938,7 +1875,7 @@
     document.getElementById('closeFormPeekBtn').addEventListener('click', closeFormCenterPeek);
     document.getElementById('formCenterPeek').addEventListener('click', closeFormCenterPeek);
 
-    // Center Peek de Detalhes e Cronograma (Dívida ou Poupança)
+    // Center Peek de Detalhes e Tabela Editável
     window.openDetailCenterPeek = function(kind, id) {
       activeDetailPeek = { kind, id };
       renderDetailCenterPeek();
@@ -3026,7 +2963,7 @@
       `).join('');
     }
 
-    // --- DÍVIDAS ---
+    // --- DÍVIDAS E POUPANÇAS (TABELA EDITÁVEL TIPO DATABASE) ---
     function getDefaultEndDateISO(startDateStr) {
       const base = startDateStr ? parseLocalDate(startDateStr) : new Date();
       const end = new Date(base.getFullYear(), base.getMonth() + 3, base.getDate());
@@ -3048,133 +2985,88 @@
       return Math.max(1, diff);
     }
 
-    function getScheduleMonthsUntilDeadline(deadlineStr) {
-      const now = new Date();
-      const start = new Date(now.getFullYear(), now.getMonth(), 1);
-      const dl = deadlineStr ? parseLocalDate(deadlineStr) : new Date(now.getFullYear(), now.getMonth() + 3, 1);
-      const end = new Date(dl.getFullYear(), dl.getMonth(), 1);
-
-      const months = [];
-      let cursor = new Date(start.getFullYear(), start.getMonth(), 1);
-      let safety = 0;
-      while (cursor.getTime() <= end.getTime() && safety < 120) {
-        const key = `${cursor.getFullYear()}-${String(cursor.getMonth() + 1).padStart(2, '0')}`;
-        months.push({
-          key,
-          label: `${String(cursor.getMonth() + 1).padStart(2, '0')}/${cursor.getFullYear()}`,
-          dateISO: `${key}-01`
-        });
-        cursor = new Date(cursor.getFullYear(), cursor.getMonth() + 1, 1);
-        safety += 1;
-      }
-      if (!months.length) {
-        const key = getCurrentMonthKey();
-        months.push({ key, label: formatMonthYear(key), dateISO: `${key}-01` });
-      }
-      return months;
-    }
-
-    function ensureDebtEvents(debt) {
-      const startDate = debt.startDate || getTodayISO();
-      const initialAmt = Number(debt.initialAmount ?? debt.total) || 0;
-      let list = [];
-      if (Array.isArray(debt.events) && debt.events.length) {
-        list = debt.events.map((ev, idx) => ({
-          id: ev.id || `dev_${idx}_${Math.random().toString(36).slice(2, 6)}`,
-          date: ev.date || startDate,
-          kind: ev.kind || 'payment',
-          label: ev.label || 'Movimentação',
-          amount: Number(ev.amount) || 0,
-          monthKey: ev.monthKey || ''
-        }));
+    function getDefaultMonthlyTargetForItem(kind, item) {
+      const total = Math.max(0, Number(item.total) || 0);
+      const paid = Math.max(0, Number(item.paid ?? item.totalSaved) || 0);
+      if (kind === 'debt') {
+        const months = (item.startDate && item.endDate)
+          ? countMonthsBetween(item.startDate, item.endDate)
+          : (item.endDate ? countMonthsBetween(getTodayISO(), item.endDate) : 1);
+        return total > 0 ? total / months : 0;
       } else {
-        list = [{
-          id: `dev_init_${Math.random().toString(36).slice(2, 6)}`,
-          date: startDate,
-          kind: 'initial_total',
-          label: 'Valor inicial da dívida',
-          amount: initialAmt,
-          monthKey: ''
-        }];
-        if ((Number(debt.paid) || 0) > 0) {
-          list.push({
-            id: `dev_paid_${Math.random().toString(36).slice(2, 6)}`,
-            date: startDate,
-            kind: 'payment',
-            label: 'Pago inicialmente',
-            amount: Number(debt.paid) || 0,
-            monthKey: ''
-          });
-        }
+        const rem = Math.max(0, total - paid);
+        const monthsLeft = countMonthsUntilDeadline(item.deadline);
+        return rem > 0 ? rem / monthsLeft : 0;
       }
-      return list.sort((a, b) => compareDateAsc(a.date, b.date));
     }
 
-    function recalculateDebtFromEvents(debt, events) {
-      const ordered = events.slice().sort((a, b) => compareDateAsc(a.date, b.date));
-      const initEv = ordered.find((e) => e.kind === 'initial_total');
-      const initialAmount = initEv ? (Number(initEv.amount) || 0) : (Number(debt.initialAmount ?? debt.total) || 0);
-      const addedLoans = ordered
-        .filter((e) => e.kind === 'loan')
-        .reduce((s, e) => s + (Number(e.amount) || 0), 0);
-      const paid = ordered
-        .filter((e) => e.kind === 'payment')
-        .reduce((s, e) => s + (Number(e.amount) || 0), 0);
-      const total = initialAmount + addedLoans;
-      return { initialAmount, addedLoans, total, paid, events: ordered };
+    // Garante array de linhas editáveis: { id, date, desc, monthlyTarget, paidAmount }
+    function ensureCustomTableRows(kind, item) {
+      const fallbackTarget = Number(getDefaultMonthlyTargetForItem(kind, item).toFixed(2));
+      if (Array.isArray(item.tableRows)) {
+        return item.tableRows.map((r, idx) => ({
+          id: r.id || `row_${idx}_${Math.random().toString(36).slice(2, 6)}`,
+          date: r.date || getTodayISO(),
+          desc: r.desc || '',
+          monthlyTarget: r.monthlyTarget !== undefined && r.monthlyTarget !== '' ? Number(r.monthlyTarget) || 0 : fallbackTarget,
+          paidAmount: Number(r.paidAmount) || 0
+        }));
+      }
+      // Linha inicial em branco pronta para o usuário preencher e editar
+      return [{
+        id: `row_0_${Math.random().toString(36).slice(2, 6)}`,
+        date: getTodayISO(),
+        desc: '',
+        monthlyTarget: fallbackTarget,
+        paidAmount: 0
+      }];
     }
 
-    function calculateDebtMonthlyPlan(debtObj) {
-      const initialVal = Math.max(0, Number(debtObj.initialAmount ?? debtObj.total) || 0);
-      const addedLoans = Math.max(0, Number(debtObj.addedLoans) || 0);
-      const currentTotal = Math.max(initialVal + addedLoans, Number(debtObj.total) || 0);
-      const paid = Math.max(0, Number(debtObj.paid) || 0);
-      const remainingTotal = Math.max(0, currentTotal - paid);
+    function sumPaidFromRows(rows) {
+      return (rows || []).reduce((acc, r) => acc + (Number(r.paidAmount) || 0), 0);
+    }
 
-      if (currentTotal <= 0) {
-        return { currentTotal: 0, remainingTotal: 0, monthlyPlan: 0, paidInCurrMonth: 0, remainingThisMonth: 0 };
-      }
-
-      const termMonths = (debtObj.startDate && debtObj.endDate)
-        ? countMonthsBetween(debtObj.startDate, debtObj.endDate)
-        : (debtObj.endDate ? countMonthsBetween(getTodayISO(), debtObj.endDate) : 1);
-
-      const monthlyPlan = currentTotal / termMonths;
+    function sumPaidInCurrentMonthFromRows(rows) {
       const currMonth = getCurrentMonthKey();
-      const paidInCurrMonth = Array.isArray(debtObj.events)
-        ? debtObj.events
-            .filter((ev) => ev.kind === 'payment' && (ev.monthKey === currMonth || (!ev.monthKey && getMonthKeyISO(ev.date) === currMonth)))
-            .reduce((sum, ev) => sum + (Number(ev.amount) || 0), 0)
-        : 0;
+      return (rows || [])
+        .filter((r) => r.date && getMonthKeyISO(r.date) === currMonth)
+        .reduce((acc, r) => acc + (Number(r.paidAmount) || 0), 0);
+    }
 
-      const remainingThisMonth = monthlyPlan - paidInCurrMonth;
+    function getDebtMetrics(debt) {
+      const total = Math.max(0, Number(debt.total) || 0);
+      const rows = ensureCustomTableRows('debt', debt);
+      const paid = sumPaidFromRows(rows);
+      const remainingTotal = Math.max(0, total - paid);
+      const termMonths = (debt.startDate && debt.endDate)
+        ? countMonthsBetween(debt.startDate, debt.endDate)
+        : (debt.endDate ? countMonthsBetween(getTodayISO(), debt.endDate) : 1);
+      const monthlyPlan = total > 0 ? total / termMonths : 0;
+      const paidCurrMonth = sumPaidInCurrentMonthFromRows(rows);
+      const remainingThisMonth = monthlyPlan - paidCurrMonth;
+      return { total, paid, remainingTotal, monthlyPlan, remainingThisMonth, rows };
+    }
 
-      return { currentTotal, remainingTotal, monthlyPlan, paidInCurrMonth, remainingThisMonth };
+    function getGoalMetrics(goal) {
+      const total = Math.max(0, Number(goal.total) || 0);
+      const rows = ensureCustomTableRows('goal', goal);
+      const paid = sumPaidFromRows(rows);
+      const remainingTotal = Math.max(0, total - paid);
+      const monthsLeft = countMonthsUntilDeadline(goal.deadline);
+      const monthlyPlan = remainingTotal > 0 ? remainingTotal / monthsLeft : 0;
+      const paidCurrMonth = sumPaidInCurrentMonthFromRows(rows);
+      const remainingThisMonth = monthlyPlan - paidCurrMonth;
+      return { total, paid, remainingTotal, monthlyPlan, remainingThisMonth, rows };
     }
 
     function syncDebtFormCalculators() {
-      const initialVal = parseFloat(document.getElementById('debtTotal').value) || 0;
+      const totalVal = parseFloat(document.getElementById('debtTotal').value) || 0;
+      const paidVal = parseFloat(document.getElementById('debtPaid').value) || 0;
       const startDate = document.getElementById('debtStartDate').value || getTodayISO();
       const endDate = document.getElementById('debtEndDate').value || getDefaultEndDateISO(startDate);
-      const payAdd = editingDebtId ? (parseFloat(document.getElementById('debtPayValue').value) || 0) : 0;
-      const loanAdd = editingDebtId ? (parseFloat(document.getElementById('debtLoanValue').value) || 0) : 0;
-
-      const existing = editingDebtId ? state.debts.find((d) => d.id === editingDebtId) : null;
-      const priorAddedLoans = existing ? (Number(existing.addedLoans) || 0) : 0;
-      const totalWithLoans = Math.max(0, initialVal + priorAddedLoans + loanAdd);
-
       const termMonths = countMonthsBetween(startDate, endDate);
-      const monthlyPlan = totalWithLoans > 0 ? totalWithLoans / termMonths : 0;
-
-      const payDate = editingDebtId ? (document.getElementById('debtPayDate').value || getTodayISO()) : getTodayISO();
-      const paidThisMonthInEdit = (editingDebtId && payAdd > 0 && getMonthKeyISO(payDate) === getCurrentMonthKey()) ? payAdd : 0;
-      const existingMonthPaid = existing && Array.isArray(existing.events)
-        ? existing.events
-            .filter((ev) => ev.kind === 'payment' && (ev.monthKey === getCurrentMonthKey() || (!ev.monthKey && getMonthKeyISO(ev.date) === getCurrentMonthKey())))
-            .reduce((s, ev) => s + (Number(ev.amount) || 0), 0)
-        : 0;
-
-      const remMonth = monthlyPlan - (existingMonthPaid + paidThisMonthInEdit);
+      const monthlyPlan = totalVal > 0 ? totalVal / termMonths : 0;
+      const remMonth = monthlyPlan - paidVal;
 
       document.getElementById('debtMonthlyPlanAuto').value = `${fmtBRL(monthlyPlan)} (${fmtHours(hoursFromAmount(monthlyPlan))})`;
       const remMonthEl = document.getElementById('debtRemainingMonthAuto');
@@ -3184,21 +3076,18 @@
       remMonthEl.style.color = remMonth <= 0 ? 'var(--success)' : 'var(--danger)';
     }
 
-    ['debtDesc', 'debtStartDate', 'debtEndDate', 'debtTotal', 'debtInterest', 'debtPaid', 'debtPayDate', 'debtPayValue', 'debtLoanDate', 'debtLoanValue'].forEach((id) => {
+    ['debtDesc', 'debtStartDate', 'debtEndDate', 'debtTotal', 'debtInterest', 'debtPaid'].forEach((id) => {
       document.getElementById(id).addEventListener('input', syncDebtFormCalculators);
       document.getElementById(id).addEventListener('change', syncDebtFormCalculators);
     });
 
     document.getElementById('debtStartDate').value = getTodayISO();
     document.getElementById('debtEndDate').value = getDefaultEndDateISO(getTodayISO());
-    document.getElementById('debtPayDate').value = getTodayISO();
-    document.getElementById('debtLoanDate').value = getTodayISO();
 
     function resetDebtForm() {
       editingDebtId = null;
       document.getElementById('addDebtBtn').textContent = 'Adicionar Dívida';
       document.getElementById('cancelEditDebtBtn').classList.add('hidden');
-      document.getElementById('debtEditMovementsWrap').classList.add('hidden');
       document.getElementById('debtDesc').value = '';
       const today = getTodayISO();
       document.getElementById('debtStartDate').value = today;
@@ -3206,10 +3095,6 @@
       document.getElementById('debtTotal').value = '';
       document.getElementById('debtInterest').value = '';
       document.getElementById('debtPaid').value = '0';
-      document.getElementById('debtPayDate').value = today;
-      document.getElementById('debtPayValue').value = '0';
-      document.getElementById('debtLoanDate').value = today;
-      document.getElementById('debtLoanValue').value = '0';
       syncDebtFormCalculators();
     }
 
@@ -3222,71 +3107,47 @@
       const desc = document.getElementById('debtDesc').value.trim();
       const startDate = document.getElementById('debtStartDate').value || getTodayISO();
       const endDate = document.getElementById('debtEndDate').value || getDefaultEndDateISO(startDate);
-      const initialAmount = parseFloat(document.getElementById('debtTotal').value);
+      const total = parseFloat(document.getElementById('debtTotal').value);
       const interest = parseFloat(document.getElementById('debtInterest').value) || 0;
-      let paid = parseFloat(document.getElementById('debtPaid').value) || 0;
-      if (!desc || !initialAmount || initialAmount <= 0) return;
-
-      const today = getTodayISO();
+      const paid = Math.max(0, parseFloat(document.getElementById('debtPaid').value) || 0);
+      if (!desc || !total || total <= 0) return;
 
       if (editingDebtId) {
-        const existing = state.debts.find((d) => d.id === editingDebtId);
-        const payDate = document.getElementById('debtPayDate').value || today;
-        const payAdd = parseFloat(document.getElementById('debtPayValue').value) || 0;
-        const loanDate = document.getElementById('debtLoanDate').value || today;
-        const loanAdd = parseFloat(document.getElementById('debtLoanValue').value) || 0;
-
-        let events = existing ? ensureDebtEvents(existing) : [];
-        const initialEv = events.find((ev) => ev.kind === 'initial_total');
-        if (initialEv) {
-          initialEv.date = startDate;
-          initialEv.amount = initialAmount;
-        } else {
-          events.unshift({ id: `dev_init_${Date.now().toString(36)}`, date: startDate, kind: 'initial_total', label: 'Valor inicial da dívida', amount: initialAmount });
-        }
-
-        let addedLoans = existing ? (Number(existing.addedLoans) || 0) : 0;
-        if (loanAdd > 0) {
-          addedLoans += loanAdd;
-          events.push({ id: `dev_loan_${Date.now().toString(36)}`, date: loanDate, kind: 'loan', label: 'Novo empréstimo', amount: loanAdd });
-        }
-        if (payAdd > 0) {
-          paid += payAdd;
-          events.push({ id: `dev_pay_${Date.now().toString(36)}`, date: payDate, kind: 'payment', label: 'Pagamento registrado', amount: payAdd, monthKey: getMonthKeyISO(payDate) });
-        }
-
-        const total = initialAmount + addedLoans;
-
-        state.debts = state.debts.map((d) => d.id === editingDebtId ? {
-          ...d,
-          desc,
-          startDate,
-          endDate,
-          initialAmount,
-          addedLoans,
-          total,
-          interest,
-          paid,
-          events
-        } : d);
+        state.debts = state.debts.map((d) => {
+          if (d.id !== editingDebtId) return d;
+          let rows = ensureCustomTableRows('debt', d);
+          if (paid !== sumPaidFromRows(rows) && rows.length === 1 && rows[0].paidAmount === 0 && !rows[0].desc) {
+            rows[0].paidAmount = paid;
+          }
+          return {
+            ...d,
+            desc,
+            startDate,
+            endDate,
+            total,
+            interest,
+            paid: sumPaidFromRows(rows),
+            tableRows: rows
+          };
+        });
       } else {
-        const events = [
-          { id: `dev_init_${Date.now().toString(36)}`, date: startDate, kind: 'initial_total', label: 'Valor inicial da dívida', amount: initialAmount }
-        ];
-        if (paid > 0) {
-          events.push({ id: `dev_pay_${Date.now().toString(36)}`, date: startDate, kind: 'payment', label: 'Valor já pago', amount: paid, monthKey: getMonthKeyISO(startDate) });
-        }
+        const defaultTarget = Number((total / countMonthsBetween(startDate, endDate)).toFixed(2));
+        const initialRows = [{
+          id: `row_${Date.now().toString(36)}`,
+          date: startDate,
+          desc: paid > 0 ? 'Pagamento inicial' : '',
+          monthlyTarget: defaultTarget,
+          paidAmount: paid
+        }];
         state.debts.push({
           id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
           desc,
           startDate,
           endDate,
-          initialAmount,
-          addedLoans: 0,
-          total: initialAmount,
+          total,
           interest,
           paid,
-          events
+          tableRows: initialRows
         });
       }
 
@@ -3298,73 +3159,23 @@
     window.startEditDebt = function(id) {
       const d = state.debts.find((item) => item.id === id);
       if (!d) return;
+      const metrics = getDebtMetrics(d);
       editingDebtId = id;
       setActiveTab('dividas');
       openFormCenterPeek('dividas');
       document.getElementById('formPeekTitle').textContent = 'Editar Dívida';
       document.getElementById('addDebtBtn').textContent = 'Salvar Alterações da Dívida';
       document.getElementById('cancelEditDebtBtn').classList.remove('hidden');
-      document.getElementById('debtEditMovementsWrap').classList.remove('hidden');
 
       const startIso = toInputDateISO(d.startDate);
       document.getElementById('debtDesc').value = d.desc;
       document.getElementById('debtStartDate').value = startIso;
       document.getElementById('debtEndDate').value = toInputDateISO(d.endDate || getDefaultEndDateISO(startIso));
-      document.getElementById('debtTotal').value = d.initialAmount ?? d.total;
+      document.getElementById('debtTotal').value = metrics.total;
       document.getElementById('debtInterest').value = d.interest || '';
-      document.getElementById('debtPaid').value = d.paid;
-      document.getElementById('debtPayDate').value = getTodayISO();
-      document.getElementById('debtPayValue').value = '0';
-      document.getElementById('debtLoanDate').value = getTodayISO();
-      document.getElementById('debtLoanValue').value = '0';
+      document.getElementById('debtPaid').value = metrics.paid;
 
       syncDebtFormCalculators();
-    };
-
-    window.setDebtMonthPaidValue = function(debtId, monthKey, dateISO, valStr) {
-      const d = state.debts.find((item) => item.id === debtId);
-      if (!d) return;
-      const targetAmount = Math.max(0, parseFloat(valStr) || 0);
-      const events = ensureDebtEvents(d);
-
-      const otherEvents = events.filter((ev) => !(ev.kind === 'payment' && (ev.monthKey === monthKey || (!ev.monthKey && getMonthKeyISO(ev.date) === monthKey))));
-      if (targetAmount > 0) {
-        otherEvents.push({
-          id: `dev_m_${monthKey}_${Date.now().toString(36)}`,
-          date: dateISO,
-          kind: 'payment',
-          label: `Pagamento mês ${formatMonthYear(monthKey)}`,
-          amount: targetAmount,
-          monthKey
-        });
-      }
-
-      const monthChecks = { ...(d.monthChecks || {}) };
-      monthChecks[monthKey] = targetAmount > 0;
-
-      const recalculated = recalculateDebtFromEvents(d, otherEvents);
-      state.debts = state.debts.map((item) => item.id === debtId ? {
-        ...item,
-        ...recalculated,
-        monthChecks
-      } : item);
-      saveState();
-    };
-
-    window.toggleDebtMonthPaid = function(debtId, monthKey, dateISO, monthlyDefault, checked) {
-      const d = state.debts.find((item) => item.id === debtId);
-      if (!d) return;
-      const events = ensureDebtEvents(d);
-      const currentMonthPaid = events
-        .filter((ev) => ev.kind === 'payment' && (ev.monthKey === monthKey || (!ev.monthKey && getMonthKeyISO(ev.date) === monthKey)))
-        .reduce((s, ev) => s + (Number(ev.amount) || 0), 0);
-
-      if (checked) {
-        const amtToSet = currentMonthPaid > 0 ? currentMonthPaid : Number(monthlyDefault || 0);
-        window.setDebtMonthPaidValue(debtId, monthKey, dateISO, amtToSet);
-      } else {
-        window.setDebtMonthPaidValue(debtId, monthKey, dateISO, 0);
-      }
     };
 
     function renderDebtsAndInstallments() {
@@ -3374,8 +3185,7 @@
         .sort((a, b) => compareDateAsc(a.endDate || '9999-12-31', b.endDate || '9999-12-31'));
 
       const totalRemainingAllDebts = sortedDebts.reduce((sum, d) => {
-        const calc = calculateDebtMonthlyPlan(d);
-        return sum + calc.remainingTotal;
+        return sum + getDebtMetrics(d).remainingTotal;
       }, 0);
 
       document.getElementById('debtsTotalValues').innerHTML = fmtBrlHoursPair(totalRemainingAllDebts);
@@ -3384,10 +3194,8 @@
         debtsEl.innerHTML = '<div class="empty">Nenhuma dívida cadastrada.</div>';
       } else {
         debtsEl.innerHTML = sortedDebts.map((d) => {
-          const calc = calculateDebtMonthlyPlan(d);
-          const paidAmt = Math.max(0, Number(d.paid) || 0);
-          const totalAmt = calc.currentTotal;
-          const pct = totalAmt > 0 ? Math.min(100, (paidAmt / totalAmt) * 100) : 0;
+          const metrics = getDebtMetrics(d);
+          const pct = metrics.total > 0 ? Math.min(100, (metrics.paid / metrics.total) * 100) : 0;
 
           return `
             <div class="item-row" style="display:block;">
@@ -3396,12 +3204,12 @@
                   <span>${escapeHtml(d.desc)}</span>
                 </div>
                 <div class="item-right">
-                  <div class="val-main">${fmtBRL(totalAmt)}</div>
-                  <div class="hours-tag">${fmtHours(hoursFromAmount(totalAmt))}</div>
+                  <div class="val-main">${fmtBRL(metrics.total)}</div>
+                  <div class="hours-tag">${fmtHours(hoursFromAmount(metrics.total))}</div>
                   <div class="row-actions">
                     <button type="button" class="edit-btn" onclick="startEditDebt('${d.id}')">Editar</button>
                     <button type="button" class="danger-btn" onclick="deleteItem('debts', '${d.id}')">Remover</button>
-                    <button type="button" class="peek-expand-btn" title="Abrir detalhes e meses" aria-label="Abrir detalhes e meses" onclick="openDetailCenterPeek('debt', '${d.id}')">${PEEK_EXPAND_ICON_SVG}</button>
+                    <button type="button" class="peek-expand-btn" title="Abrir detalhes e tabela" aria-label="Abrir detalhes e tabela" onclick="openDetailCenterPeek('debt', '${d.id}')">${PEEK_EXPAND_ICON_SVG}</button>
                   </div>
                 </div>
               </div>
@@ -3495,62 +3303,31 @@
       return `${yyyy}-${mm}-${dd}`;
     }
 
-    // Fórmula: (Total - Acumulado) / número de meses de agora até o prazo final
     function calculateGoalMonthlyTarget(totalAmount, savedAmount, deadlineStr) {
       const total = Math.max(0, Number(totalAmount) || 0);
       const saved = Math.max(0, Number(savedAmount) || 0);
       const remainingToSave = Math.max(0, total - saved);
       if (remainingToSave <= 0) return 0;
-
       const monthsLeft = countMonthsUntilDeadline(deadlineStr);
       return remainingToSave / monthsLeft;
     }
 
-    function getGoalSavedThisMonth(goal, extraDepositAmount = 0, extraDepositDate = '') {
-      const currMonth = getCurrentMonthKey();
-      const fromEvents = Array.isArray(goal && goal.events)
-        ? goal.events
-            .filter((ev) => ev.kind === 'deposit' && (ev.monthKey === currMonth || (!ev.monthKey && getMonthKeyISO(ev.date) === currMonth)))
-            .reduce((sum, ev) => sum + (Number(ev.amount) || 0), 0)
-        : 0;
-      const extraInCurrMonth = (extraDepositAmount > 0 && getMonthKeyISO(extraDepositDate || getTodayISO()) === currMonth)
-        ? extraDepositAmount
-        : 0;
-      return fromEvents + extraInCurrMonth;
-    }
-
     function syncGoalMonthlyPreview() {
       const total = parseFloat(document.getElementById('goalTotal').value) || 0;
-      const addVal = parseFloat(document.getElementById('goalAddAmount').value) || 0;
-      const addDate = document.getElementById('goalAddDate').value || getTodayISO();
       const savedInput = parseFloat(document.getElementById('goalSaved').value) || 0;
       const deadline = document.getElementById('goalDeadline').value;
-
-      const existing = editingGoalId ? state.goals.find((g) => g.id === editingGoalId) : null;
-      const monthly = calculateGoalMonthlyTarget(total, savedInput + addVal, deadline);
-      const savedMonth = getGoalSavedThisMonth(existing, addVal, addDate);
-      const remMonthTarget = monthly - savedMonth;
-
+      const monthly = calculateGoalMonthlyTarget(total, savedInput, deadline);
       const autoEl = document.getElementById('goalMonthlyAuto');
-      if (monthly <= 0) {
-        autoEl.value = `${fmtBRL(0)} (${fmtHours(0)})`;
-        autoEl.style.color = 'var(--text)';
-      } else if (remMonthTarget <= 0) {
-        autoEl.value = `${fmtBRL(monthly)} • Meta do mês batida`;
-        autoEl.style.color = 'var(--success)';
-      } else {
-        autoEl.value = `${fmtBRL(monthly)} • Falta no mês: ${fmtBRL(remMonthTarget)}`;
-        autoEl.style.color = 'var(--danger)';
-      }
+      autoEl.value = `${fmtBRL(monthly)} (${fmtHours(hoursFromAmount(monthly))})`;
+      autoEl.style.color = 'var(--text)';
     }
 
-    ['goalTotal', 'goalDeadline', 'goalAddAmount', 'goalAddDate', 'goalSaved'].forEach((id) => {
+    ['goalTotal', 'goalDeadline', 'goalSaved'].forEach((id) => {
       document.getElementById(id).addEventListener('input', syncGoalMonthlyPreview);
       document.getElementById(id).addEventListener('change', syncGoalMonthlyPreview);
     });
 
     document.getElementById('goalDeadline').value = getDefaultGoalDeadline();
-    document.getElementById('goalAddDate').value = getTodayISO();
 
     function resetGoalForm() {
       editingGoalId = null;
@@ -3559,8 +3336,6 @@
       document.getElementById('goalDesc').value = '';
       document.getElementById('goalTotal').value = '';
       document.getElementById('goalDeadline').value = getDefaultGoalDeadline();
-      document.getElementById('goalAddDate').value = getTodayISO();
-      document.getElementById('goalAddAmount').value = '0';
       document.getElementById('goalSaved').value = '0';
       syncGoalMonthlyPreview();
     }
@@ -3570,89 +3345,51 @@
       closeFormCenterPeek();
     });
 
-    function ensureGoalEvents(goal) {
-      let list = [];
-      if (Array.isArray(goal.events) && goal.events.length) {
-        list = goal.events.map((ev, idx) => ({
-          id: ev.id || `gev_${idx}_${Math.random().toString(36).slice(2, 6)}`,
-          date: ev.date || goal.startDate || getTodayISO(),
-          kind: ev.kind || 'deposit',
-          label: ev.label || 'Valor adicionado',
-          amount: Number(ev.amount) || 0,
-          monthKey: ev.monthKey || ''
-        }));
-      } else {
-        const startDate = goal.startDate || getTodayISO();
-        list = [{
-          id: `gev_init_${Math.random().toString(36).slice(2, 6)}`,
-          date: startDate,
-          kind: 'init',
-          label: 'Saldo acumulado',
-          amount: Number(goal.totalSaved) || 0,
-          monthKey: ''
-        }];
-      }
-      return list.sort((a, b) => compareDateAsc(a.date, b.date));
-    }
-
-    function recalculateGoalFromEvents(goal, events) {
-      const ordered = events.slice().sort((a, b) => compareDateAsc(a.date, b.date));
-      const totalSaved = Math.max(0, ordered.reduce((sum, ev) => sum + (Number(ev.amount) || 0), 0));
-      const initEv = ordered.find((ev) => ev.kind === 'init');
-      const initialSaved = initEv ? (Number(initEv.amount) || 0) : (Number(goal.initialSaved) || 0);
-      return { totalSaved, initialSaved, events: ordered };
-    }
-
     document.getElementById('addGoalBtn').addEventListener('click', () => {
       const desc = document.getElementById('goalDesc').value.trim();
       const total = parseFloat(document.getElementById('goalTotal').value) || 0;
       const deadline = document.getElementById('goalDeadline').value || getDefaultGoalDeadline();
-      const addDate = document.getElementById('goalAddDate').value || getTodayISO();
-      const addAmount = parseFloat(document.getElementById('goalAddAmount').value) || 0;
-      const baseSaved = parseFloat(document.getElementById('goalSaved').value) || 0;
-      const newSaved = Math.max(0, baseSaved + addAmount);
-
+      const savedInput = Math.max(0, parseFloat(document.getElementById('goalSaved').value) || 0);
       if (!desc) return;
 
+      const today = getTodayISO();
+
       if (editingGoalId) {
-        const existing = state.goals.find((g) => g.id === editingGoalId);
-        const startRef = (existing && existing.startDate) || addDate;
-        const monthly = calculateGoalMonthlyTarget(total, newSaved, deadline);
-        let events = existing ? ensureGoalEvents(existing) : [{ id: `gev_init_${Date.now().toString(36)}`, date: startRef, kind: 'init', label: 'Saldo acumulado', amount: baseSaved }];
-
-        if (addAmount > 0) {
-          events.push({ id: `gev_dep_${Date.now().toString(36)}`, date: addDate, kind: 'deposit', label: 'Valor adicionado', amount: addAmount, monthKey: getMonthKeyISO(addDate) });
-        }
-
-        state.goals = state.goals.map((g) => g.id === editingGoalId ? {
-          ...g,
-          desc,
-          total,
-          deadline,
-          monthly,
-          totalSaved: newSaved,
-          initialSaved: baseSaved,
-          events
-        } : g);
+        state.goals = state.goals.map((g) => {
+          if (g.id !== editingGoalId) return g;
+          let rows = ensureCustomTableRows('goal', g);
+          if (savedInput !== sumPaidFromRows(rows) && rows.length === 1 && rows[0].paidAmount === 0 && !rows[0].desc) {
+            rows[0].paidAmount = savedInput;
+          }
+          const newSaved = sumPaidFromRows(rows);
+          return {
+            ...g,
+            desc,
+            total,
+            deadline,
+            totalSaved: newSaved,
+            monthly: calculateGoalMonthlyTarget(total, newSaved, deadline),
+            tableRows: rows
+          };
+        });
       } else {
-        const monthly = calculateGoalMonthlyTarget(total, newSaved, deadline);
-        const events = [
-          { id: `gev_init_${Date.now().toString(36)}`, date: addDate, kind: 'init', label: 'Saldo acumulado', amount: baseSaved, monthKey: '' }
-        ];
-        if (addAmount > 0) {
-          events.push({ id: `gev_dep_${Date.now().toString(36)}`, date: addDate, kind: 'deposit', label: 'Valor adicionado', amount: addAmount, monthKey: getMonthKeyISO(addDate) });
-        }
+        const defaultTarget = Number(calculateGoalMonthlyTarget(total, savedInput, deadline).toFixed(2));
+        const initialRows = [{
+          id: `row_${Date.now().toString(36)}`,
+          date: today,
+          desc: savedInput > 0 ? 'Saldo inicial' : '',
+          monthlyTarget: defaultTarget,
+          paidAmount: savedInput
+        }];
         state.goals.push({
           id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
           desc,
           total,
           deadline,
-          monthly,
-          totalSaved: newSaved,
-          initialSaved: baseSaved,
-          startDate: addDate,
-          monthChecks: {},
-          events
+          startDate: today,
+          monthly: defaultTarget,
+          totalSaved: savedInput,
+          tableRows: initialRows
         });
       }
 
@@ -3664,6 +3401,7 @@
     window.startEditGoal = function(id) {
       const g = state.goals.find((item) => item.id === id);
       if (!g) return;
+      const metrics = getGoalMetrics(g);
       editingGoalId = id;
       setActiveTab('poupanca');
       openFormCenterPeek('poupanca');
@@ -3671,58 +3409,10 @@
       document.getElementById('addGoalBtn').textContent = 'Salvar Alterações da Meta';
       document.getElementById('cancelEditGoalBtn').classList.remove('hidden');
       document.getElementById('goalDesc').value = g.desc;
-      document.getElementById('goalTotal').value = g.total || 0;
+      document.getElementById('goalTotal').value = metrics.total;
       document.getElementById('goalDeadline').value = toInputDateISO(g.deadline || getDefaultGoalDeadline());
-      document.getElementById('goalAddDate').value = getTodayISO();
-      document.getElementById('goalAddAmount').value = '0';
-      document.getElementById('goalSaved').value = g.totalSaved || 0;
+      document.getElementById('goalSaved').value = metrics.paid;
       syncGoalMonthlyPreview();
-    };
-
-    window.setGoalMonthPaidValue = function(goalId, monthKey, dateISO, valStr) {
-      const g = state.goals.find((item) => item.id === goalId);
-      if (!g) return;
-      const targetAmount = Math.max(0, parseFloat(valStr) || 0);
-      const events = ensureGoalEvents(g);
-
-      const otherEvents = events.filter((ev) => !(ev.kind === 'deposit' && (ev.monthKey === monthKey || (!ev.monthKey && getMonthKeyISO(ev.date) === monthKey))));
-      if (targetAmount > 0) {
-        otherEvents.push({
-          id: `gev_m_${monthKey}_${Date.now().toString(36)}`,
-          date: dateISO,
-          kind: 'deposit',
-          label: `Aporte mês ${formatMonthYear(monthKey)}`,
-          amount: targetAmount,
-          monthKey
-        });
-      }
-
-      const monthChecks = { ...(g.monthChecks || {}) };
-      monthChecks[monthKey] = targetAmount > 0;
-
-      const recalculated = recalculateGoalFromEvents(g, otherEvents);
-      state.goals = state.goals.map((item) => item.id === goalId ? {
-        ...item,
-        ...recalculated,
-        monthChecks
-      } : item);
-      saveState();
-    };
-
-    window.toggleGoalMonthPaid = function(goalId, monthKey, dateISO, monthlyDefault, checked) {
-      const g = state.goals.find((item) => item.id === goalId);
-      if (!g) return;
-      const events = ensureGoalEvents(g);
-      const currentMonthPaid = events
-        .filter((ev) => ev.kind === 'deposit' && (ev.monthKey === monthKey || (!ev.monthKey && getMonthKeyISO(ev.date) === monthKey)))
-        .reduce((s, ev) => s + (Number(ev.amount) || 0), 0);
-
-      if (checked) {
-        const amtToSet = currentMonthPaid > 0 ? currentMonthPaid : Number(monthlyDefault || 0);
-        window.setGoalMonthPaidValue(goalId, monthKey, dateISO, amtToSet);
-      } else {
-        window.setGoalMonthPaidValue(goalId, monthKey, dateISO, 0);
-      }
     };
 
     function renderGoals() {
@@ -3737,9 +3427,8 @@
       }
 
       el.innerHTML = sortedGoals.map((g) => {
-        const total = Math.max(0, Number(g.total) || 0);
-        const saved = Math.max(0, Number(g.totalSaved) || 0);
-        const pct = total > 0 ? Math.min(100, (saved / total) * 100) : 0;
+        const metrics = getGoalMetrics(g);
+        const pct = metrics.total > 0 ? Math.min(100, (metrics.paid / metrics.total) * 100) : 0;
 
         return `
           <div class="item-row" style="display:block;">
@@ -3748,12 +3437,12 @@
                 <span>${escapeHtml(g.desc)}</span>
               </div>
               <div class="item-right">
-                <div class="val-main">${fmtBRL(total)}</div>
-                <div class="hours-tag">${fmtHours(hoursFromAmount(total))}</div>
+                <div class="val-main">${fmtBRL(metrics.total)}</div>
+                <div class="hours-tag">${fmtHours(hoursFromAmount(metrics.total))}</div>
                 <div class="row-actions">
                   <button type="button" class="edit-btn" onclick="startEditGoal('${g.id}')">Editar</button>
                   <button type="button" class="danger-btn" onclick="deleteItem('goals', '${g.id}')">Remover</button>
-                  <button type="button" class="peek-expand-btn" title="Abrir detalhes e meses" aria-label="Abrir detalhes e meses" onclick="openDetailCenterPeek('goal', '${g.id}')">${PEEK_EXPAND_ICON_SVG}</button>
+                  <button type="button" class="peek-expand-btn" title="Abrir detalhes e tabela" aria-label="Abrir detalhes e tabela" onclick="openDetailCenterPeek('goal', '${g.id}')">${PEEK_EXPAND_ICON_SVG}</button>
                 </div>
               </div>
             </div>
@@ -3768,128 +3457,168 @@
       }).join('');
     }
 
+    // --- MANIPULAÇÃO DA TABELA EDITÁVEL NO CENTER PEEK ---
+    function mutateTargetItem(kind, id, updaterFn) {
+      if (kind === 'debt') {
+        state.debts = state.debts.map((d) => {
+          if (d.id !== id) return d;
+          const rows = ensureCustomTableRows('debt', d);
+          const nextRows = updaterFn(rows, d);
+          const paid = sumPaidFromRows(nextRows);
+          return { ...d, tableRows: nextRows, paid };
+        });
+      } else if (kind === 'goal') {
+        state.goals = state.goals.map((g) => {
+          if (g.id !== id) return g;
+          const rows = ensureCustomTableRows('goal', g);
+          const nextRows = updaterFn(rows, g);
+          const totalSaved = sumPaidFromRows(nextRows);
+          return {
+            ...g,
+            tableRows: nextRows,
+            totalSaved,
+            monthly: calculateGoalMonthlyTarget(g.total, totalSaved, g.deadline)
+          };
+        });
+      }
+      saveState();
+    }
+
+    window.addPeekTableRow = function(kind, id) {
+      mutateTargetItem(kind, id, (rows, item) => {
+        const fallbackTarget = Number(getDefaultMonthlyTargetForItem(kind, item).toFixed(2));
+        return [
+          ...rows,
+          {
+            id: `row_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 5)}`,
+            date: getTodayISO(),
+            desc: '',
+            monthlyTarget: fallbackTarget,
+            paidAmount: 0
+          }
+        ];
+      });
+    };
+
+    window.removePeekTableRow = function(kind, id, rowIndex) {
+      mutateTargetItem(kind, id, (rows) => {
+        const filtered = rows.filter((_, idx) => idx !== rowIndex);
+        return filtered.length ? filtered : [{
+          id: `row_${Date.now().toString(36)}`,
+          date: getTodayISO(),
+          desc: '',
+          monthlyTarget: 0,
+          paidAmount: 0
+        }];
+      });
+    };
+
+    window.updatePeekTableCell = function(kind, id, rowIndex, field, rawValue) {
+      mutateTargetItem(kind, id, (rows) => {
+        return rows.map((r, idx) => {
+          if (idx !== rowIndex) return r;
+          if (field === 'date') {
+            return { ...r, date: rawValue || getTodayISO() };
+          }
+          if (field === 'desc') {
+            return { ...r, desc: rawValue };
+          }
+          if (field === 'monthlyTarget') {
+            return { ...r, monthlyTarget: Math.max(0, parseFloat(String(rawValue).replace(',', '.')) || 0) };
+          }
+          if (field === 'paidAmount') {
+            return { ...r, paidAmount: Math.max(0, parseFloat(String(rawValue).replace(',', '.')) || 0) };
+          }
+          return r;
+        });
+      });
+    };
+
     function renderDetailCenterPeek() {
       if (!activeDetailPeek) return;
       const { kind, id } = activeDetailPeek;
       const body = document.getElementById('detailPeekBody');
 
+      let item = null;
+      let metrics = null;
+      let startLabel = '';
+      let endLabel = '';
+      let headerTitle = '';
+
       if (kind === 'debt') {
-        const d = state.debts.find((item) => item.id === id);
-        if (!d) {
+        item = state.debts.find((d) => d.id === id);
+        if (!item) {
           closeDetailCenterPeek();
           return;
         }
-        const calc = calculateDebtMonthlyPlan(d);
-        const paidAmt = Math.max(0, Number(d.paid) || 0);
-        const totalAmt = calc.currentTotal;
-        const remAmt = calc.remainingTotal;
-        const months = getScheduleMonthsUntilDeadline(d.endDate);
-        const events = ensureDebtEvents(d);
-        const checks = d.monthChecks || {};
-
-        const monthStatusHtml = calc.remainingThisMonth <= 0
-          ? `<strong class="text-green">Meta do mês atingida (${fmtBRL(0)})</strong>`
-          : `<strong class="text-red">${fmtBrlHoursPair(calc.remainingThisMonth)}</strong>`;
-
-        document.getElementById('detailPeekHeaderTitle').textContent = 'Detalhes da Dívida';
-        body.innerHTML = `
-          <div class="peek-info-box">
-            <div class="peek-info-title">${escapeHtml(d.desc)}</div>
-            <div><strong>Início:</strong> ${escapeHtml(fmtDateBR(d.startDate))} | <strong>Prazo:</strong> ${escapeHtml(fmtDateBR(d.endDate))}</div>
-            <div><strong>Valor Total:</strong> ${fmtBrlHoursPair(totalAmt)}</div>
-            <div><strong>Valor Pago:</strong> ${fmtBRL(paidAmt)}</div>
-            <div><strong>Valor Restante:</strong> ${fmtBrlHoursPair(remAmt)}</div>
-            <div><strong>Restante a pagar nesse mês:</strong> ${monthStatusHtml}</div>
-          </div>
-
-          <table class="peek-schedule-table">
-            <thead>
-              <tr>
-                <th>Checkbox</th>
-                <th>Mês</th>
-                <th>Meta mensal</th>
-                <th>Valor pago</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${months.map((m) => {
-                const monthPaid = events
-                  .filter((ev) => ev.kind === 'payment' && (ev.monthKey === m.key || (!ev.monthKey && getMonthKeyISO(ev.date) === m.key)))
-                  .reduce((s, ev) => s + (Number(ev.amount) || 0), 0);
-                const isChecked = Boolean(checks[m.key]) || monthPaid > 0;
-                return `
-                  <tr>
-                    <td><input type="checkbox" ${isChecked ? 'checked' : ''} onchange="toggleDebtMonthPaid('${d.id}', '${m.key}', '${m.dateISO}', ${calc.monthlyPlan.toFixed(2)}, this.checked)" aria-label="Marcar mês ${m.label}" /></td>
-                    <td><strong>${escapeHtml(m.label)}</strong></td>
-                    <td>${fmtBRL(calc.monthlyPlan)}</td>
-                    <td><input type="number" class="goal-month-paid-input" step="0.01" inputmode="decimal" value="${monthPaid > 0 ? monthPaid : 0}" onchange="setDebtMonthPaidValue('${d.id}', '${m.key}', '${m.dateISO}', this.value)" /></td>
-                  </tr>
-                `;
-              }).join('')}
-            </tbody>
-          </table>
-        `;
-      } else if (kind === 'goal') {
-        const g = state.goals.find((item) => item.id === id);
-        if (!g) {
+        metrics = getDebtMetrics(item);
+        startLabel = fmtDateBR(item.startDate);
+        endLabel = fmtDateBR(item.endDate);
+        headerTitle = 'Detalhes da Dívida';
+      } else {
+        item = state.goals.find((g) => g.id === id);
+        if (!item) {
           closeDetailCenterPeek();
           return;
         }
-        const totalAmt = Math.max(0, Number(g.total) || 0);
-        const paidAmt = Math.max(0, Number(g.totalSaved) || 0);
-        const remAmt = Math.max(0, totalAmt - paidAmt);
-        const monthly = calculateGoalMonthlyTarget(totalAmt, paidAmt, g.deadline);
-        const savedThisMonth = getGoalSavedThisMonth(g);
-        const remThisMonth = monthly - savedThisMonth;
-        const months = getScheduleMonthsUntilDeadline(g.deadline);
-        const events = ensureGoalEvents(g);
-        const checks = g.monthChecks || {};
-
-        const monthStatusHtml = monthly <= 0
-          ? `<strong class="text-green">Meta do mês atingida (${fmtBRL(0)})</strong>`
-          : (remThisMonth <= 0
-            ? `<strong class="text-green">Meta do mês atingida (${fmtBRL(0)})</strong>`
-            : `<strong class="text-red">${fmtBrlHoursPair(remThisMonth)}</strong>`);
-
-        document.getElementById('detailPeekHeaderTitle').textContent = 'Detalhes da Poupança';
-        body.innerHTML = `
-          <div class="peek-info-box">
-            <div class="peek-info-title">${escapeHtml(g.desc)}</div>
-            <div><strong>Início:</strong> ${escapeHtml(fmtDateBR(g.startDate || getTodayISO()))} | <strong>Prazo:</strong> ${escapeHtml(fmtDateBR(g.deadline))}</div>
-            <div><strong>Valor Total:</strong> ${fmtBrlHoursPair(totalAmt)}</div>
-            <div><strong>Valor Pago:</strong> ${fmtBRL(paidAmt)}</div>
-            <div><strong>Valor Restante:</strong> ${fmtBrlHoursPair(remAmt)}</div>
-            <div><strong>Restante a pagar nesse mês:</strong> ${monthStatusHtml}</div>
-          </div>
-
-          <table class="peek-schedule-table">
-            <thead>
-              <tr>
-                <th>Checkbox</th>
-                <th>Mês</th>
-                <th>Meta mensal</th>
-                <th>Valor pago</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${months.map((m) => {
-                const monthPaid = events
-                  .filter((ev) => ev.kind === 'deposit' && (ev.monthKey === m.key || (!ev.monthKey && getMonthKeyISO(ev.date) === m.key)))
-                  .reduce((s, ev) => s + (Number(ev.amount) || 0), 0);
-                const isChecked = Boolean(checks[m.key]) || monthPaid > 0;
-                return `
-                  <tr>
-                    <td><input type="checkbox" ${isChecked ? 'checked' : ''} onchange="toggleGoalMonthPaid('${g.id}', '${m.key}', '${m.dateISO}', ${monthly.toFixed(2)}, this.checked)" aria-label="Marcar mês ${m.label}" /></td>
-                    <td><strong>${escapeHtml(m.label)}</strong></td>
-                    <td>${fmtBRL(monthly)}</td>
-                    <td><input type="number" class="goal-month-paid-input" step="0.01" inputmode="decimal" value="${monthPaid > 0 ? monthPaid : 0}" onchange="setGoalMonthPaidValue('${g.id}', '${m.key}', '${m.dateISO}', this.value)" /></td>
-                  </tr>
-                `;
-              }).join('')}
-            </tbody>
-          </table>
-        `;
+        metrics = getGoalMetrics(item);
+        startLabel = fmtDateBR(item.startDate || getTodayISO());
+        endLabel = fmtDateBR(item.deadline);
+        headerTitle = 'Detalhes da Poupança';
       }
+
+      const monthStatusHtml = metrics.remainingThisMonth <= 0
+        ? `<strong class="text-green">Meta do mês atingida (${fmtBRL(0)})</strong>`
+        : `<strong class="text-red">${fmtBrlHoursPair(metrics.remainingThisMonth)}</strong>`;
+
+      document.getElementById('detailPeekHeaderTitle').textContent = headerTitle;
+      body.innerHTML = `
+        <div class="peek-info-box">
+          <div class="peek-info-title">${escapeHtml(item.desc)}</div>
+          <div><strong>Início:</strong> ${escapeHtml(startLabel)} | <strong>Prazo:</strong> ${escapeHtml(endLabel)}</div>
+          <div><strong>Valor Total:</strong> ${fmtBrlHoursPair(metrics.total)}</div>
+          <div><strong>Valor Pago:</strong> ${fmtBRL(metrics.paid)}</div>
+          <div><strong>Valor Restante:</strong> ${fmtBrlHoursPair(metrics.remainingTotal)}</div>
+          <div><strong>Restante a pagar nesse mês:</strong> ${monthStatusHtml}</div>
+        </div>
+
+        <div class="db-table-wrap">
+          <table class="db-table">
+            <thead>
+              <tr>
+                <th>📅 Data</th>
+                <th>Aa Descrição</th>
+                <th># Meta mensal</th>
+                <th># Valor pago</th>
+                <th>Ação</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${metrics.rows.map((r, idx) => `
+                <tr>
+                  <td>
+                    <input type="date" class="db-cell-input" value="${escapeHtml(toInputDateISO(r.date))}" onchange="updatePeekTableCell('${kind}', '${escapeHtml(id)}', ${idx}, 'date', this.value)" />
+                  </td>
+                  <td>
+                    <input type="text" class="db-cell-input" placeholder="Digite a descrição..." value="${escapeHtml(r.desc || '')}" onchange="updatePeekTableCell('${kind}', '${escapeHtml(id)}', ${idx}, 'desc', this.value)" />
+                  </td>
+                  <td>
+                    <input type="number" class="db-cell-input" step="0.01" inputmode="decimal" value="${Number(r.monthlyTarget) || 0}" onchange="updatePeekTableCell('${kind}', '${escapeHtml(id)}', ${idx}, 'monthlyTarget', this.value)" />
+                  </td>
+                  <td>
+                    <input type="number" class="db-cell-input" step="0.01" inputmode="decimal" value="${Number(r.paidAmount) || 0}" onchange="updatePeekTableCell('${kind}', '${escapeHtml(id)}', ${idx}, 'paidAmount', this.value)" />
+                  </td>
+                  <td>
+                    <button type="button" class="icon-mini-btn danger" onclick="removePeekTableRow('${kind}', '${escapeHtml(id)}', ${idx})" title="Remover linha">🗑</button>
+                  </td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+
+        <button type="button" class="secondary" style="width:100%;" onclick="addPeekTableRow('${kind}', '${escapeHtml(id)}')">+ Nova linha</button>
+      `;
     }
 
     // --- QUERO COMPRAR ---
